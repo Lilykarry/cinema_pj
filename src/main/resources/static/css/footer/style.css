@@ -1,0 +1,79 @@
+.subscribe {
+    background: #e00d7a;
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.subscribe .subscribe-title {
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    color: var(--bs-white);
+}
+
+.subscribe .subscribe-title::before {
+    content: "";
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    margin-right: -50px;
+    border: 1px solid var(--bs-white) !important;
+}
+
+.subscribe .subscribe-title::after {
+    content: "";
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    margin-left: -50px;
+    border: 1px solid var(--bs-white) !important;
+}
+/*** Subscribe End ***/
+
+/*** Footer Start ***/
+.footer {
+    background: rgba(0, 0, 0, 0.7);
+}
+.footer .footer-item a {
+    line-height: 30px;
+    color: var(--bs-white);
+    transition: 0.5s;
+}
+
+.footer .footer-item a:hover {
+    letter-spacing: 2px;
+    color: var(--bs-primary);
+}
+
+/*** Footer End ***/
+
+/*** copyright Start ***/
+.copyright {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: #e00d7a;
+}
+/* Copyright Section Styles */
+
+.copyright {
+    background-color: #e00d7a; /* Change the background color as needed */
+    color: #fff; /* Change the text color as needed */
+    padding: 20px 0; /* Adjust the padding as needed */
+}
+
+.copyright a {
+    color: #fff; /* Change the link color as needed */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.copyright a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+
+/*** copyright end ***/

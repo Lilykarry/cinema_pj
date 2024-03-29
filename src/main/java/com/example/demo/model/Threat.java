@@ -29,6 +29,18 @@ public class Threat{
     @Size(max = 500)
     @Column(name = "address")
     private String address;
+    @Size(max = 5000)
+    @Column(name = "img")
+    private String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     @Size(max = 50)
     @Column(name = "region")
     private String region;
@@ -114,5 +126,5 @@ public class Threat{
     public String toString() {
         return "models.Threat[ id=" + id + " ]";
     }
-    
+
 }

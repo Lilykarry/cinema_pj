@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <style>
+        /* Custom CSS */
+        .card-container {
+            display: flex; /* Make the container a flexbox */
+            flex-wrap: wrap; /* Allow cards to wrap to multiple lines if needed */
+            margin-left: 15px;
+        }
+
+        .card {
+            margin-left:20px  ;
+            margin:10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            width: 18rem; /* Định cỡ của mỗi card */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img-top {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e7e0e0;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 16px;
+            color: #d2cdcd;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-size: 16px;
+            padding: 8px 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .card {
+            position: relative;
+            width: 18rem;
+            height: 18rem; /* Set the height same as the width to maintain a square shape */
+            overflow: hidden; /* Hide any overflow content outside the card */
+        }
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the entire container */
+        }
+        .card-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for better text readability */
+            color: white;  /* Text color for better visibility */
+            padding: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div th:include="layout/header"></div>
+<div class="card-container">
+    <div th:each="threats : ${threats}" class="card" style="width: 18rem;">
+        <img th:src="${threats.getImg()}" class="card-img-top" alt="..." width="100" height="150">
+        <div class="card-body">
+            <h5 th:text="${threats.getName()}" class="card-title"></h5>
+            <p th:text="${threats.getAddress()}" class="card-text"></p>
+            <div style="margin-top: 10px;"> <!-- Adjust margin-top as needed -->
+                <a href="#" class="btn btn-primary" style="background-color: #e00d7a; color: white;">Book tickets</a> <!-- Set background color to pink and text color to white -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="layout/footer"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/lightbox/js/lightbox.min.js"></script>
+</body>
+
+</html>

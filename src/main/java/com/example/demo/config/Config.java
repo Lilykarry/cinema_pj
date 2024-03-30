@@ -26,7 +26,7 @@ public class Config {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/cinestardatabase");
         dataSource.setUsername("root");
-        dataSource.setPassword("Janicevuong_01");
+        dataSource.setPassword("123456");
         return dataSource;
     }
 

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+</head>
+<body>
+  <!-- CONTACT -->
+  <section class="contact">
+    <div class="contact__wrap">
+      <div class="contact__title">
+      </div>
+      <div class="contact__content">
+        <div class="contact__item">
+
+          <h3>LIÊN KẾT</h3>
+          <div class="social_icons">
+            <a href="https://www.facebook.com/CinestarVietNam" class="facebookk"><img src="/static/img/scl_facebook.png" alt=""></a>
+            <a href="https://www.youtube.com/channel/UCMZgMHS9vFfXoe3UA6eanyQ" class="youtubee"><img src="/static/img/scl_youtube.png" alt=""></a>
+          </div>
+          <h3>HOTLINE</h3>
+          <a href="tel:028 7300 8881" class="hotline">028 7300 8881</a>
+        </div>
+        <div class="contact__item">
+          <h3>HỆ THỐNG RẠP</h3>
+          <ul th:each="threat : ${dsRap}">
+            <li><a href="#" th:text="${threat.name}"></a></li>
+          </ul>
+        </div>
+        <div class="contact__item">
+          <h3>CINESTAR</h3>
+          <ul>
+            <li><a href="#">Phim đang chiếu</a></li>
+            <li><a href="#">Phim sắp chiếu</a></li>
+            <li><a href="#">Suất chiếu đặc biệt</a></li>
+            <li><a href="#">Lịch chiếu</a></li>
+            <li><a href="#">Khuyến mãi</a></li>
+          </ul>
+        </div>
+        <div class="contact__item">
+          <h3>THÔNG TIN</h3>
+          <ul>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Tin tức</a></li>
+            <li><a href="#">Hỏi và đáp</a></li>
+            <li><a href="#">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div class="contact__item column-2">
+          <h3>CHÍNH SÁCH VÀ QUY ĐỊNH</h3>
+          <ul>
+            <li><a href="#">Quy định chung</a></li>
+            <li><a href="#">Điều khoản giao dịch</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Thông tin công ty</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="contact__icons">
+        <ul>
+          <li>
+            <a href="#">
+              <img src="/static/img/dolby2.png" alt="">
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="/static/img/crhistie.png" alt="">
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="/static/img/2d.jpg" alt="">
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="/static/img/3d.png" alt="">
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="/static/img/cinestar-coffee-02.png" alt="">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

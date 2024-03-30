@@ -38,10 +38,6 @@ public class Threat{
     public Threat() {
     }
 
-    public Threat(Integer id) {
-        this.id = id;
-    }
-
     public Integer getId() {
         return id;
     }

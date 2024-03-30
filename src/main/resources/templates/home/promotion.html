@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>JSP Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 250px;
+            font-family: arial;
+            max-height: 500px;
+        }
+    </style>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0&appId=4026556460788954&autoLogAppEvents=1" nonce="9nHeJW33"></script>
+</head>
+<body>
+<div th:include="layout/header"></div>
+<div class="containerr ">
+    <div class="container-bg">
+        <div class="container">
+            <div class="col-sm-12" style="margin-top: 5em; margin-bottom: 3em;">
+                <h3 style="font-size: 40px; font-family: system-ui; font-weight: bold; text-align: center;">KHUYẾN MÃI MỚI</h3>
+            </div>
+        </div>
+        <div class="container-fluid" style="padding-left: 40px;">
+            <div th:each="endows:${endows}" class="row" style="padding:20px 10px">
+                <div class="col-md-4 col-sm-4 col-xs-4" style="z-index:1;">
+                    <div class="promotion-block" data-target="4" >
+                        <div class="promotion-block-pic">
+                            <img th:src="${endows.getEndowImage()}" style="width: 500px; height:250px; border: 5px solid white; min-width: 200px; " />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-8" style="line-height: 2; padding: 20px 150px; background-color: rgba(0,0,0,0.3); min-height: 350px; min-width: 600px;">
+                    <h2 style="font-family: system-ui; text-align: center; margin-top: 1em; margin-bottom: 0;" th:text="${endows.getEndowTitle()}"></h2><br>
+                    <p style=""><span style="font-family: system-ui; font-size: 19px;" th:utext="${endows.endowContent}"></span></p><br>
+                    <div class="zalo-share-button" data-href="http://localhost:8080/Cinestar-war/AdminEndow?action=Show1" data-oaid="4487393650916802426" data-layout="1" data-color="blue" data-customize="false"></div>
+                </div>
+            </div>
+            <h3 style="text-align: center; font-family: system-ui; font-size: 35px; margin-top: 2em;">BÌNH LUẬN</h3>
+            <div class="row justify-content-center align-items-center" style="margin-top: 200px;">
+                <div class="col-md-8" style="max-width: 800px;">
+                    <div class="zalo-comment-plugin" data-appid="1721295362484213731" data-size="5" data-href="http://localhost:8080/Cinestar-war/EndowsServlet"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="layout/footer"></div>
+</body>
+<script src="https://sp.zalo.me/plugins/sdk.js"></script>
+</html>

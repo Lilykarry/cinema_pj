@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/showtime")
+@RequestMapping("/guest")
 public class ShowTimeController {
 @Autowired
     private ShowTimeService showTimeService;
-@GetMapping
+@GetMapping("/showtime")
 public String showTime(Model model){
     List<Threat> threats = showTimeService.listAll();
 

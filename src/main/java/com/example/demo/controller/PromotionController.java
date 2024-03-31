@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/promotion")
+@RequestMapping("/guest")
 public class PromotionController {
     @Autowired
     private PromotionService promotionService;
-    @GetMapping
+    @GetMapping("/promotion")
     public String showTime(Model model){
         List<Endow> endows = promotionService.listAll();
 

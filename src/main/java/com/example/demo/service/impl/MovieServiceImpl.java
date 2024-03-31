@@ -12,10 +12,15 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
-    private MovieRepository homeRepository;
+    private MovieRepository movieRepository;
 
     @Override
     public List<Movie> showAllFilm() {
-        return homeRepository.findAll();
+        return movieRepository.findAll();
+    }
+
+    @Override
+    public List<Movie> searchMoviesByTitle(String search) {
+        return movieRepository.findByMovieTitle(search);
     }
 }

@@ -26,22 +26,22 @@
             <a href="#" class="btn-bars"></a>
             <div class="facilities-nav">
                 <div class="searchForm">
-                    <form class="form-controll" action="SearchMovieServlet" method="get">
-                        <input type="text" name="search"  autocomplete="off" id="search" placeholder="Tìm kiếm ..."/>
-                        <button type="submit" name="action" value="searchView" class="search"
-                                style="border: none;"></button>
+                    <form class="form-controll" th:action="@{/guest/searchView}" method="get">
+                        <input type="text" name="search" autocomplete="off" id="search" placeholder="Tìm kiếm ..." />
+                        <button type="submit" name="action" value="searchView" class="search" style="border: none;"></button>
                     </form>
+
                 </div>
             </div>
             <div class="navigation">
-                <a href="#" class="icon-home"></a>
+                <a th:href="@{/guest/home}" class="icon-home"></a>
                 <nav>
                     <ul>
-                        <li><a href="MovieServlet">PHIM</a></li>
-                        <li><a href="showtime">LỊCH CHIẾU</a></li>
-                        <li><a href="promotion">KHUYẾN MÃI</a></li>
-                        <li><a href="ReviewMovie">TIN TỨC</a></li>
-                        <li><a href="ContactServlet">LIÊN HỆ</a></li>
+                        <li><a th:href="@{/guest/movie}">PHIM</a></li>
+                        <li><a th:href="@{/guest/showtime}">LỊCH CHIẾU</a></li>
+                        <li><a th:href="@{/guest/promotion}">KHUYẾN MÃI</a></li>
+                        <li><a th:href="@{/guest/news}">TIN TỨC</a></li>
+                        <li><a th:href="@{/guest/contact}">LIÊN HỆ</a></li>
                     </ul>
                 </nav>
             </div>

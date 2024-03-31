@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MovieService {
     List<Movie> showAllFilm();
+    List<Movie> searchMoviesByTitle(String search);
+
 }

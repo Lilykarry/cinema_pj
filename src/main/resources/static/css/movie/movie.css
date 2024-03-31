@@ -1,0 +1,143 @@
+.tabContent{
+    margin: 100px 0;
+}
+
+.khungMovie {
+    margin: 50px 0 100px;
+    padding: 15px;
+}
+
+.khungPhim {
+    margin: 15px;
+    background-color: #F18720;
+    width: 100%;
+    height: auto;
+    box-shadow: 10px 10px 10px 0 rgb(0 0 0 / 30%), 0 0 50px 0 rgb(0 0 0 / 40%) inset;
+    padding: 20px;
+}
+
+.img-movie {
+    border: 5px solid #f2c08f;
+    box-shadow: 5px 5px 0 rgb(0 0 0 / 50%);
+    width: 100%;
+    height: auto;
+    max-width: 295px;
+    margin-top: 15px;
+}
+
+.btnTrailer {
+    font-weight: 900;
+    font-family: system-ui;
+    font-size: 24px;
+    color: #fff;
+    border-radius: 30px;
+    height: 52px;
+    display: inline-block;
+    vertical-align: middle;
+    background: rgba(0,0,0,0.5) url(../../img/icon-play.png) no-repeat -14px center;
+    text-align: left;
+    padding-left: 52px;
+    margin: 5px 2px;
+    padding-right: 15px;
+}
+
+.btnTrailer:hover {
+    background-color: black;
+}
+
+.btnMuaVe {
+    vertical-align: middle;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #e00d7a;
+    font-size: 20px;
+    border: 1px solid #e00d7a;
+    border-radius: 30px 30px 30px 30px;
+    text-transform: uppercase;
+    padding: 16px 50px;
+    box-shadow: 5px 5px 0 rgb(0 0 0 / 10%);
+    margin-left: 10px;
+    font-weight: 900;
+    font-family: system-ui;
+}
+
+.btnMuaVe:hover {
+    color: black;
+    background-color: #fecf06;
+    border: 1px solid #fecf06;
+    transition-duration: .5s;
+}
+
+.div-btns {
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.divContent h3{
+    font-weight: 900;
+    font-family: system-ui;
+    margin-top: 15px;
+    height: 100px;
+}
+
+.divContent p{
+    line-height: 20px;
+    max-height: 100px;
+    overflow: hidden;
+    font-size: 17px;
+}
+.divContent h5 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.divContent div {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.btnChiTiet {
+    color: #ffffff;
+    background-color: #e00d7a;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 25px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: 300;
+}
+
+.btnChiTiet:hover {
+    background-color: #fecf06;
+    transition-duration: .5s;
+    color: black;
+}
+
+.row {
+    margin: 15px 0;
+    padding: 0 15px 20px;
+}
+
+.div-tabs {
+    border-bottom: solid white;
+    margin-bottom: 50px;
+}
+
+.nav-link {
+    font-weight: 900;
+    font-family: system-ui;
+    font-size: 30px;
+    color: white;
+    padding: 15px;
+    border: none;
+}
+
+.nav-link:hover {
+    color: white;
+}
+

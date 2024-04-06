@@ -36,7 +36,7 @@
                     <div class="movie__content slick-carousel" id="movie-carousel">
                         <div th:each="movie : ${dsPhimDangChieu}" class="movie__item">
                             <div class="movie__img">
-                                <img th:src="@{'/static/' + ${movie.image}}" alt="">
+                                <img th:src="@{'/static/imagesMovie/' + ${movie.image}}" alt="">
                             </div>
                             <div class="movie__text">
                                 <h3 th:text="${movie.movieTitle}"></h3>
@@ -64,7 +64,7 @@
                     <div class="movie__content slick-carousel" id="movie-carousel-2">
                         <div th:each="movie : ${dsPhimSapChieu}" class="movie__item">
                             <div class="movie__img">
-                                <img th:src="@{'/static/' + ${movie.image}}" alt="">
+                                <img th:src="@{'/static/imagesMovie/' + ${movie.image}}" alt="">
                             </div>
                             <div class="movie__text">
                                 <h3 th:text="${movie.movieTitle}"></h3>

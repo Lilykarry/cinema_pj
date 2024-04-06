@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.UpsertMovie;
 import com.example.demo.exception.MovieNotFoundExeption;
 import com.example.demo.model.Movie;
 import com.example.demo.service.MovieService;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -36,7 +38,7 @@ public class MovieAdminController {
         return "admin/movieAdminInsert";
 }
     @PostMapping("/Movie/Save")
-    public String saveMovie(@ModelAttribute("movie") @Valid Movie movie, BindingResult bindingResult, RedirectAttributes ra) {
+    public String saveMovie(@ModelAttribute UpsertMovie movie, RedirectAttributes ra)  throws IOException {
 
 
             movieService.save(movie);
@@ -47,8 +49,8 @@ public class MovieAdminController {
     @GetMapping("/Movie/Edit/{movieId}")
     public String showEditForm(@PathVariable("movieId") String movieId,Model model,RedirectAttributes ra){
         try {
-          Movie movies=  movieService.get(movieId);
-          model.addAttribute("movies",movies);
+          Movie movie=  movieService.get(movieId);
+          model.addAttribute("movie",movie);
           model.addAttribute("pageTitle","Edit User (ID:"+movieId+")");
           return "admin/movieAdminInsert";
         }catch (MovieNotFoundExeption e){
@@ -58,8 +60,9 @@ public class MovieAdminController {
 
     }
     @GetMapping("/Movie/Delete/{movieId}")
-    public String delete(@PathVariable("movieId")String movieId) {
+    public String delete(@PathVariable("movieId")String movieId,RedirectAttributes ra) {
         movieService.deleteMovieById(movieId);
+        ra.addFlashAttribute("mess","The movie has been deleted successfully");
         return "redirect:/Admin/Movie";
     }
 

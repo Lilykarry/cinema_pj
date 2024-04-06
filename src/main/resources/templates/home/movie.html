@@ -34,7 +34,7 @@
                             <div th:each="movie : ${dsPhimDangChieu}" class="col-12 col-md-6">
                                 <div class="row khungPhim" th:href="@{ShowDetailsServlet(id=${movie.movieId})}">
                                     <div class="col-md-6" style="padding: 0;">
-                                        <img th:src="@{'/static/' + ${movie.image}}" class="img-movie"/>
+                                        <img th:src="@{'/static/imagesMovie/' + ${movie.image}}" class="img-movie"/>
                                     </div>
                                     <div class="col-md-6 divContent">
                                         <h3 th:text="${movie.movieTitle}"></h3>
@@ -59,7 +59,7 @@
                             <div th:each="movie : ${dsPhimSapChieu}" class="col-12 col-md-6">
                                 <div class="row khungPhim" th:href="@{ShowDetailsServlet(id=${movie.movieId})}">
                                     <div class="col-md-6" style="padding: 0;">
-                                        <img th:src="@{'/static/' + ${movie.image}}" class="img-movie"/>
+                                        <img th:src="@{'/static/imagesMovie/' + ${movie.image}}" class="img-movie"/>
                                     </div>
                                     <div class="col-md-6 divContent">
                                         <h3 th:text="${movie.movieTitle}"></h3>

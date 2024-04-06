@@ -10,7 +10,7 @@ import java.util.List;
 public interface MovieService {
     List<Movie> showAllFilm();
     List<Movie> searchMoviesByTitle(String search);
-
+    Movie findMovieById(String id);
 
 
     void save(UpsertMovie movie) throws IOException;

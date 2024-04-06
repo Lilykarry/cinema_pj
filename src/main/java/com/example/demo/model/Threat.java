@@ -47,6 +47,8 @@ public class Threat{
     @OneToMany(mappedBy = "threatId")
     private Collection<RatingThreater> ratingThreaterCollection;
 
+
+
     public Threat() {
     }
 

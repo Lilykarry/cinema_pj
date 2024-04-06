@@ -63,8 +63,8 @@ public class MovieServiceImpl implements MovieService {
     private String generateImagePath(MultipartFile file) throws IOException {
         String fileExtension = getFileExtension(file.getOriginalFilename());
 
-        File file1 = new File("/Users/LENOVO/IdeaProjects/cinema_pj/src/main/resources/static/imagesMovie/" + file.getOriginalFilename());
-
+        File file1 = new File("C:\\Users\\nguye\\Documents\\Spring-iviettech\\assignment\\demo\\src\\main\\resources\\static\\imagesMovie\\" + file.getOriginalFilename());
+        System.out.println(file1);
         try (OutputStream os = new FileOutputStream(file1)) {
             os.write(file.getBytes());
         }
@@ -89,5 +89,10 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void deleteMovieById(String movieId) {
         movieRepository.deleteById(movieId);
+    }
+
+    @Override
+    public Movie findMovieById(String id) {
+        return movieRepository.findByMovieId(id);
     }
 }

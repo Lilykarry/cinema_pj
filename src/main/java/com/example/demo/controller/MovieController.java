@@ -49,4 +49,11 @@ public class MovieController {
         }
         return "movie/movieSearch";
     }
+
+    @GetMapping("/detail")
+    public String showMovieDetail(@RequestParam("id") String id, Model model) {
+
+        model.addAttribute("movie",movieService.findMovieById(id));
+        return "movie/movieDetail";
+    }
 }

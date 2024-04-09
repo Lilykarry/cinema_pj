@@ -12,8 +12,10 @@ import java.util.List;
 public class ShowTimeServiceImpl implements ShowTimeService {
     @Autowired
     private ShowTimeRepository showTimeRepository;
+
+
     @Override
-    public List<Threat> listAll() {
-        return showTimeRepository.findAll();
+    public List<Threat> findAllThreats() {
+        return showTimeRepository.findAllThreats();
     }
 }

@@ -18,7 +18,7 @@ public class ShowTimeController {
     private ShowTimeService showTimeService;
 @GetMapping("/showtime")
 public String showTime(Model model){
-    List<Threat> threats = showTimeService.listAll();
+    List<Threat> threats = showTimeService.findAllThreats();
 
     model.addAttribute("threats", threats);
 

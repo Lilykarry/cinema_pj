@@ -43,7 +43,7 @@
                             </div>
                             <div class="movie__overlay">
                                 <div class="movie-over">
-                                    <a class="movie__detail" th:href="@{'ShowDetailsServlet?id=' + ${movie.movieId}}">
+                                    <a class="movie__detail" th:href="@{/guest/movie/detail(id=${movie.movieId})}">
                                         <p th:text="${movie.movieContent}"></p>
                                         <span class="atc" style="display: block;">...</span>
                                         <span class="detail-link">Chi tiết</span>
@@ -71,7 +71,7 @@
                             </div>
                             <div class="movie__overlay">
                                 <div class="movie-over">
-                                    <a class="movie__detail" th:href="@{'ShowDetailsServlet?id=' + ${movie.movieId}}">
+                                    <a class="movie__detail" th:href="@{/guest/movie/detail(id=${movie.movieId})}">
                                         <p th:text="${movie.movieContent}"></p>
                                         <span class="atc" style="display: block;">...</span>
                                         <span class="detail-link">Chi tiết</span>

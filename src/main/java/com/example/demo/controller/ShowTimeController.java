@@ -16,6 +16,7 @@ import java.util.List;
 public class ShowTimeController {
 @Autowired
     private ShowTimeService showTimeService;
+
 @GetMapping("/showtime")
 public String showTime(Model model){
     List<Threat> threats = showTimeService.findAllThreats();

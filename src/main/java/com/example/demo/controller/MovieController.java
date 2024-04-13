@@ -20,6 +20,8 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
+
+
     @GetMapping("/movie")
     public String showAllMovie(Model model){
         List<Movie> listMovie = movieService.showAllFilm();
@@ -50,7 +52,7 @@ public class MovieController {
         return "movie/movieSearch";
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/movie/detail")
     public String showMovieDetail(@RequestParam("id") String id, Model model) {
 
         model.addAttribute("movie",movieService.findMovieById(id));

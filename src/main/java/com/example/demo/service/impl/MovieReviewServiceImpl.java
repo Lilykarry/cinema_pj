@@ -18,4 +18,14 @@ public class MovieReviewServiceImpl implements MovieReviewService {
     public List<MovieReview> showAllNews() {
         return movieReviewRepository.findAll();
     }
+
+    @Override
+    public List<MovieReview> getAllDESC() {
+        return movieReviewRepository.findAll();
+    }
+
+    @Override
+    public MovieReview findRvById(Integer id) {
+        return movieReviewRepository.findMovieReviewById(id);
+    }
 }

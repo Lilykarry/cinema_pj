@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MovieReviewService {
     List<MovieReview> showAllNews();
+    List<MovieReview> getAllDESC();
+    MovieReview findRvById(Integer id);
 }

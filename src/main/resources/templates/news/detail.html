@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>News</title>
+    <style>
+        img{
+            display: block; margin-left: auto; margin-right: auto;
+            width: 100%;
+        }
+        iframe{
+            width: 100%!important;
+        }
+    </style>
+</head>
+<body>
+    <div th:include="layout/header"></div>
+    <div class="containerr ">
+        <div class="container-bg">
+            <div class="container" style="padding: 5em 30px 30px;">
+                <h3 style="text-align: center; font-family: system-ui; font-weight: bold; font-size: 35px; margin-bottom: 1.5em;">NỘI DUNG TIN TỨC</h3>
+                <div class="col-md-12" style="width: 100%;
+                    min-height:500px;
+                    height: auto;
+                    margin: 0 auto;
+                    position: relative;
+                    display: block;
+                    background-color: #fff;
+                    color: black;
+                    line-height: 1.5;">
+
+                    <div style="padding:30px 30px 30px 30px;">
+                        <h2 style="text-align: center;font-family: 'MyriadBold'" th:text="${news.title}"></h2> <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div style="margin-top: -25px;" class="zalo-share-button" data-href="" data-oaid="4487393650916802426"
+                                     data-layout="1" data-color="blue" data-customize="false"></div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div><i class="fa fa-eye" th:text="${news.movieReviewView}"></i> <br></div>
+                            </div>
+                        </div>
+                        <p style="font-family: 'Arial',sans-serif;" th:utext="${news.movieReviewContent}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:include="layout/footer"></div>
+</body>
+</html>

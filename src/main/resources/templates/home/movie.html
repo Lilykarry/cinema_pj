@@ -32,9 +32,9 @@
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="row khungMovie">
                             <div th:each="movie : ${dsPhimDangChieu}" class="col-12 col-md-6">
-                                <div class="row khungPhim" th:href="@{ShowDetailsServlet(id=${movie.movieId})}">
+                                <div class="row khungPhim" th:href="@{/guest/movie/detail(id=${movie.movieId})}">
                                     <div class="col-md-6" style="padding: 0;">
-                                        <img th:src="@{'/static/imagesMovie/' + ${movie.image}}" class="img-movie"/>
+                                        <img th:src="@{'/static/imagesMovie/' + ${movie.image}}" class="img-movie" />
                                     </div>
                                     <div class="col-md-6 divContent">
                                         <h3 th:text="${movie.movieTitle}"></h3>
@@ -42,7 +42,7 @@
                                         <p th:text="${movie.movieContent}"></p>
                                         <h5>...</h5>
                                         <div>
-                                            <a class="btnChiTiet" th:href="@{ShowDetailsServlet(id=${movie.movieId})}">Chi tiết</a>
+                                            <a class="btnChiTiet" th:href="@{/guest/movie/detail(id=${movie.movieId})}">Chi tiết</a>
                                             <div class="div-btns">
                                                 <button type="button" class="btnTrailer video-btn" data-toggle="modal"
                                                         th:data-src="${movie.trailer}" data-target="#myModal">TRAILER</button>
@@ -57,7 +57,7 @@
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row khungMovie">
                             <div th:each="movie : ${dsPhimSapChieu}" class="col-12 col-md-6">
-                                <div class="row khungPhim" th:href="@{ShowDetailsServlet(id=${movie.movieId})}">
+                                <div class="row khungPhim" th:href="@{/guest/movie/detail(id=${movie.movieId})}">
                                     <div class="col-md-6" style="padding: 0;">
                                         <img th:src="@{'/static/imagesMovie/' + ${movie.image}}" class="img-movie"/>
                                     </div>
@@ -67,7 +67,7 @@
                                         <p th:text="${movie.movieContent}"></p>
                                         <h5>...</h5>
                                         <div>
-                                            <a class="btnChiTiet" th:href="@{ShowDetailsServlet(id=${movie.movieId})}">Chi tiết</a>
+                                            <a class="btnChiTiet" th:href="@{/guest/movie/detail(id=${movie.movieId})}">Chi tiết</a>
                                             <div class="div-btns">
                                                 <button type="button" class="btnTrailer video-btn" data-toggle="modal"
                                                         th:data-src="${movie.trailer}" data-target="#myModal">TRAILER</button>

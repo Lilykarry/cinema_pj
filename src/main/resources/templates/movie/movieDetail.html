@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Movie Detail</title>
@@ -17,7 +17,7 @@
   <div th:include="layout/header"></div>
   <div class="containerr ">
     <div class="container-bg">
-      <div id="div_title_khungChiTiet">
+      <div class="div_title_khungChiTiet">
         <h3>CHI TIẾT PHIM</h3>
       </div>
       <div class="div-khungChiTiet">
@@ -26,6 +26,7 @@
             <img class="image" th:src="@{'/static/imagesMovie/' + ${movie.image}}" />
           </div>
           <div class="col-7 khungChiTiet">
+            <h3 th:text="${movie.movieId}" style="display: none" class="movieId"></h3>
             <h3 th:text="${movie.movieTitle}"></h3>
             <hr/>
             <table>
@@ -63,34 +64,34 @@
           </div>
         </div>
       </div>
-      <div id="div_title_khungChiTiet" style="margin-top: 27px!important">
+      <div class="div_title_khungChiTiet" style="margin-top: 27px!important">
         <h3>LỊCH CHIẾU PHIM</h3>
       </div>
       <div class="div-khungChiTiet">
-        <div class="row khungChiTiet-con">
+        <div class="row khungChiTiet-con" th:each="theater : ${theaters}">
           <div class="col-11 khungChiTiet">
-            <h3>STARLIGHT BUÔN MA THUẬT</h3>
-            <p>Tầng 6 Tòa Nhà Vincom - 78 Lý Thường Kiệt - TP.BMT</p>
+            <h3 th:text="${theater.id}" style="display: none" class="theaterId"></h3>
+            <h3 th:text="${theater.name}"></h3>
+            <p th:text="${theater.address}"></p>
           </div>
+<!--          <div class="col-1 khungChiTiet show" style="background: white!important">-->
+<!--            <i class="fa fa-angle-double-up show" style="font-size: 30px;color: #f37737!important;background: white;width: 100%;text-align: center;color: #fbfbfb;padding-top: 25px;height:100%">-->
+<!--            </i>-->
+<!--          </div>-->
           <div class="col-1 khungChiTiet show" style="background: white!important">
-            <i class="fa fa-angle-double-up show" style="font-size: 30px;color: #f37737!important;background: white;width: 100%;text-align: center;color: #fbfbfb;padding-top: 25px;height:100%">
-            </i>
+            <a th:href="@{/guest/movie/detail/showtime(id=${movie.movieId},threatId=${theater.id})}">
+              <i class="fa fa-angle-double-up show" style="font-size: 30px;color: #f37737!important;background: white;width: 100%;text-align: center;color: #fbfbfb;padding-top: 25px;height:100%">
+              </i>
+            </a>
           </div>
           <div class="col-12 khungChiTiet showtime" style="background: none">
-            <div class="col-2" style="float: left;padding: 0 0;width: 70%;border-right: 1px solid;">
-              <p class="day" style="display: inline-flex;width: 100%;height: 100%;align-content: center;align-items: center;min-height: 50px;margin-bottom: 5px;width: 70%;font-size: large;padding: 0 24px;border: 3px solid;">06/04/2024</p>
-            </div>
-            <div class="col-10" style="float: right">
-              <div class="clearfix" style="clear: both"></div>
-              <a style="display: inline-flex;margin-bottom: 3px; font-size: medium; border: 2px solid; padding: 5px; margin-right: 18px">22:05</a>
-              <a style="display: inline-flex;margin-bottom: 3px; font-size: medium; border: 2px solid; padding: 5px; margin-right: 18px">22:05</a>
-            </div>
-
-          </div>
-          <div class="col-12 khungChiTiet showtime" style="background: none">
-            <div class="col-2" style="float: left;padding: 0 0;width: 70%;border-right: 1px solid;">
-              <p class="day" style="display: inline-flex;width: 100%;height: 100%;align-content: center;align-items: center;min-height: 50px;margin-bottom: 5px;width: 70%;font-size: large;padding: 0 24px;border: 3px solid;">06/04/2024</p>
-            </div>
+                <div class="col-2" style="float: left;padding: 0 0;width: 70%;border-right: 1px solid;">
+                    <p class="day" style="display: inline-flex;width: 100%;height: 100%;align-content: center;align-items: center;min-height: 50px;margin-bottom: 5px;width: 70%;font-size: large;padding: 0 24px;border: 3px solid;">12/12/2002</p>
+                </div>
+                <div class="col-10" style="float: right">
+                    <div class="clearfix" style="clear: both"></div>
+                    <a style="display: inline-flex;margin-bottom: 3px; font-size: medium; border: 2px solid; padding: 5px; margin-right: 18px">11:30</a>
+                </div>
           </div>
         </div>
       </div>
@@ -110,13 +111,46 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function() {
-      $('.showtime').hide();
-      // Add click event listener to the show icon
-      $('.show').click(function() {
-        // Toggle the visibility of the showtime element
-        $('.showtime').toggle();
+      // Hide the showtime elements initially
+      // $('.showtime').hide();
+
+      // Add click event listener to the theater links
+      $('.khungChiTiet.show').click(function() {
+        // Toggle the visibility of the showtime element for the clicked theater
+        //         $(this).siblings('.showtime').toggle();
+        //
+        // // Extract the theater ID for the clicked theater
+        // var theaterId = $(this).siblings('.khungChiTiet').find('.theaterId').text();
+        // var movieId = $('.movieId').text();
+        //
+        // // Store the reference to the clicked element for later use
+        // var $clickedTheater = $(this);
+        //
+        // // Perform AJAX request to load showtime details for the clicked theater
+        // $.ajax({
+        //   type: 'POST',
+        //   url: '/guest/movie/detail',
+        //   data: { id: movieId, threatId: theaterId },
+        //   success: function(response) {
+        //     var showtimeDetailsHtml = ''; // Initialize an empty string to hold the HTML markup
+        //
+        //     // Iterate over each showtime object in the response
+        //     $.each(response, function(index, showtime) {
+        //       // Construct HTML markup for each showtime and append it to the showtimeDetailsHtml string
+        //       showtimeDetailsHtml += '<div class="showtime-details">';
+        //       showtimeDetailsHtml += '<p>Date: ' + showtime.date + '</p>';
+        //       showtimeDetailsHtml += '<p>Time: ' + showtime.time + '</p>';
+        //       // Add more fields as needed
+        //       showtimeDetailsHtml += '</div>';
+        //     });
+        //
+        //     // Set the constructed HTML markup as the content of the #showtimeDetails element
+        //     $clickedTheater.siblings('.showtime').find('#showtimeDetails').html(showtimeDetailsHtml);
+
       });
     });
+
+
   </script>
 
 </body>

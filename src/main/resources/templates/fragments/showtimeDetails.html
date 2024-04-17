@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <!-- showtimeDetails.html -->
+  <div th:fragment="showtimeDetails" id="showtimeDetails">
+    <!-- Iterate over the showtimes list and display each showtime -->
+    <div th:each="showtime : ${showtimes}" class="showtime">
+      <div class="showtime-details">
+        <p>Date: <span th:text="${showtime.date}"></span></p>
+        <p>Time: <span th:text="${showtime.time}"></span></p>
+        <!-- Add more fields as needed -->
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

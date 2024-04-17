@@ -63,11 +63,11 @@
     margin-bottom: 20px;
 }
 
-#div_title_khungChiTiet {
+.div_title_khungChiTiet {
     text-align: center;
 }
 
-#div_title_khungChiTiet > h3 {
+.div_title_khungChiTiet > h3 {
     background: #fecf06;
     font-weight: bold;
     font-size: 30px;
@@ -83,7 +83,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#div_title_khungChiTiet > h3:hover {
+.div_title_khungChiTiet > h3:hover {
     background-color: #f18720;
     color: white;
     transition-duration: .5s;

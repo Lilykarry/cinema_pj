@@ -14,15 +14,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/guest")
 public class ShowTimeController {
-@Autowired
+    @Autowired
     private ShowTimeService showTimeService;
 
-@GetMapping("/showtime")
-public String showTime(Model model){
-    List<Threat> threats = showTimeService.findAllThreats();
+    @GetMapping("/showtime")
+    public String showTime(Model model){
+        List<Threat> threats = showTimeService.findAllThreats();
 
-    model.addAttribute("threats", threats);
+        model.addAttribute("threats", threats);
 
-    return "home/showtime";
-}
+        return "home/showtime";
+    }
+
+
 }

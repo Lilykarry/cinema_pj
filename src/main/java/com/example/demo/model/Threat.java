@@ -46,7 +46,8 @@ public class Threat{
     private String region;
     @OneToMany(mappedBy = "threatId")
     private Collection<RatingThreater> ratingThreaterCollection;
-
+    @OneToMany(mappedBy = "threatId")
+    private Collection<Room> rooms;
 
 
     public Threat() {
@@ -98,6 +99,14 @@ public class Threat{
 
     public void setRatingThreaterCollection(Collection<RatingThreater> ratingThreaterCollection) {
         this.ratingThreaterCollection = ratingThreaterCollection;
+    }
+
+    public Collection<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Collection<Room> rooms) {
+        this.rooms = rooms;
     }
 
     @Override

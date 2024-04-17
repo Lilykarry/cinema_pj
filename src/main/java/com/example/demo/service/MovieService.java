@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.domain.UpsertMovie;
 import com.example.demo.exception.MovieNotFoundExeption;
 import com.example.demo.model.Movie;
+import com.example.demo.model.Showtimes;
+import com.example.demo.model.Threat;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +20,12 @@ public interface MovieService {
     Movie get(String movieId) throws MovieNotFoundExeption;
 
     void deleteMovieById(String movieId);
+
+    List<Threat> getAllTheatersByMovieId(String id);
+
+    List<Showtimes> getAllShowtimesByMovieAndTheater(String movieId, Integer theaterId);
+    List<Showtimes> getAllByMovieId(String id);
+    List<Showtimes> getAllShowtimes(Integer id, String movieId);
 
     List<Movie> searchMovies(String keyword);
 

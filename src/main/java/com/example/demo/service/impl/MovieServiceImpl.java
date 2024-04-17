@@ -3,7 +3,13 @@ package com.example.demo.service.impl;
 import com.example.demo.domain.UpsertMovie;
 import com.example.demo.exception.MovieNotFoundExeption;
 import com.example.demo.model.Movie;
+import com.example.demo.model.Room;
+import com.example.demo.model.Showtimes;
+import com.example.demo.model.Threat;
 import com.example.demo.repository.MovieRepository;
+import com.example.demo.repository.RoomRepository;
+import com.example.demo.repository.ShowTimeRepository;
+import com.example.demo.repository.ThreatRepository;
 import com.example.demo.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +24,23 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private ThreatRepository threatRepository;
+
+    @Autowired
+    private ShowTimeRepository showTimeRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Override
     public List<Movie> showAllFilm() {
@@ -95,6 +112,36 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> searchMovies(String keyword) {
         return movieRepository.findByTitleContaining(keyword);
+    }
+
+    @Override
+    public List<Threat> getAllTheatersByMovieId(String id) {
+        List<Showtimes> showtimes = showTimeRepository.findShowtimesByMovieId_MovieId(id);
+        Set<String> roomIds = showtimes.stream()
+                .map(showtime -> showtime.getRoomId().getRoomId()) // Sử dụng method reference để rõ ràng kiểu trả về của getRoomId()
+                .collect(Collectors.toSet());
+        List<Room> rooms = roomRepository.findAllByRoomIdIn(roomIds);
+        Set<Integer> theaterIds = rooms.stream()
+                .map(room -> room.getThreatId().getId()) // Get the theater IDs as strings
+                .collect(Collectors.toSet());
+
+        return threatRepository.findAllByIdIn(theaterIds);
+    }
+
+    public List<Showtimes> getAllShowtimesByMovieAndTheater(String movieId, Integer theaterId) {
+        List<Room> rooms = roomRepository.findAllByThreatId_Id(theaterId);
+        Set<String> roomIds = rooms.stream().map(Room::getRoomId).collect(Collectors.toSet());
+        return showTimeRepository.findAllByMovieId_MovieIdAndRoomId_RoomIdIn(movieId, roomIds);
+    }
+
+    @Override
+    public List<Showtimes> getAllByMovieId(String id) {
+        return showTimeRepository.findShowtimesByMovieId_MovieId(id);
+    }
+
+    @Override
+    public List<Showtimes> getAllShowtimes(Integer threatId, String movieId) {
+        return showTimeRepository.findShowtimesByThreatIdAndMovieId(threatId,movieId);
     }
 
     @Override

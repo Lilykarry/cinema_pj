@@ -21,72 +21,100 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!--    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">-->
+    <link href="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css" rel="stylesheet">
+    <!--    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />-->
+    <link href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap@4/dist/css/tempusdominus-bootstrap.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link th:href="@{/static/css/footer/bootrap.css}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="/static/css/admin/style.css" rel="stylesheet">
+    <link th:href="@{/static/css/admin/style.css}" rel="stylesheet">
     <style>
-        /* CSS căn id pagination ra giữa màn hình */
-        #pagination {
-            margin-top: 27px;
-            display: flex;
-            display: -webkit-flex; /* Safari 8 */
-            flex-wrap: wrap;
-            -webkit-flex-wrap: wrap; /* Safari 8 */
-            justify-content: center;
-            -webkit-justify-content: center;
-            margin-bottom: 50px;
-        }
+
         #pagination {
             display: flex;
             float: right;
         }
-        h3 {
-            font-family: system-ui;
+        /* CSS đơn giản cho table trên mobile */
+        * {
+            box-sizing: border-box;
+            font-family: "Avenir", "Helvetica", sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+        }
+
+        table {
+            border-collapse: collapse;
+            text-align: left;
+            width: 100%;
+        }
+        table tr {
+            background: white;
+            border-bottom: 1px solid
+        }
+        table th, table td {
+            padding: 10px 20px;
+        }
+        table td span {
+            background: #eee;
+            color: dimgrey;
+            display: none;
+            font-size: 10px;
             font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
+            padding: 5px;
+            position: absolute;
+            text-transform: uppercase;
+            top: 0;
+            left: 0;
+        }
+        .search-container {
+            float: right;
+
+        }
+        .search-container button {
+            float: right;
+            padding: 3px 6px;
+
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
         }
 
-        .table {
-            text-align: center;
-            margin: 20px 0;
-            box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
+        @media(max-width: 768px) {
+            .searchUser
+            {
+                width: 240px!important;
+            }
+            table thead {
+                left: -9999px;
+                position: absolute;
+                visibility: hidden;
+            }
+            table tr {
+                border-bottom: 0;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-bottom: 40px;
 
-        .table tr td, .table tr  th {
-            vertical-align: middle;
-        }
-
-        .contentMV {
-            max-height: 140px;
-            overflow: auto;
-            margin-bottom: 0;
-        }
-        .trailer {
-            max-width: 120px;
-            overflow: auto;
-            margin-bottom: 0;
-        }
-        .title {
-            max-width: 90px;
-            overflow: auto;
-            margin-bottom: 0;
-        }
-        .director {
-            max-width: 90px;
-            overflow: auto;
-            margin-bottom: 0;
-        }
-        .Id{
-            max-width: 50px;
-        }
-        tr .contentPage.search-result {
-            display: table-row;
+            }
+            table td {
+                word-break: break-all;
+                border: 1px solid;
+                margin: 0 -1px -1px 0;
+                padding-top: 35px;
+                position: relative;
+                width: 50%;
+            }
+            table td span {
+                display: block;
+            }
         }
 
     </style>
@@ -106,7 +134,7 @@
     <!-- Sidebar Start -->
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
-            <a href="Home.html" class="navbar-brand mx-4 mb-3">
+            <a href="index.html" class="navbar-brand mx-4 mb-3">
                 <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
@@ -120,11 +148,11 @@
                 </div>
             </div>
             <div class="navbar-nav w-100">
-                <a href="Home" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a href="index.html" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
-                <a href="Movie" class="nav-item nav-link active"><i class="bi bi-film"></i>Add Movie</a>
+                <a href="Movie" class="nav-item nav-link"><i class="bi bi-film"></i>Add Movie</a>
                 <a href="form.html" class="nav-item nav-link"><i class="bi bi-calendar"></i>Add showtime</a>
-                <a href="Users" class="nav-item nav-link"><i class="fa fa-table me-2"></i>User</a>
+                <a href="Users" class="nav-item nav-link active"><i class="fa fa-table me-2"></i>User</a>
                 <a href="Threat" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Threat</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
@@ -232,73 +260,183 @@
             </div>
         </nav>
         <!-- Navbar End -->
-        <div th:if="${mess}" class="alert alert-success text-center">
-              [[${mess}]]
-        </div>
+        <div class="content-wrapper" >
+            <div class="container" style="padding: 30px 30px 30px 30px">
+                <select class="custom-select displayvalue" style="width: 200px">
 
-        <div class="content-wrapper">
-            <div class="container-fluid" style="padding: 15px;">
+                    <option value="5">Hiển thị 5</option>
+                    <option value="10">Hiển thị 10</option>
+                    <option value="15">Hiển thị 15</option>
+                    <option value="20">Hiển thị 20</option>
+                </select>
+                <div class="search-container">
+                    <form id="searchForm" class="input-group" th:action="@{/Admin/Users}" method="GET" accept-charset="UTF-8">
+                        <input type="text" name="username" id="divSearch" class="form-control" placeholder="Nhập tên">
 
-                <h3 style="font-size: 35px; margin: 20px 0 30px;">QUẢN LÝ PHIM</h3>
-                <div class="d-flex justify-content-between">
-                    <select class="custom-select displayvalue" style="width: auto; text-align-last: center;">
-                        <option value="3">Hiển thị 3 phim</option>
-                        <option value="5">Hiển thị 5 phim</option>
-                        <option value="10">Hiển thị 10 phim</option>
-                        <option value="20">Hiển thị 20 phim</option>
-                    </select>
-                    <form id="searchForm" class="input-group" th:action="@{/Admin/Movie}" method="GET" accept-charset="UTF-8">
-                        <input type="text" name="keyword" id="divSearch" class="form-control" placeholder="Nhập tên phim muốn tìm kiếm...">
-
-                            <button class="btn btn-primary" type="submit" id="btnSearch">Tìm kiếm</button>
+                        <button class="btn btn-primary" type="submit" id="btnSearch">Tìm kiếm</button>
 
                     </form>
-                    <a class="btn btn-success" th:href="@{/Admin/Movie/New}">Thêm phim mới</a>
+                </div>
+
+                <div class="alert alert-danger userdanger" role="alert" style="margin-top: 40px" hidden="" >
 
                 </div>
-                <table class="table table-bordered" id="ttable">
+
+
+                <table border="1"  class=" table-bordered  userTable table-striped " >
+
+                    <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Performer</th>
-                        <th>Film director</th>
-                        <th>Content</th>
-                        <th>Image</th>
-                        <th>Trailer</th>
-                        <th>Start movie</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                    <div >
-                    <tr th:each="movies:${movies}" class="contentPage">
-                        <td class="Id" th:text="${movies.getMovieId()}"></td>
-                        <td class="title" th:text="${movies.getMovieTitle()}"></td>
-                        <td th:text="${movies.getMovieCategory()}"></td>
-                        <td><p class="contentMV" th:text="${movies.getPerformer()}"></p></td>
-                        <td class="director" th:text="${movies.getFilmDirector()}"></td>
-                        <td><p class="contentMV" th:text="${movies.getMovieContent()}"></p></td>
-                        <td><img th:src="@{'/static/imagesMovie/' + ${movies.image}}" width="100px"></td>
-                        <td class="trailer" th:text="${movies.getTrailer()}"></td>
-                        <td class="dobuser" th:text="${movies.getStartMovie()}"></td>
-                        <td class="notranslate"th:text="${movies.getStatus()}"></td>
-                        <td><a th:href="@{'/Admin/Movie/Edit/'+${movies.getMovieId()}}" class="btn btn-warning" style="margin-bottom: 15px;">Cập nhật</a><a th:href="@{'/Admin/Movie/Delete/'+${movies.getMovieId()}}" class="btn btn-warning" style="margin-bottom: 15px;">Xóa</a></td>
+                        <th>Email</th>
+                        <th>Tên</th>
+                        <th >Ngày sinh</th>
+                        <th>Điện thoại</th>
+                        <th>Giới tính</th>
+                        <th>Địa chỉ</th>
+                        <th>Tác vụ</th>
 
                     </tr>
-                    </div>
+                    </thead>
+                    <tbody class="bodyUser">
+                    <tr th:each="u:${usersList}" class="contentPage">
+                        <td th:text="${u.email}"><span>Email </span></td>
+                        <td th:text="${u.name}"><span>Tên</span> </td>
+                        <td   th:text="${#dates.format(u.dob, 'dd/MM/yyyy')}" style="white-space: nowrap"><span>Ngày sinh</span><p class="dobuser"></p></td>
+                        <td th:text="${u.phone}"><span>Số điện thoại</span> </td>
+                        <td th:text="${u.gender}"><span>Giới tính</span></td>
+                        <td th:text="${u.address}"><span>Địa chỉ</span></td>
+                        <td>
+                            <a class="btn btn-warning" style="color: white;float: left" href="Manageuser?action=Detail&email=${u.email}">Chi tiết</a>
+                        </td>
+                    </tr>
+                    </tbody>
                 </table>
 
-                <!-- Hiên thị nút bấm -->
+                </br>
 
-                <br/>
-                <div class="container" style="padding: 30px 30px 30px 30px">
-                    <ul id="pagination"></ul>
-                </div>
+                <ul id="pagination"></ul>
+
             </div>
+
         </div>
 
+        <script>
 
-        <!-- Footer Start -->
+
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
+        <!-- JS tạo nút bấm di chuyển trang start -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+        <script type="text/javascript">
+
+            // $(".searchUser").keyup(function () {
+            //     var value = $(this).val();
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "/Admin/Search",
+            //         cache: false,
+            //         data: { name: value, paramLang: paramLang }, // Gửi tham số paramLang
+            //         success: function (data) {
+            //             if (data != "") {
+            //                 $(".userTable").removeAttr("hidden");
+            //                 $(".userdanger").attr("hidden", true);
+            //                 $(".bodyUser").html(data);
+            //                 totalRows = $(".bodyUser .contentPage").length;
+            //                 pagination();
+            //             } else {
+            //                 $(".userdanger").text("Không tìm thấy người dùng với từ khóa: " + value);
+            //                 $(".userTable").attr("hidden", true);
+            //                 $(".userdanger").removeAttr("hidden");
+            //                 totalRows = 0;
+            //                 pagination();
+            //             }
+            //         },
+            //         error: function (error) {
+            //             alert("Có lỗi xảy ra khi gửi yêu cầu tìm kiếm!");
+            //             console.log(error);
+            //         }
+            //     });
+            // });
+            //
+            // $(".displayvalue").change(function (index) {
+            //     pageSize = $(this).val();
+            //     pagination();
+            //
+            // });
+            var pageSize = 5;
+            var totalRows = [[${usersList.size()}]];
+
+            function pagination()
+            {
+///** Cần truyền giá trị vào đây **//
+                showPage = function (page) {
+                    $(".contentPage").hide();
+                    $(".contentPage").each(function (n) {
+                        if (n >= pageSize * (page - 1) && n < pageSize * page)
+                            $(this).show();
+                        $(".first a").html("first");
+                    });
+                }
+                showPage(1);
+                ///** Cần truyền giá trị vào đây **///
+
+                var btnPage = Math.ceil(totalRows / pageSize); // Số nút bấm hiển thị di chuyển trang
+                var iTotalPages = Math.ceil(totalRows / pageSize);
+
+                if (iTotalPages > 1) {
+
+                    var currentPage = $("#pagination").twbsPagination('getCurrentPage');
+                    $("#pagination").twbsPagination('destroy');
+                    $('#pagination').twbsPagination({
+                        totalPages: iTotalPages,
+                        visiblePages: btnPage,
+                        onPageClick: function (event, page) {
+                            /* console.info(page); */
+                            showPage(page);
+                        }
+                    });
+
+                } else {
+                    $("#pagination").twbsPagination('destroy');
+                    //if all item on the 1st page
+                }
+
+
+            }
+            jQuery(document).ready(function ($) {
+
+                showPage = function (page) {
+                    $(".contentPage").hide();
+                    $(".contentPage").each(function (n) {
+                        if (n >= pageSize * (page - 1) && n < pageSize * page)
+                            $(this).show();
+                        $(".first a").html("first");
+                    });
+                }
+                showPage(1);
+                ///** Cần truyền giá trị vào đây **///
+
+                var btnPage = Math.ceil(totalRows / pageSize); // Số nút bấm hiển thị di chuyển trang
+                var iTotalPages = Math.ceil(totalRows / pageSize);
+                if (iTotalPages > 1) {
+                    var obj = $('#pagination').twbsPagination({
+                        totalPages: iTotalPages,
+                        visiblePages: btnPage,
+                        onPageClick: function (event, page) {
+                            /* console.info(page); */
+                            showPage(page);
+                        }
+                    });
+                }
+                /*console.info(obj.data());*/
+            });
+
+        </script>
+
+
+
+            <!-- Footer Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light rounded-top p-4">
                 <div class="row">
@@ -333,124 +471,17 @@
 <script src="lib/tempusdominus/js/moment.min.js"></script>
 <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/easing.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.38/moment-timezone.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+
 
 <!-- Template Javascript -->
 <script src="/static/js/Admin.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
-<!-- JS tạo nút bấm di chuyển trang start -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
-<script type="text/javascript">
-    // $("#searchForm").submit(function(event) {
-    //     event.preventDefault();
-    //     var kw = $("#divSearch").val();
-    //     if (kw != "") {
-    //         $.ajax({
-    //             type: "GET",
-    //             url: "/Admin/Movie",
-    //             data: { keyword: kw },
-    //             success: function(data) {
-    //                 displaySearchResults(data);
-    //             },
-    //             error: function(error) {
-    //                 console.log(error);
-    //             }
-    //         });
-    //     } else {
-    //         $(".contentPage").removeClass("search-result");
-    //         pagination(); // Cập nhật lại phân trang sau khi xóa tìm kiếm
-    //     }
-    // });
-    //
-    // function displaySearchResults(results) {
-    //     $(".contentPage").removeClass("search-result");
-    //     if (Array.isArray(results) && results.length > 0) {
-    //         var regex = new RegExp(results.join("|"), "i");
-    //         $(".title").each(function() {
-    //             var title = $(this).text();
-    //             if (title.toLowerCase().includes(results)) {
-    //                 $(this).closest("tr").addClass("search-result");
-    //             }
-    //         });
-    //     }
-    // }
-
-
-
-
-    $(".displayvalue").change(function (index) {
-        pageSize = $(this).val();
-        pagination();
-
-    });
-
-    var pageSize = 5;
-    var totalRows = [[${movies.size()}]];
-
-    function pagination()
-    {
-///** Cần truyền giá trị vào đây **//
-        showPage = function (page) {
-            $(".contentPage").hide();
-            $(".contentPage").each(function (n) {
-                if (n >= pageSize * (page - 1) && n < pageSize * page)
-                    $(this).show();
-                $(".first a").html("Ban đầu");
-            });
-        }
-        showPage(1);
-        ///** Cần truyền giá trị vào đây **///
-
-        var btnPage = Math.ceil(totalRows / pageSize); // Số nút bấm hiển thị di chuyển trang
-        var iTotalPages = Math.ceil(totalRows / pageSize);
-
-        if (iTotalPages > 1) {
-
-            var currentPage = $("#pagination").twbsPagination('getCurrentPage');
-            $("#pagination").twbsPagination('destroy');
-            $('#pagination').twbsPagination({
-                totalPages: iTotalPages,
-                visiblePages: btnPage,
-                onPageClick: function (event, page) {
-                    /* console.info(page); */
-                    showPage(page);
-                }
-            });
-
-        } else {
-            $("#pagination").twbsPagination('destroy');
-            //if all item on the 1st page
-        }
-
-
-    }
-    jQuery(document).ready(function ($) {
-
-        showPage = function (page) {
-            $(".contentPage").hide();
-            $(".contentPage").each(function (n) {
-                if (n >= pageSize * (page - 1) && n < pageSize * page)
-                    $(this).show();
-                $(".first a").html("Ban đầu");
-            });
-        }
-        showPage(1);
-        ///** Cần truyền giá trị vào đây **///
-
-        var btnPage = Math.ceil(totalRows / pageSize); // Số nút bấm hiển thị di chuyển trang
-        var iTotalPages = Math.ceil(totalRows / pageSize);
-        if (iTotalPages > 1) {
-            var obj = $('#pagination').twbsPagination({
-                totalPages: iTotalPages,
-                visiblePages: btnPage,
-                onPageClick: function (event, page) {
-                    /* console.info(page); */
-                    showPage(page);
-                }
-            });
-        }
-        /*console.info(obj.data());*/
-    });
-</script>
 </body>
 
 </html>

@@ -67,8 +67,8 @@
 
                 <a href="MovieShowAll" class="nav-item nav-link active"><i class="bi bi-film"></i>Add Movie</a>
                 <a href="form.html" class="nav-item nav-link"><i class="bi bi-calendar"></i>Add showtime</a>
-                <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-                <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
+                <a href="Users" class="nav-item nav-link"><i class="fa fa-table me-2"></i>User</a>
+                <a href="Threat" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Threat</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                     <div class="dropdown-menu bg-transparent border-0">
@@ -212,7 +212,7 @@
                     <div class="form-group">
                         <label>Image:</label><br/>
                         <div id="displayImg" th:field="*{image}"style="border: dashed; margin: 0 0 15px; padding: 5px;"></div>
-                        <input type="file" name="image" id="upload" />
+                        <input th:text="*{image}" type="file" name="image" id="upload" />
                         <small class="form-text form-message" style="color: red;"></small>
                     </div>
                     <div class="form-group">
@@ -234,11 +234,16 @@
                         <small class="form-text form-message" style="color: red;"></small>
                     </div>
                     <div class="form-group">
-                        <label>Status:</label>
-                        <input type="number" th:field="*{status}"class="form-control" placeholder="Enter status..." name="status" min="0" max="2">
-                        <small class="form-text text-muted">(nhập 0 nếu phim không được sử dụng, nhập 1 nếu là phim đang chiếu, nhập 2 nếu là phim sắp chiếu)</small>
+                        <label for="status">Status:</label>
+                        <select th:field="*{status}" class="form-control" id="status" name="status">
+                            <option value="0">0 - Phim không được sử dụng</option>
+                            <option value="1">1 - Phim đang chiếu</option>
+                            <option value="2">2 - Phim sắp chiếu</option>
+                        </select>
+                        <small class="form-text text-muted">(Chọn 0 nếu phim không được sử dụng, chọn 1 nếu là phim đang chiếu, chọn 2 nếu là phim sắp chiếu)</small>
                         <small class="form-text form-message" style="color: red;"></small>
                     </div>
+5
                     <div style="text-align: center;">
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
@@ -248,70 +253,6 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            $(document).ready(function () {
-                $(".forminsert input").keypress(function (e)
-                {
-                    $(this).parent().find(".form-message").html("");
-                });
-
-                $(".forminsert input").change(function () {
-                    $(this).parent().find(".form-message").html("");
-                });
-
-                $(".forminsert").submit(function (e) {
-                    e.preventDefault();
-                    var formData = new FormData(this);
-                    var url = $(this).attr('action');
-
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function (data)
-                        {
-                            if (data == "success")
-                            {
-                                setTimeout(function () {
-                                    window.location.href = "MovieAdminServlet?action=Show&thongBao=insertMOK";
-                                }, 2000);
-                            } else
-                            {
-                                var dataJson = JSON.parse(data);
-                                $.each(dataJson, function (name, value) {
-                                    var input = $("[name=" + name + "]");
-                                    $(input).parent().find(".form-message").html(value);
-                                });
-                            }
-                        },
-                        error: function (error) {
-                            alert("error");
-                            console.log(error);
-                        }
-                    });
-                });
-
-                $("#upload").change(function () {
-                    var fileSelected = document.getElementById('upload').files;
-                    if (fileSelected.length > 0) {
-                        var fileToLoad = fileSelected[0];
-                        var fileReader = new FileReader();
-                        fileReader.onload = function (fileLoaderEvent) {
-                            var srcData = fileLoaderEvent.target.result;
-                            var newImage = document.createElement('img');
-                            newImage.src = srcData;
-                            $("#displayImg").empty(); // Clear previous image if exists
-                            $("#displayImg").append(newImage);
-                        }
-                        fileReader.readAsDataURL(fileToLoad);
-                    }
-                });
-            });
-        </script>
 
 
         <!-- Footer Start -->

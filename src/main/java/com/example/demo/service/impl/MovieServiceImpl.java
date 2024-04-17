@@ -7,6 +7,7 @@ import com.example.demo.repository.MovieRepository;
 import com.example.demo.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -36,18 +37,18 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void save(UpsertMovie movie) throws IOException {
-        Movie entity=new Movie();
+
+        Movie entity = movieRepository.findById(movie.getMovieId()).orElse(new Movie());
+
+        if (movie.getImage() != null && !movie.getImage().isEmpty()) {
+            entity.setImage(generateImagePath(movie.getImage()));
+        }
         entity.setMovieId(movie.getMovieId());
         entity.setMovieTitle(movie.getMovieTitle());
         entity.setMovieCategory(movie.getMovieCategory());
         entity.setPerformer(movie.getPerformer());
         entity.setFilmDirector(movie.getFilmDirector());
         entity.setMovieContent(movie.getMovieContent());
-        if (movie.getImage() != null && !movie.getImage().isEmpty()) {
-
-            entity.setImage(generateImagePath(movie.getImage()));
-        } else {
-        }
         entity.setTrailer(movie.getTrailer());
         LocalDate localDate = movie.getStartMovie(); // LocalDate
         Date startDate = java.sql.Date.valueOf(localDate); // Chuyển đổi từ LocalDate sang Date
@@ -63,8 +64,8 @@ public class MovieServiceImpl implements MovieService {
     private String generateImagePath(MultipartFile file) throws IOException {
         String fileExtension = getFileExtension(file.getOriginalFilename());
 
-        File file1 = new File("C:\\Users\\nguye\\Documents\\Spring-iviettech\\assignment\\demo\\src\\main\\resources\\static\\imagesMovie\\" + file.getOriginalFilename());
-        System.out.println(file1);
+        File file1 = new File("/Users/LENOVO/IdeaProjects/cinama_PJ_IMG/imagesMovie/" + file.getOriginalFilename());
+
         try (OutputStream os = new FileOutputStream(file1)) {
             os.write(file.getBytes());
         }
@@ -89,6 +90,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void deleteMovieById(String movieId) {
         movieRepository.deleteById(movieId);
+    }
+
+    @Override
+    public List<Movie> searchMovies(String keyword) {
+        return movieRepository.findByTitleContaining(keyword);
     }
 
     @Override

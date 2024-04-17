@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.Movie;
 import com.example.demo.model.Threat;
 import com.example.demo.repository.ShowTimeRepository;
 import com.example.demo.service.ShowTimeService;
@@ -17,5 +18,10 @@ public class ShowTimeServiceImpl implements ShowTimeService {
     @Override
     public List<Threat> findAllThreats() {
         return showTimeRepository.findAllThreats();
+    }
+
+    @Override
+    public List<Movie> showAllFilm(Integer threatId ) {
+        return showTimeRepository.findMoviesByThreatId(threatId);
     }
 }

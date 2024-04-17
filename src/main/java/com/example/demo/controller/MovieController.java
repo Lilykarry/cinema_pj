@@ -58,4 +58,5 @@ public class MovieController {
         model.addAttribute("movie",movieService.findMovieById(id));
         return "movie/movieDetail";
     }
+
 }

@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -26,9 +28,19 @@ public class MovieAdminController {
         return "admin/index";
     }
     @GetMapping("/Movie")
-    public String ShowAll(Model model){
-        List<Movie> movies=movieService.showAllFilm();
-        model.addAttribute("movies", movies);
+    public String ShowAll(Model model,@RequestParam(name = "keyword", required = false) String keyword){
+        if (keyword == null||keyword.isEmpty()) {
+            List<Movie> movies=movieService.showAllFilm();
+            model.addAttribute("movies", movies);
+        }
+        else{
+//            keyword = (keyword != null) ? new String(keyword.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8) : "";
+            String Keyword = StringUtils.trim(keyword);
+            List<Movie> movies=movieService.searchMoviesByTitle(Keyword);
+            model.addAttribute("movies", movies);
+            model.addAttribute("keyword", Keyword);
+        }
+
         return "admin/movieAdmin";
     }
 @GetMapping("/Movie/New")
@@ -65,5 +77,15 @@ public class MovieAdminController {
         ra.addFlashAttribute("mess","The movie has been deleted successfully");
         return "redirect:/Admin/Movie";
     }
+    @GetMapping("/Movie/Search")
+    public String searchMovies(@RequestParam("keyword") String keyword, Model model) {
+        keyword = new String(keyword.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        List<Movie> searchResults = movieService.searchMoviesByTitle(keyword);
+
+        // Đưa kết quả tìm kiếm và từ khóa vào model để hiển thị trên view
+        model.addAttribute("searchResults", searchResults);
+        model.addAttribute("keyword", keyword);
+        return "admin/movieAdmin";}
+
 
 }

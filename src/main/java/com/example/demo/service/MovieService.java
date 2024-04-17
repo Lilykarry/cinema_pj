@@ -18,4 +18,7 @@ public interface MovieService {
     Movie get(String movieId) throws MovieNotFoundExeption;
 
     void deleteMovieById(String movieId);
+
+    List<Movie> searchMovies(String keyword);
+
 }

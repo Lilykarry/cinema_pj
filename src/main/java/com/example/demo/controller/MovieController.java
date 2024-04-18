@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.Date;
+
 
 @Controller
 @RequestMapping("/guest")
@@ -61,66 +65,57 @@ public class MovieController {
     public String showMovieDetail(@RequestParam("id") String id, Model model) {
         model.addAttribute("theaters",movieService.getAllTheatersByMovieId(id));
         model.addAttribute("movie",movieService.findMovieById(id));
-//        List<Threat> threats = movieService.getAllTheatersByMovieId(id);
-//        List<Showtimes> sts = movieService.getAllByMovieId(id);
-//        Set<String> uniqueTheaterDate = new HashSet<>();
-//
-//        for (Threat threat : threats) {
-//            System.out.println("Threat: " + threat.getName());
-//            List<Room> rooms = new ArrayList<>(threat.getRooms());
-//            for (Room room : rooms) {
-//                System.out.println("Room: " + room.getRoomId());
-//                List<Showtimes> filteredShowtimes = sts.stream()
-//                        .filter(st -> st.getRoomId().getRoomId().equals(room.getRoomId()) && st.getMovieId().getMovieId().equals(id))
-//                        .collect(Collectors.toList());
-//                for (Showtimes show : filteredShowtimes) {
-//                    String theaterDateKey = room.getRoomId() + "_" + show.getDate().toString();
-//                    if (!uniqueTheaterDate.contains(theaterDateKey)) {
-//                        System.out.println("Day: " + show.getDate());
-//                        uniqueTheaterDate.add(theaterDateKey);
-//                    }
-//                    System.out.println("Showtime: " + show.getTime());
-//                    System.out.println("**********");
-//                }
-//            }
-//            System.out.println("#########");
-//            uniqueTheaterDate.clear();
-//        }
+        // Get the movie and its start date
+        Movie movie = movieService.findMovieById(id);
+        Date startDate = movie.getStartMovie();
+
+        // Convert the start date to a string in the desired format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedStartDate = dateFormat.format(startDate);
+
+        // Add the formatted start date to the model
+        model.addAttribute("formattedStartDate", formattedStartDate);
         return "movie/movieDetail";
     }
 
-    @GetMapping("/movie/detail/showtime")
+    @GetMapping("/movie/details")
     public String showMovieDetails(@RequestParam("id") String id, @RequestParam("threatId") String threatId, Model model) {
-//        model.addAttribute("showtimes",movieService.getAllShowtimesByMovieAndTheater(id,Integer.parseInt(threatId)));
-//        List<Showtimes> ss = movieService.getAllShowtimesByMovieAndTheater(id,Integer.parseInt(threatId));
-//        for(Showtimes s : ss){
-//            System.out.println("date"+ s.getDate());
-//        }
-//        model.addAttribute("theaters",movieService.getAllTheatersByMovieId(id));
-//        model.addAttribute("movie",movieService.findMovieById(id));
-//        System.out.println(id);
-//        System.out.println("threatId"+threatId);
-//        for(Showtimes a : movieService.getAllShowtimes(Integer.parseInt(threatId),id)){
-//            System.out.println("time"+ a.getTime());
-//        }
+
         model.addAttribute("theaters",movieService.getAllTheatersByMovieId(id));
         model.addAttribute("movie",movieService.findMovieById(id));
-        List<Showtimes> showtimes = movieService.getAllShowtimes(Integer.parseInt(threatId), id);
-        if (showtimes.isEmpty()) {
-            System.out.println("No showtimes found for threatId: " + threatId + " and movieId: " + id);
-        } else {
-            for (Showtimes showtime : showtimes) {
-                if (showtime.getTime() == null) {
-                    System.out.println("Showtime with ID " + showtime.getShowtimesId() + " has null time.");
-                } else {
-                    System.out.println("Day for showtime with movieID " + showtime.getMovieId() + ": " + showtime.getDate());
-                    System.out.println("Time: " + showtime.getShowtimesId() + ": " + showtime.getTime());
-                    System.out.println("************");
-                }
+        model.addAttribute("showtimesss",movieService.getAllShowtimes(Integer.parseInt(threatId), id));
+        List<Showtimes> showtimess = movieService.getAllShowtimes(Integer.parseInt(threatId), id);
+        Map<String, List<Showtimes>> groupedShowtimesByDate = showtimess.stream()
+                .collect(Collectors.groupingBy(showtime -> dateToString(showtime.getDate())));
+
+        model.addAttribute("groupedShowtimesByDate", groupedShowtimesByDate);
+        model.addAttribute("threatId", threatId); // Pass theaterId to the view
+
+        // Print out the contents of groupedShowtimesByDate map
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        // Lặp qua từng cặp key-value trong map
+        for (Map.Entry<String, List<Showtimes>> entry : groupedShowtimesByDate.entrySet()) {
+            String date = entry.getKey(); // Lấy ngày từ khóa (key)
+            List<Showtimes> showtimesList = entry.getValue(); // Lấy danh sách Showtimes từ giá trị (value)
+
+            // Lặp qua từng đối tượng Showtimes trong danh sách
+            for (Showtimes showtime : showtimesList) {
+                Date time = showtime.getTime(); // Lấy thời gian từ mỗi đối tượng Showtimes
+                // Chuyển đổi thời gian thành chuỗi
+                String formattedTime = dateFormat.format(time);
+                // Sử dụng thời gian ở đây (ví dụ: in ra console)
+                System.out.println("Date: " + date + ", Time: " + formattedTime);
             }
         }
-
         return "movie/movieDetail";
     }
+
+    // Utility methods to convert Date and Time objects to String
+    private String dateToString(Date date) {
+            // Implement the conversion logic according to your date format
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormat.format(date);
+    };
+
 
 }

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,9 +23,10 @@ public class ShowtimeMovieController {
     @Autowired
     private ShowTimeService showTimeService;
     @GetMapping("/movie/{ThreatId}")
-    public String show(@PathVariable("ThreatId") Integer ThreatId, Model model) {
+    public String show(@PathVariable("ThreatId") Integer ThreatId, Model model, @RequestParam(value = "MovieId", required = false) String MovieId) {
 
             List<Movie> movies=showTimeService.showAllFilm(ThreatId);
+            List<Showtimes> showtimes=showTimeService.findDistinctDates(ThreatId,MovieId);;
         for (Movie movie : movies) {
             List<Showtimes> showtimesList = new ArrayList<>(movie.getShowtimesCollection());
 
@@ -34,6 +36,7 @@ public class ShowtimeMovieController {
             // Gán lại danh sách đã sắp xếp cho showtimesCollection
             movie.setShowtimesCollection(showtimesList);
         }
+        model.addAttribute("dates",showtimes);
             model.addAttribute("movie",movies);
             return "home/movieShowtime";
         }

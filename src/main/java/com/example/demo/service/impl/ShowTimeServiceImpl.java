@@ -39,4 +39,9 @@ public class ShowTimeServiceImpl implements ShowTimeService {
     public List<Movie> showAllFilm(Integer threatId ) {
         return showTimeRepository.findMoviesByThreatId(threatId);
     }
+
+    @Override
+    public List<Showtimes> findDistinctDates(Integer threatId, String movieId) {
+        return showTimeRepository.findShowtimesByThreatIdAndMovieId(threatId,movieId);
+    }
 }

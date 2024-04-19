@@ -15,6 +15,11 @@ public interface ThreatRepository extends JpaRepository<Threat,Integer> {
     List<Threat> findAllByIdIn(Collection<Integer> id);
 
 
-        @Query("SELECT MAX(t.id) FROM Threat t")
-        Integer findMaxId();
+    @Query("SELECT MAX(t.id) FROM Threat t")
+    Integer findMaxId();
+    @Query("SELECT t FROM Threat t " +
+            "JOIN t.rooms r " +
+            "JOIN r.showtimesCollection s " +
+            "WHERE s.movieId.movieId = :movieId")
+    List<Threat> findAllByMovieId(String movieId);
 }

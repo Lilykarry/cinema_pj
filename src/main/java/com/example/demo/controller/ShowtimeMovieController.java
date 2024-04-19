@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Movie;
+import com.example.demo.model.Room;
 import com.example.demo.model.Showtimes;
 import com.example.demo.service.MovieService;
 import com.example.demo.service.ShowTimeService;
@@ -23,23 +24,38 @@ public class ShowtimeMovieController {
     @Autowired
     private ShowTimeService showTimeService;
     @GetMapping("/movie/{ThreatId}")
-    public String show(@PathVariable("ThreatId") Integer ThreatId, Model model, @RequestParam(value = "MovieId", required = false) String MovieId) {
+    public String show(@PathVariable("ThreatId") Integer threatId, Model model) {
+        List<Movie> movies = showTimeService.showAllFilm(threatId);
 
-            List<Movie> movies=showTimeService.showAllFilm(ThreatId);
-            List<Showtimes> showtimes=showTimeService.findDistinctDates(ThreatId,MovieId);;
+        // Iterate through each movie
         for (Movie movie : movies) {
-            List<Showtimes> showtimesList = new ArrayList<>(movie.getShowtimesCollection());
+            List<Showtimes> movieShowtimes = new ArrayList<>(movie.getShowtimesCollection());
+            List<Showtimes> filteredShowtimes = new ArrayList<>();
 
-            // Sắp xếp danh sách thời gian chiếu của mỗi phim từ sớm đến muộn
-            Collections.sort(showtimesList, Comparator.comparing(Showtimes::getTime));
+            // Iterate through each showtime of the current movie
+            for (Showtimes showtime : movieShowtimes) {
+                // Retrieve the room associated with the showtime
+                Room room = showtime.getRoomId();
 
-            // Gán lại danh sách đã sắp xếp cho showtimesCollection
-            movie.setShowtimesCollection(showtimesList);
+                // Check if the room's threat matches the provided ThreatId
+                if (room != null && room.getThreatId() != null && room.getThreatId().getId().equals(threatId)) {
+                    // Add the showtime to the filtered list if the threat matches
+                    filteredShowtimes.add(showtime);
+                }
+            }
+
+            // Sort the filtered showtimes by time
+            Collections.sort(filteredShowtimes, Comparator.comparing(Showtimes::getTime));
+
+            // Replace the showtimes collection of the current movie with the filtered and sorted list
+            movie.setShowtimesCollection(filteredShowtimes);
         }
-        model.addAttribute("dates",showtimes);
-            model.addAttribute("movie",movies);
-            return "home/movieShowtime";
-        }
+
+        // Now, each movie in the movies list contains only the showtimes associated with the provided ThreatId
+
+        model.addAttribute("movie", movies);
+        return "home/movieShowtime";
+    }
 
 
 }

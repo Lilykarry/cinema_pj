@@ -23,7 +23,6 @@ public interface MovieService {
 
     List<Threat> getAllTheatersByMovieId(String id);
 
-    List<Showtimes> getAllShowtimesByMovieAndTheater(String movieId, Integer theaterId);
     List<Showtimes> getAllByMovieId(String id);
     List<Showtimes> getAllShowtimes(Integer id, String movieId);
 

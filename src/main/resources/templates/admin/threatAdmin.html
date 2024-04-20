@@ -323,8 +323,14 @@
                         <td th:text="${threats.getPhone()}"><span>Số điện thoại</span></td>
                         <td th:text="${threats.getAddress()}"><span>Địa chỉ</span></td>
                         <td th:text="${threats.getRegion()}"><span>Tỉnh/Thành</span></td>
-                        <td >
-                        <a th:href="@{'/Admin/Threat/Edit/'+${threats.getId()}}" class="btn btn-warning" style="margin-bottom: 15px;">Cập nhật</a><a th:href="@{'/Admin/Threat/Delete/'+${threats.getId()}}" class="btn btn-warning" style="margin-bottom: 15px;">Xóa</a>
+                        <td><a href="" class="btn btn-warning" style="margin-bottom: 15px;">Add Room</a></td>
+                        <td>
+                            <a th:href="@{'/Admin/Threat/Edit/'+${threats.getId()}}" class="btn btn-warning" style="margin-bottom: 15px;">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a th:href="@{'/Admin/Threat/Delete/'+${threats.getId()}}" class="btn btn-warning" style="margin-bottom: 15px;">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                     </tbody>

@@ -93,7 +93,7 @@
             <h5 th:text="${threats.getName()}" class="card-title"></h5>
             <p th:text="${threats.getAddress()}" class="card-text"></p>
             <div style="margin-top: 10px;"> <!-- Adjust margin-top as needed -->
-                <a th:href="@{'/guest/movie/'+${threats.getId()}}" class="btn btn-primary" style="background-color: #e00d7a; color: white;">Book tickets</a> <!-- Set background color to pink and text color to white -->
+                <a th:href="@{'/guest/showtime/'+${threats.getId()}}" class="btn btn-primary" style="background-color: #e00d7a; color: white;">Book tickets</a> <!-- Set background color to pink and text color to white -->
             </div>
         </div>
     </div>

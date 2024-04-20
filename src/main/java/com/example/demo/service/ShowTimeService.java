@@ -13,4 +13,10 @@ public interface ShowTimeService {
     List<Movie> showAllFilm(Integer ThreatId);
 
     List<Showtimes> findDistinctDates(Integer threatId, String movieId);
+
+    List<Movie> getMoviesAndShowtimesForDate(Integer threatId, String selectedDate);
+
+    List<Showtimes> getAvailableDatesForTheater(Integer threatId);
+
+
 }

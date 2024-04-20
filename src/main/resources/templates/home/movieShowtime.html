@@ -67,31 +67,113 @@
             margin-top: 10px;
         }
 
-        /* Định dạng mỗi showtime */
+        /* Định dạng cho mỗi phần tử showtime */
         .showtime-item {
-            display: inline-flex;
-            margin-bottom: 5px;
-            margin-right: 10px;
-            padding: 5px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            display: inline-block; /* Hiển thị như một khối trong hàng ngang */
+            padding: 5px 10px; /* Khoảng trống bên trong phần tử */
+            margin-right: 50px; /* Tăng khoảng cách bên phải giữa các phần tử */
+            margin-bottom: 10px; /* Khoảng cách dưới cùng giữa các phần tử */
+            border: 1px solid #ccc; /* Viền mỏng */
+            border-radius: 5px; /* Bo tròn các góc */
+            font-size: 14px; /* Kích thước phông chữ */
+            font-weight: bold; /* Làm cho văn bản in đậm */
+            color: #333; /* Màu chữ */
+            background-color: #f9f9f9; /* Màu nền nhẹ */
+            text-decoration: none; /* Loại bỏ gạch chân */
+            transition: all 0.3s ease; /* Thêm hiệu ứng chuyển đổi mượt mà */
+
         }
 
-        /* Định dạng mỗi showtime link */
-        .showtime-item a {
-            color: white; /* Màu chữ */
-            text-decoration: none;
-            border: 2px solid white; /* Màu border */
-            padding: 5px;
-            transition: color 0.7s, border-color 0.7s, box-shadow 0.7s; /* Hiệu ứng chuyển đổi màu chữ, màu border và box-shadow */
+        /* Hiệu ứng hover cho showtime-item */
+        .showtime-item:hover {
+            background-color: orange; /* Màu nền cam khi hover */
+            color: white; /* Màu chữ trắng khi hover */
+            border-color: orange; /* Thay đổi màu viền khi hover */
         }
 
-        /* Hover effect cho showtime link */
-        .showtime-item a:hover {
-            color: #333; /* Màu chữ khi hover */
-            border-color: #333; /* Màu border khi hover */
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng hover trong suốt cho viền bo ngoài */
+
+
+        /* Thay đổi màu sắc và kích thước phông chữ cho liên kết */
+        .date-link {
+            color: white; /* Màu xanh lam */
+            font-size: 16px; /* Kích thước phông chữ */
+            text-decoration: none; /* Loại bỏ gạch chân */
+        }
+
+        /* Thay đổi kiểu dáng cho phần tử được hiển thị */
+        .showtime-item {
+            display: none; /* Mặc định ẩn đi */
+            margin: 5px 0; /* Khoảng cách giữa các showtime */
+        }
+
+        /* Định dạng cho liên kết ngày */
+        /* Định dạng cho container chứa liên kết ngày */
+        /* Định dạng cho container chứa liên kết ngày */
+        .date-container {
+            display: flex; /* Sử dụng flexbox để sắp xếp các phần tử trong container */
+            justify-content: center; /* Căn giữa các liên kết ngày */
+            flex-wrap: nowrap; /* Không cho phép xuống dòng */
+            gap: 10px; /* Khoảng cách giữa các liên kết ngày */
+            margin-bottom: 30px; /* Khoảng cách dưới cùng của container */
+            align-items: center; /* Căn giữa các liên kết ngày theo chiều dọc */
+            margin-top: 20px;
+        }
+
+        /* Định dạng cho liên kết ngày */
+        .date-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Sắp xếp nội dung theo hàng dọc */
+            text-align: center; /* Căn giữa nội dung theo chiều ngang */
+            margin-top: 20px;
+            font-size: 20px; /* Kích thước phông chữ của liên kết date-link */
+            text-align: center; /* Căn giữa văn bản */
+            padding: 20px ; /* Khoảng trống xung quanh liên kết */
+            margin-right: 10px; /* Khoảng cách giữa các liên kết */
+            margin-bottom: 10px; /* Khoảng cách giữa liên kết và phần tử tiếp theo */
+            color: #333; /* Màu chữ */
+            text-decoration: none; /* Loại bỏ gạch chân */
+            border: 1px solid #ccc; /* Viền mỏng */
+            border-radius: 5px; /* Bo tròn các góc */
+            background-color: gray; /* Màu nền của liên kết */
+            height: 50px; /* Độ cao của thẻ a */
+            width: 120px;
+        }
+
+
+        .date-link .day-of-week,
+        .date-link .date {
+            margin: 0; /* Xóa khoảng cách mặc định */
+
+        }
+
+        .date-link .day-of-week {
+            font-size: 16px; /* Kích thước phông chữ cho thứ */
+            font-weight: normal; /* Trọng lượng phông chữ bình thường cho thứ */
+        }
+
+        .date-link .date {
+            font-size: 14px; /* Kích thước phông chữ cho ngày */
+            font-weight: bold; /* Trọng lượng phông chữ đậm cho ngày */
+        }
+
+
+
+        /* Quy tắc CSS cho lớp 'active' */
+        .active {
+            background-color: #e00d7a; /* Màu nền bạn muốn cho ngày active */
+            border: 1px solid #e00d7a; /* Đường viền bạn muốn cho ngày active */
+            color: white; /* Màu chữ bạn muốn cho ngày active */
+        }
+
+        /* Quy tắc CSS cho trạng thái hover của liên kết ngày */
+        .date-link:hover {
+            background-color: orange; /* Màu nền cam khi hover */
+            color: #0a0a0f;
+        }
+        .date-link  span {
+            pointer-events: none;
         }
 
 
@@ -101,6 +183,27 @@
 </head>
 <body>
 <div th:include="layout/header"></div>
+<!--<form method="GET" action="/guest/showtime/{{ThreatId}}">-->
+<!--    &lt;!&ndash; Hiển thị nhiều thẻ <a> để chọn ngày &ndash;&gt;-->
+<!--    <div>-->
+<!--        &lt;!&ndash; Sử dụng th:each để lặp qua các ngày có sẵn &ndash;&gt;-->
+<!--        <div th:each="date : ${availableDates}">-->
+<!--            <a th:href="@{/guest/movie/{ThreatId}(date=${date})}" th:text="${date}"-->
+<!--               th:class="${date == selectedDate} ? 'selected-date' : ''"></a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->
+<div class="date-container">
+<div  th:each="dateEntry : ${groupedShowtimesByDate}">
+    <a href="#" class="date-link" th:data-date="${dateEntry.key}" onclick="filterShowtimesByDate(event)">
+
+            <span class="day-of-week"></span>
+            <span class="date"></span>
+
+    </a>
+</div>
+</div>
+
 
 <div th:each="movie:${movie}" class="div-khungChiTiet">
     <div class="container khungChiTiet-con">
@@ -148,10 +251,10 @@
                 <div class="col-md-10">
                     <div th:each="movieItem : ${movie}">
                         <div class="showtimes-list">
-                            <div th:each="showtime : ${movieItem.showtimesCollection}" class="showtime-item">
-                                <a href="#"
-                                   th:text="${showtime.time}"></a>
+                            <div th:each="showtime : ${movie.showtimesCollection}" class="showtime-item" th:data-date="${showtime.date}">
+                                <a th:href="@{/guest/showtime/{showtimeId}(ThreatId=${threatId})}" th:text="${#dates.format(showtime.time, 'HH:mm')}"></a>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -168,6 +271,149 @@
 <script src="lib/waypoints/waypoints.min.js"></script>
 <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 <script src="lib/lightbox/js/lightbox.min.js"></script>
+<script>
+    function showAllMovies() {
+        // Lấy tất cả các phần tử chứa bộ phim
+        const movieContainers = document.querySelectorAll('.div-khungChiTiet');
+
+        // Duyệt qua mỗi phần tử chứa bộ phim và hiển thị chúng
+        movieContainers.forEach(container => {
+            container.style.display = 'block';
+        });
+    }
+
+    function hideMoviesWithoutShowtimes() {
+        // Lấy tất cả các phần tử chứa bộ phim
+        const movieContainers = document.querySelectorAll('.div-khungChiTiet');
+
+        // Duyệt qua mỗi phần tử chứa bộ phim
+        movieContainers.forEach(container => {
+            // Lấy tất cả các showtime-item bên trong container
+            const showtimeItems = container.querySelectorAll('.showtime-item');
+
+            // Kiểm tra nếu có bất kỳ showtime nào bên trong container
+            let hasShowtimes = false;
+            showtimeItems.forEach(showtimeItem => {
+                if (showtimeItem.style.display !== 'none') {
+                    hasShowtimes = true;
+                }
+            });
+
+            // Nếu không có showtime nào, ẩn container của bộ phim
+            if (!hasShowtimes) {
+                container.style.display = 'none';
+            }
+        });
+    }
+
+    function filterShowtimesByDate(event) {
+        // Ngăn chặn hành động mặc định của thẻ <a>
+        event.preventDefault();
+        const dateLink = event.currentTarget;
+        const selectedDate = dateLink.getAttribute('data-date');
+        // Hiển thị lại tất cả các bộ phim trước khi thực hiện lọc mới
+        showAllMovies();
+
+        // Lấy ngày được chọn từ thuộc tính data-date của thẻ <a>
+
+
+        // Lấy tất cả các phần tử showtime-item
+        const showtimeItems = document.querySelectorAll('.showtime-item');
+
+        // Duyệt qua tất cả các showtime-item và lọc theo ngày
+        showtimeItems.forEach(showtimeItem => {
+            // Lấy ngày của showtime-item từ thuộc tính data-date
+            const showtimeDate = showtimeItem.getAttribute('data-date');
+
+            // Kiểm tra ngày của showtime-item với ngày được chọn
+            if (showtimeDate === selectedDate) {
+                // Nếu ngày khớp, hiển thị showtime-item
+                showtimeItem.style.display = 'block';
+            } else {
+                // Nếu ngày không khớp, ẩn showtime-item
+                showtimeItem.style.display = 'none';
+            }
+        });
+
+        // Gọi hàm ẩn các bộ phim không có lịch chiếu
+        hideMoviesWithoutShowtimes();
+
+        // Xóa lớp 'active' khỏi tất cả các phần tử '.date-link'
+        const dateLinks = document.querySelectorAll('.date-link');
+        dateLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // Thêm lớp 'active' cho phần tử ngày được chọn (event.target)
+        event.target.classList.add('active');
+    }
+
+    function setDefaultFilter() {
+        // Lấy ngày hôm nay
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Đảm bảo tháng có 2 chữ số
+        const day = today.getDate().toString().padStart(2, '0'); // Đảm bảo ngày có 2 chữ số
+
+        // Định dạng ngày theo chuẩn "YYYY-MM-DD"
+        const todayDateString = `${year}-${month}-${day}`;
+
+        // Tìm thẻ <a> có thuộc tính data-date bằng ngày hôm nay
+        const todayLink = document.querySelector(`.date-link[data-date="${todayDateString}"]`);
+
+        // Nếu tìm thấy thẻ <a> có ngày hôm nay, gọi hàm filterShowtimesByDate
+        if (todayLink) {
+            todayLink.click();
+        }
+    }
+
+    // Đảm bảo gọi hàm setDefaultFilter khi trang đã tải xong
+    document.addEventListener('DOMContentLoaded', function() {
+        setDefaultFilter();
+    });
+
+    function setDayOfWeek() {
+        // Lấy tất cả các thẻ <a> có lớp 'date-link'
+        const dateLinks = document.querySelectorAll('.date-link');
+
+        // Duyệt qua tất cả các liên kết date-link
+        dateLinks.forEach(link => {
+            // Lấy giá trị ngày từ thuộc tính data-date của thẻ <a>
+            const dateValue = link.getAttribute('data-date');
+
+            // Chuyển đổi giá trị ngày sang đối tượng Date
+            const dateObj = new Date(dateValue);
+
+            // Tính toán thứ ngày trong tuần
+            const dayOfWeek = dateObj.toLocaleDateString('vi-VN', { weekday: 'long' });
+
+            // Tính toán ngày
+            const date = dateObj.toLocaleDateString('vi-VN');
+
+            // Cập nhật nội dung của hai thẻ con
+            link.querySelector('.day-of-week').textContent = dayOfWeek;
+            link.querySelector('.date').textContent = date;
+        });
+    }
+
+
+    // Gọi hàm setDayOfWeek khi trang đã sẵn sàng
+    document.addEventListener('DOMContentLoaded', function() {
+        setDayOfWeek();
+    });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        hideMoviesWithoutShowtimes();
+    });
+
+
+
+
+
+</script>
 </body>
 
 </html>

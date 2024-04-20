@@ -44,4 +44,17 @@ public class ShowTimeServiceImpl implements ShowTimeService {
     public List<Showtimes> findDistinctDates(Integer threatId, String movieId) {
         return showTimeRepository.findShowtimesByThreatIdAndMovieId(threatId,movieId);
     }
+
+    @Override
+    public List<Movie> getMoviesAndShowtimesForDate(Integer threatId, String selectedDate) {
+        return showTimeRepository.findMoviesAndShowtimesForDate(threatId,selectedDate);
+    }
+
+    @Override
+    public List<Showtimes> getAvailableDatesForTheater(Integer threatId) {
+        return showTimeRepository.findAvailableDatesForTheater(threatId);
+    }
+
+
+
 }

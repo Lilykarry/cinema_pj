@@ -27,4 +27,13 @@ public interface ShowTimeRepository extends JpaRepository<Showtimes, Integer> {
     @Query("SELECT DISTINCT m FROM Showtimes s JOIN s.movieId m JOIN s.roomId r  JOIN r.threatId t  WHERE t.id = :threatId")
     List<Movie> findMoviesByThreatId(@Param("threatId") Integer threatId);
 
+    @Query("SELECT DISTINCT m FROM Movie m JOIN m.showtimesCollection s JOIN s.roomId r JOIN r.threatId t WHERE t.id = :theaterId AND s.date = :date")
+    List<Movie> findMoviesAndShowtimesForDate(@Param("theaterId") Integer theaterId, @Param("date") String date);
+
+
+    @Query("SELECT  s FROM Showtimes s JOIN s.roomId r JOIN r.threatId t WHERE t.id = :threatId")
+    List<Showtimes> findAvailableDatesForTheater(@Param("threatId") Integer threatId);
+
+
+
 }

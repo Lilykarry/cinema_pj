@@ -282,7 +282,14 @@
                         <td class="trailer" th:text="${movies.getTrailer()}"></td>
                         <td class="dobuser" th:text="${movies.getStartMovie()}"></td>
                         <td class="notranslate"th:text="${movies.getStatus()}"></td>
-                        <td><a th:href="@{'/Admin/Movie/Edit/'+${movies.getMovieId()}}" class="btn btn-warning" style="margin-bottom: 15px;">Cập nhật</a><a th:href="@{'/Admin/Movie/Delete/'+${movies.getMovieId()}}" class="btn btn-warning" style="margin-bottom: 15px;">Xóa</a></td>
+                        <td>
+                            <a th:href="@{'/Admin/Movie/Edit/'+${movies.getMovieId()}}" class="btn btn-warning" style="margin-bottom: 15px;">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a th:href="@{'/Admin/Movie/Delete/'+${movies.getMovieId()}}" class="btn btn-warning" style="margin-bottom: 15px;">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
 
                     </tr>
                     </div>

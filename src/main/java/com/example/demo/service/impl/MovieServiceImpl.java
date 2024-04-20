@@ -116,22 +116,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Threat> getAllTheatersByMovieId(String id) {
-        List<Showtimes> showtimes = showTimeRepository.findShowtimesByMovieId_MovieId(id);
-        Set<String> roomIds = showtimes.stream()
-                .map(showtime -> showtime.getRoomId().getRoomId()) // Sử dụng method reference để rõ ràng kiểu trả về của getRoomId()
-                .collect(Collectors.toSet());
-        List<Room> rooms = roomRepository.findAllByRoomIdIn(roomIds);
-        Set<Integer> theaterIds = rooms.stream()
-                .map(room -> room.getThreatId().getId()) // Get the theater IDs as strings
-                .collect(Collectors.toSet());
-
-        return threatRepository.findAllByIdIn(theaterIds);
-    }
-
-    public List<Showtimes> getAllShowtimesByMovieAndTheater(String movieId, Integer theaterId) {
-        List<Room> rooms = roomRepository.findAllByThreatId_Id(theaterId);
-        Set<String> roomIds = rooms.stream().map(Room::getRoomId).collect(Collectors.toSet());
-        return showTimeRepository.findAllByMovieId_MovieIdAndRoomId_RoomIdIn(movieId, roomIds);
+        return threatRepository.findAllByMovieId(id);
     }
 
     @Override

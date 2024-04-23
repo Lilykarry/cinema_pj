@@ -95,4 +95,5 @@ public class TheatServiceImpl implements ThreatService {
     public void deleteThreatById(Integer id) {
          theatRepository.deleteById(id);
     }
+
 }

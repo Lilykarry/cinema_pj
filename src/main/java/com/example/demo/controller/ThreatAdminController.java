@@ -27,6 +27,7 @@ public class ThreatAdminController {
     model.addAttribute("threats",threats);
     return "admin/threatAdmin";
 }
+
 @GetMapping("/Threat/New")
 public String showNewForm(Model model){
     model.addAttribute("threat",new Threat());

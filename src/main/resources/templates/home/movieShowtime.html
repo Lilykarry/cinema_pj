@@ -410,6 +410,38 @@
     });
 
 
+    function sortDateLinks() {
+        // Thu thập tất cả các thẻ liên kết date-link
+        const dateLinks = document.querySelectorAll('.date-link');
+
+        // Chuyển đổi NodeList thành mảng để dễ dàng sắp xếp
+        const dateLinksArray = Array.from(dateLinks);
+
+        // Sắp xếp date-link theo thứ tự ngày tăng dần
+        dateLinksArray.sort((a, b) => {
+            const dateA = new Date(a.getAttribute('data-date'));
+            const dateB = new Date(b.getAttribute('data-date'));
+            return dateA - dateB; // So sánh hai ngày
+        });
+
+        // Lấy container chứa các thẻ liên kết date-link
+        const dateContainer = document.querySelector('.date-container');
+
+        // Xóa tất cả các phần tử con trong date-container
+        while (dateContainer.firstChild) {
+            dateContainer.removeChild(dateContainer.firstChild);
+        }
+
+        // Thêm lại các thẻ liên kết date-link đã sắp xếp theo thứ tự
+        dateLinksArray.forEach(link => {
+            dateContainer.appendChild(link);
+        });
+    }
+
+    // Gọi hàm sortDateLinks khi trang đã tải xong
+    document.addEventListener('DOMContentLoaded', function() {
+        sortDateLinks();
+    });
 
 
 

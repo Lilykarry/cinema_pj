@@ -8,6 +8,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -128,7 +129,14 @@ public class Threat{
         }
         return true;
     }
-
+    public String getRoomIdsAsString() {
+        if (rooms == null || rooms.isEmpty()) {
+            return "";
+        }
+        return rooms.stream()
+                .map(room -> room.getRoomId())
+                .collect(Collectors.joining(", "));
+    }
     @Override
     public String toString() {
         return "models.Threat[ id=" + id + " ]";

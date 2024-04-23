@@ -22,4 +22,5 @@ public interface ThreatRepository extends JpaRepository<Threat,Integer> {
             "JOIN r.showtimesCollection s " +
             "WHERE s.movieId.movieId = :movieId")
     List<Threat> findAllByMovieId(String movieId);
+
 }

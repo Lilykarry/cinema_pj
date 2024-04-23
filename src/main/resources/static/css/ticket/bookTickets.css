@@ -1,0 +1,233 @@
+#btnThanhToan {
+    height: 50px;
+    width: 150px;
+    margin-top: 0;
+}
+
+#thongTinDatVe {
+    font-family: system-ui;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#h3DatVe {
+    font-family: system-ui;
+    font-weight: bold;
+    font-size: 40px;
+    color: #e00d7a;
+    background-color: white;
+    text-align: center;
+    margin: 100px 0 60px;
+    padding: 20px 0;
+    text-shadow: 4px 4px 0 rgb(0 0 0 / 10%);
+}
+
+.manHinh {
+    text-align: center;
+    margin: 20px 0 50px 0;
+}
+
+.khungDatGhe {
+    border: solid white;
+    padding: 20px;
+    margin: 0 auto;
+    width: 95%;
+    max-width: 800px;
+    background-color: #222222;
+}
+
+.gheThuong {
+    padding: 10px;
+    margin: 0 5px 5px 0;
+    background-color: #A99B8F;
+    width: 100px;
+    height: 45px;
+}
+
+.gheVip {
+    padding: 10px;
+    margin: 0 5px 5px 0;
+    background-color: #DB4437;
+    width: 100px;
+    height: 45px;
+}
+
+.gheDoi {
+    padding: 10px;
+    margin: 0 5px 5px 0;
+    background-color: #E00D7A;
+    width: 200px;
+    height: 45px;
+}
+
+.div-div-moTa {
+    margin-top: 50px;
+}
+
+.div-moTa {
+    padding: 15px 30px;
+    width: 100%;
+    max-width: 250px;
+}
+
+#moTaGheThuong {
+    padding: 7px;
+    background-color: #A99B8F;
+    width: 10px;
+    display: inline-block;
+}
+
+#moTaGheVip {
+    padding: 7px;
+    background-color: #DB4437;
+    width: 10px;
+    display: inline-block;
+}
+
+#moTaGheDoi {
+    padding: 7px;
+    background-color: #E00D7A;
+    width: 10px;
+    display: inline-block;
+}
+
+#moTaGheDangChon {
+    padding: 7px;
+    background-color: #41A5EE;
+    width: 10px;
+    display: inline-block;
+}
+
+#moTaGheDaDat {
+    padding: 7px;
+    background-color: #FFA500;
+    width: 10px;
+    display: inline-block;
+}
+
+#moTaGheKhongTheDat {
+    padding: 7px;
+    background-color: #45003D;
+    width: 10px;
+    display: inline-block;
+}
+
+.khungDatBapNuoc {
+    margin: 0 auto;
+    width: 80%;
+    padding: 0;
+}
+
+.divBapNuocCon {
+    margin: 0;
+    padding: 15px;
+    background-color: #E00D7A;
+    border-radius: 1em;
+    box-shadow: 10px 10px 10px 0 rgb(0 0 0 / 30%), 0 0 50px 0 rgb(0 0 0 / 40%) inset;
+}
+
+.divBapNuocCon img {
+    border: solid white;
+    width: 100%;
+}
+
+.divSoLuong {
+    padding: 5px 10px;
+    background-color: white;
+    color: black;
+}
+
+.btnSoLuong {
+    padding: 5px 10px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #FFA500;
+}
+
+.h3BapNuoc {
+    font-family: system-ui;
+    font-weight: bold;;
+}
+
+.pBapNuoc {
+    font-family: system-ui;
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.divThongTin {
+    border: solid white;
+    padding: 20px;
+    margin: 50px auto 150px;
+    width: 60%;
+    background-color: #222222;
+}
+
+@media screen and (max-width: 700px){
+    .gheThuong{
+        padding: 1px;
+        margin: .5px;
+        font-size: 15px;
+        font-weight: bold;
+        font-family: system-ui;
+        background-color: #A99B8F;
+        width: 100px;
+        height: 30px;
+    }
+
+    .gheVip{
+        padding: 1px;
+        margin: .5px;
+        font-size: 15px;
+        font-weight: bold;
+        font-family: system-ui;
+        background-color: #DB4437;
+        width: 100px;
+        height: 30px;
+    }
+
+    .gheDoi {
+        padding: 1px;
+        margin: .5px;
+        font-size: 15px;
+        font-weight: bold;
+        font-family: system-ui;
+        background-color: #E00D7A;
+        width: 200px;
+        height: 30px;
+    }
+}
+
+/*@media screen and (max-width: 700px){
+     .gheThuong{
+        padding: 10px;
+        margin: 0 3px 3px 0;
+        font-size: 15px;
+        font-weight: bold;
+        font-family: system-ui;
+        background-color: #A99B8F;
+    }
+
+    .gheVip{
+        padding: 10px;
+        margin: 0 3px 3px 0;
+        font-size: 15px;
+        font-weight: bold;
+        font-family: system-ui;
+        background-color: #DB4437;
+    }
+
+    .gheDoi {
+        padding: 10px;
+        margin: 0 3px 3px 0;
+        font-size: 15px;
+        font-weight: bold;
+        font-family: system-ui;
+        background-color: #E00D7A;
+        width: 300px;
+    }
+}*/

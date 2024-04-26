@@ -91,7 +91,7 @@
                   <div class="clearfix" style="clear: both"></div>
                   <div style="display: inline-flex"  th:each="showtime : ${entry.value}">
                     <a class="time" style="display: inline-flex;margin-bottom: 3px; font-size: medium; border: 2px solid; padding: 5px; margin-right: 18px" th:text="${showtime.time}"
-                       th:href="@{/guest/contact(mvID=${movie.movieId},day=${entry.key},time=${showtime.time})}"></a>
+                       th:href="@{/guest/bookTicket(mvID=${movie.movieId},day=${entry.key},time=${showtime.time})}"></a>
                   </div>
                 </div>
               </div>

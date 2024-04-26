@@ -12,7 +12,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "Ticket", catalog = "CinestarDatabase", schema = "dbo")
+@Table(name = "TicketRepository", catalog = "CinestarDatabase", schema = "dbo")
 
 public class Ticket{
 
@@ -152,7 +152,7 @@ public class Ticket{
 
     @Override
     public String toString() {
-        return "models.Ticket[ ticketId=" + ticketId + " ]";
+        return "models.TicketRepository[ ticketId=" + ticketId + " ]";
     }
     
 }

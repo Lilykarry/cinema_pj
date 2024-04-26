@@ -8,7 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -33,7 +37,7 @@ public interface ShowTimeRepository extends JpaRepository<Showtimes, Integer> {
 
     @Query("SELECT  s FROM Showtimes s JOIN s.roomId r JOIN r.threatId t WHERE t.id = :threatId")
     List<Showtimes> findAvailableDatesForTheater(@Param("threatId") Integer threatId);
-
-
+    Showtimes findShowtimesByDateAndTimeAndMovieId_MovieId(LocalDate date, LocalTime hourss,  String movieId);
+    Showtimes findShowtimesByShowtimesId(int id);
 
 }

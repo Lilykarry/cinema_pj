@@ -34,56 +34,56 @@ public class BookTicketsController {
         LocalDate date = LocalDate.parse(day);
         LocalTime times = LocalTime.parse(time);
         int idST = ticketService.findShowtimesByDateTimeMvID(date,times,mvID).getShowtimesId();
+        System.out.println("id showtime:"+idST);
         List<Ticket> dsDonHang = ticketService.findAllTicketsByShowtimesByStatus(idST, 1);
-        System.out.println("dsdonhang"+dsDonHang.get(0).getTicketBookingTime());
-//        for (Ticket ticket : dsDonHang) {
-//            for (TicketDetailsSeat tds : ticket.getTicketDetailsSeatCollection()) {
-//                danhSachGheDaDat.add(tds.getSeatId());
-//            }
-//        }
-//        String html = "";
-//        for (RowOfSeats rowOfSeats : ticketService.findByID(idST).getRoomId().getRowOfSeatsCollection()) {
-//            html += "<div class='d-flex justify-content-center' id='divDSGhe'>";
-//            for (Seat seat : rowOfSeats.getSeatCollection()) {
-//                if (danhSachGheDaDat.contains(seat)) {
-//                    if (seat.getType() == 1) {
-//                        html += "<button class='gheThuong' value='" + seat.getSeatId() + "' disabled "
-//                                + "style='background-color: #FFA500; color: white;'>"
-//                                + seat.getRowId().getRowNo() + seat.getSeatNo()
-//                                + "</button>";
-//                    } else if (seat.getType() == 2) {
-//                        html += "<button class='gheVip' value='" + seat.getSeatId() + "' disabled "
-//                                + "style='background-color: #FFA500; color: white;'>"
-//                                + seat.getRowId().getRowNo() + seat.getSeatNo()
-//                                + "</button>";
-//                    } else if (seat.getType() == 3) {
-//                        html += "<button class='gheDoi' value='" + seat.getSeatId() + "' disabled "
-//                                + "style='background-color: #FFA500; color: white;'>"
-//                                + seat.getRowId().getRowNo() + seat.getSeatNo()
-//                                + "</button>";
-//                    }
-//                } else {
-//                    if (seat.getType() == 1) {
-//                        html += "<button class='gheThuong' value='" + seat.getSeatId() + "'>\n"
-//                                + seat.getRowId().getRowNo() + seat.getSeatNo()
-//                                + "</button>";
-//                    } else if (seat.getType() == 2) {
-//                        html += "<button class='gheVip' value='" + seat.getSeatId() + "'>\n"
-//                                + seat.getRowId().getRowNo() + seat.getSeatNo()
-//                                + "</button>";
-//                    } else if (seat.getType() == 3) {
-//                        html += "<button class='gheDoi' value='" + seat.getSeatId() + "'>\n"
-//                                + seat.getRowId().getRowNo() + seat.getSeatNo()
-//                                + "</button>";
-//                    }
-//                }
-//            }
-//            html += "</div>";
-//        }
-//        model.addAttribute("suatChieu", ticketService.findByID(idST));
-//        model.addAttribute("gio", dateFormat.format(ticketService.findByID(idST).getTime()));
-//        model.addAttribute("ngay", formatter.format(ticketService.findByID(idST).getDate()));
-//        model.addAttribute("html", html);
+        for (Ticket ticket : dsDonHang) {
+            for (TicketDetailsSeat tds : ticket.getTicketDetailsSeatCollection()) {
+                danhSachGheDaDat.add(tds.getSeatId());
+            }
+        }
+        String html = "";
+        for (RowOfSeats rowOfSeats : ticketService.findByID(idST).getRoomId().getRowOfSeatsCollection()) {
+            html += "<div class='d-flex justify-content-center' id='divDSGhe'>";
+            for (Seat seat : rowOfSeats.getSeatCollection()) {
+                if (danhSachGheDaDat.contains(seat)) {
+                    if (seat.getType() == 1) {
+                        html += "<button class='gheThuong' value='" + seat.getSeatId() + "' disabled "
+                                + "style='background-color: #FFA500; color: white;'>"
+                                + seat.getRowId().getRowNo() + seat.getSeatNo()
+                                + "</button>";
+                    } else if (seat.getType() == 2) {
+                        html += "<button class='gheVip' value='" + seat.getSeatId() + "' disabled "
+                                + "style='background-color: #FFA500; color: white;'>"
+                                + seat.getRowId().getRowNo() + seat.getSeatNo()
+                                + "</button>";
+                    } else if (seat.getType() == 3) {
+                        html += "<button class='gheDoi' value='" + seat.getSeatId() + "' disabled "
+                                + "style='background-color: #FFA500; color: white;'>"
+                                + seat.getRowId().getRowNo() + seat.getSeatNo()
+                                + "</button>";
+                    }
+                } else {
+                    if (seat.getType() == 1) {
+                        html += "<button class='gheThuong' value='" + seat.getSeatId() + "'>\n"
+                                + seat.getRowId().getRowNo() + seat.getSeatNo()
+                                + "</button>";
+                    } else if (seat.getType() == 2) {
+                        html += "<button class='gheVip' value='" + seat.getSeatId() + "'>\n"
+                                + seat.getRowId().getRowNo() + seat.getSeatNo()
+                                + "</button>";
+                    } else if (seat.getType() == 3) {
+                        html += "<button class='gheDoi' value='" + seat.getSeatId() + "'>\n"
+                                + seat.getRowId().getRowNo() + seat.getSeatNo()
+                                + "</button>";
+                    }
+                }
+            }
+            html += "</div>";
+        }
+        model.addAttribute("suatChieu", ticketService.findByID(idST));
+        model.addAttribute("gio", dateFormat.format(ticketService.findByID(idST).getTime()));
+        model.addAttribute("ngay", formatter.format(ticketService.findByID(idST).getDate()));
+        model.addAttribute("html", html);
         return "ticket/bookTicket";
     }
 }

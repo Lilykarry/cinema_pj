@@ -15,6 +15,7 @@
 </head>
 <body>
     <div th:include="layout/header"></div>
+
     <div class="containerr ">
         <div class="container-bg">
             <h3 id="h3DatVe" style="margin-bottom: 1em;">ĐẶT VÉ</h3>
@@ -121,5 +122,52 @@
             </div>
         </div>
     </div>
+<script>
+    let selectedSeats = [];
+    function onSeatClick(event) {
+        const button = event.target;
+        const seatId = button.value;
+        if (button.classList.contains('selected')) {
+            button.classList.remove('selected');
+            button.style.backgroundColor = '';
+
+            selectedSeats = selectedSeats.filter(id => id !== seatId);
+
+        } else {
+            button.classList.add('selected');
+            button.style.backgroundColor = '#007bff';
+
+            selectedSeats.push(seatId);
+        }
+        updateInfo();
+    }
+    const seatButtons = document.querySelectorAll('.gheThuong, .gheVip, .gheDoi');
+    seatButtons.forEach(button => {
+        button.addEventListener('click', onSeatClick);
+    });
+    function updateTotalPrice() {
+        const seatString = selectedSeats.join(',');
+
+        $.post("/guest/getTotalPrice", {
+            dsGhe: seatString,
+            dsBapNuoc: ""
+        }).done(function(response) {
+            document.getElementById("tongCong").innerText = response.totalPrice + " VNĐ";
+        });
+    }
+    function updateSelectedSeats() {
+        const hienThiGhe = document.getElementById("hienThiGhe");
+        hienThiGhe.innerText = selectedSeats.length > 0
+            ? selectedSeats.join(', ')
+            : '[Bạn chưa chọn ghế nào cả]';
+    }
+
+
+    function updateInfo() {
+        updateSelectedSeats();
+        updateTotalPrice();
+    }
+
+</script>
 </body>
 </html>

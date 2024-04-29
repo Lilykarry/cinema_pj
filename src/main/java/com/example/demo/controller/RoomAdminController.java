@@ -23,30 +23,14 @@ public class RoomAdminController {
     public String showNewForm(@PathVariable("Id") Integer Id, Model model) {
         model.addAttribute("room", new Room());
         model.addAttribute("pageTitle", "Add new room");
+        model.addAttribute("threatId", Id);
         return "admin/roomAdminInsert";
     }
 
     @PostMapping("/Room/Save")
     public String saveRoom(@ModelAttribute Room room, @RequestParam(value = "threatId", required = true) Integer threatId, RedirectAttributes ra) {
-        // Tìm Threat bằng ThreatRepository dựa trên threatId
-        Threat threat = threatRepository.findById(threatId).orElse(null);
-
-        // Kiểm tra xem Threat có tồn tại không
-        if (threat != null) {
-            // Gán Threat vào Room
-            room.setThreatId(threat);
-
-            // Lưu Room vào cơ sở dữ liệu
             roomService.save(room);
-
-            // Thêm thông báo vào RedirectAttributes
-            ra.addFlashAttribute("message", "The room has been saved successfully");
-        } else {
-            // Nếu không tìm thấy Threat, thông báo lỗi
-            ra.addFlashAttribute("message", "Threat not found");
-        }
-
-        // Chuyển hướng đến trang danh sách Threat
+            ra.addFlashAttribute("mess", "The room has been saved successfully");
         return "redirect:/Admin/Threat";
     }
 }

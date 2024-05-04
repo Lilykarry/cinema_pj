@@ -115,6 +115,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public void deleteShowtimeById(Integer showtimeId) {
+        showTimeRepository.deleteById(showtimeId);
+    }
+
+    @Override
     public List<Threat> getAllTheatersByMovieId(String id) {
         return threatRepository.findAllByMovieId(id);
     }

@@ -7,6 +7,8 @@ import com.example.demo.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoomServiceImpl implements RoomService {
     @Autowired
@@ -15,6 +17,11 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void save(Room room) {
         roomRepository.save(room);
+    }
+
+    @Override
+    public List<Room> showAll() {
+        return roomRepository.findAll();
     }
 
 

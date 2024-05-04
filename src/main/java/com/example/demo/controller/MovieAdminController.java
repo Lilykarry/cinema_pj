@@ -63,7 +63,7 @@ public class MovieAdminController {
         try {
           Movie movie=  movieService.get(movieId);
           model.addAttribute("movie",movie);
-          model.addAttribute("pageTitle","Edit User (ID:"+movieId+")");
+          model.addAttribute("pageTitle","Edit movie (ID:"+movieId+")");
           return "admin/movieAdminInsert";
         }catch (MovieNotFoundExeption e){
             ra.addFlashAttribute("mess","The movie has been saved successfully");

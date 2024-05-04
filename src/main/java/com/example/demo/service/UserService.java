@@ -10,4 +10,6 @@ public interface UserService {
 
 
     List<Users> searchUserByTitle(String keyword);
+
+    Users findByUsername(String username);
 }

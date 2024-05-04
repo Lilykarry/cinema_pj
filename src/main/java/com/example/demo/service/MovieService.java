@@ -28,4 +28,5 @@ public interface MovieService {
 
     List<Movie> searchMovies(String keyword);
 
+    void deleteShowtimeById(Integer showtimeId);
 }

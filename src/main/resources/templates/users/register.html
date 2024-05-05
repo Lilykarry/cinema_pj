@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="/static/css/LoginR/login_register.css">
+  <link rel="stylesheet" href="/static/css/LoginR/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="/static/css/LoginR/select2.min.css">
+</head>
+<body>
+  <div th:include="layout/header"></div>
+  <div class="containerr">
+    <div class="container-bg">
+      <form th:action="@{/register}" method="post" th:object="${user}">
+        <input type="email" th:field="*{email}" placeholder="Email" required>
+        <input type="text" th:field="*{name}" placeholder="Name">
+<!--        <input type="date" th:field="*{dob}" placeholder="Date of Birth">-->
+        <input type="tel" th:field="*{phone}" placeholder="Phone">
+        <input type="password" th:field="*{password}" placeholder="Password">
+<!--        <input type="text" th:field="*{address}" placeholder="Address">-->
+<!--        &lt;!&ndash; Province &ndash;&gt;-->
+<!--        <input type="text" name="province" placeholder="Province" required>-->
+<!--        &lt;!&ndash; District &ndash;&gt;-->
+<!--        <input type="text" name="district" placeholder="District" required>-->
+<!--        &lt;!&ndash; Ward &ndash;&gt;-->
+<!--        <input type="text" name="ward" placeholder="Ward" required>-->
+<!--        &lt;!&ndash; Gender &ndash;&gt;-->
+<!--        <select name="gender" required>-->
+<!--          <option value="">Select Gender</option>-->
+<!--          <option value="Male">Male</option>-->
+<!--          <option value="Female">Female</option>-->
+<!--          <option value="Other">Other</option>-->
+<!--        </select>-->
+
+        <button type="submit">Register</button>
+      </form>
+
+
+    </div>
+  </div>
+
+      <div th:include="layout/footer"></div>
+</body>
+</html>

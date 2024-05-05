@@ -4,15 +4,17 @@
     import com.example.demo.service.SeatService;
     import com.example.demo.service.TicketService;
     import com.example.demo.service.WaterCornService;
+    import com.fasterxml.jackson.databind.ObjectMapper;
+    import org.json.JSONArray;
+    import org.json.JSONException;
+    import org.json.JSONObject;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.http.ResponseEntity;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
-    import org.springframework.web.bind.annotation.GetMapping;
-    import org.springframework.web.bind.annotation.PostMapping;
-    import org.springframework.web.bind.annotation.RequestMapping;
-    import org.springframework.web.bind.annotation.RequestParam;
+    import org.springframework.web.bind.annotation.*;
 
+    import java.io.IOException;
     import java.text.DateFormat;
     import java.text.SimpleDateFormat;
     import java.time.LocalDate;
@@ -32,6 +34,104 @@
         private SeatService seatService;
         @Autowired
         private WaterCornService waterCornService;
+
+
+            @GetMapping("/bookTicket/layGiaGhe")
+            @ResponseBody
+            public String getSeatPrices(@RequestParam("dsGhe") String stringArray) {
+                if (stringArray != null && !stringArray.isEmpty()) {
+                    String[] array = stringArray.split(",");
+                    StringBuilder seatPrices = new StringBuilder();
+                    for (String string : array) {
+                        Seat seat = seatService.findById(Integer.parseInt(string));
+                        seatPrices.append("<p>").append(seat.getRowId().getRowNo())
+                                .append(seat.getSeatNo()).append(" = ").append(seat.getPrice())
+                                .append(" VNĐ</p>");
+                    }
+                    return seatPrices.toString();
+                } else {
+                    return "<p>[Bạn chưa chọn ghế nào cả]</p>";
+                }
+            }
+
+        @PostMapping("/bookTicket/layGiaBapNuoc")
+        @ResponseBody
+        public String getWaterCornPrices(@RequestParam("dsBapNuoc") String stringArray) {
+            if (stringArray != null && !stringArray.isEmpty()) {
+                try {
+                    JSONArray jsonArray = new JSONArray(stringArray);
+                    StringBuilder waterCornPrices = new StringBuilder();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject item = jsonArray.getJSONObject(i);
+                        int id = item.getInt("id");
+                        int quantity = item.getInt("quantity");
+                        WaterCorn wc = waterCornService.findById(id);
+                        waterCornPrices.append("<p>")
+                                .append(wc.getNameWaterCorn())
+                                .append(" X ")
+                                .append(quantity)
+                                .append(" = ")
+                                .append(wc.getPrice() * quantity)
+                                .append(" VNĐ</p>");
+                    }
+                    return waterCornPrices.toString();
+                } catch (JSONException e) {
+                    return "<p>[Có lỗi xảy ra trong việc xử lý dữ liệu]</p>";
+                }
+
+            } else{
+                return "<p>[Bạn chưa chọn bắp nước nào cả]</p>";
+            }
+        }
+
+        @PostMapping("/bookTicket/tongGia")
+        @ResponseBody
+        public String getTotalPrice(@RequestParam("dsGhe") String stringArrayGhe,
+                                    @RequestParam("dsBapNuoc") String stringArrayBapNuoc) {
+            int totalPrice = 0;
+
+            // Calculate the price of selected seats if the stringArrayGhe is not null or empty
+            if (stringArrayGhe != null && !stringArrayGhe.isEmpty()) {
+                String[] arrayGhe = stringArrayGhe.split(",");
+                for (String string : arrayGhe) {
+                    Seat seat = seatService.findById(Integer.parseInt(string));
+                    totalPrice += seat.getPrice();
+                }
+            }
+
+            // Calculate the price of selected water corn items if the stringArrayBapNuoc is not null or empty
+            if (stringArrayBapNuoc != null && !stringArrayBapNuoc.isEmpty()) {
+                try {
+                    JSONArray dsBapNuoc = new JSONArray(stringArrayBapNuoc);
+                    for (int i = 0; i < dsBapNuoc.length(); i++) {
+                        JSONObject item = dsBapNuoc.getJSONObject(i);
+                        int quantity = item.getInt("quantity");
+                        int id = item.getInt("id");
+                        WaterCorn wc = waterCornService.findById(id);
+                        totalPrice += quantity * wc.getPrice();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Return the total price with the appropriate currency format
+            return totalPrice + " VNĐ";
+        }
+
+        // Method to calculate the total price of selected seats
+        private int calculateSeatPrices(String stringArrayGhe) {
+            int totalPrice = 0;
+            if (stringArrayGhe != null && !stringArrayGhe.isEmpty()) {
+                String[] arrayGhe = stringArrayGhe.split(",");
+                for (String string : arrayGhe) {
+                    Seat seat = seatService.findById(Integer.parseInt(string));
+                    totalPrice += seat.getPrice();
+                }
+            }
+            return totalPrice;
+        }
+
 
         @GetMapping("/bookTicket")
         public String showBookTicketPage(Model model, @RequestParam("mvID") String mvID, @RequestParam("day") String day, @RequestParam("time") String time){
@@ -90,39 +190,10 @@
             model.addAttribute("suatChieu", ticketService.findByID(idST));
             model.addAttribute("gio", dateFormat.format(ticketService.findByID(idST).getTime()));
             model.addAttribute("ngay", formatter.format(ticketService.findByID(idST).getDate()));
+            model.addAttribute("dsBapNuoc",waterCornService.listAll());
             model.addAttribute("html", html);
             return "ticket/bookTicket";
         }
-        @PostMapping("/getTotalPrice")
-        public ResponseEntity<Map<String, Object>> getTotalPrice(
-                @RequestParam("dsGhe") String stringArrayGhe,
-                @RequestParam("dsBapNuoc") String stringArrayBapNuoc) {
 
-            int totalPrice = 0;
-
-            if (stringArrayGhe != null && !stringArrayGhe.isEmpty()) {
-                String[] arrayGhe = stringArrayGhe.split(",");
-                for (String seatId : arrayGhe) {
-                    Seat seat = seatService.findById(Integer.parseInt(seatId));
-                    totalPrice += seat.getPrice();
-                }
-            }
-
-            if (stringArrayBapNuoc != null && !stringArrayBapNuoc.isEmpty()) {
-                String[] arrayBapNuoc = stringArrayBapNuoc.split(";");
-                for (String snack : arrayBapNuoc) {
-                    String[] mang = snack.split(",");
-                    int waterCornId = Integer.parseInt(mang[0]);
-                    int quantity = Integer.parseInt(mang[1]);
-                    WaterCorn waterCorn = waterCornService.findById(waterCornId);
-                    totalPrice += quantity * waterCorn.getPrice();
-                }
-            }
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("totalPrice", totalPrice);
-            System.out.println(totalPrice);
-            return ResponseEntity.ok(response);
-        }
 
     }

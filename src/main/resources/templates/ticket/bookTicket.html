@@ -12,77 +12,122 @@
 
     <!--    css-->
     <link rel="stylesheet" href="/static/css/ticket/bookTickets.css">
+    <style>
+        .khungDatBapNuoc {
+            margin: 0 auto;
+            width: 80%;
+            padding: 20px;
+        }
+
+        .divBapNuocCon {
+            margin: 0;
+            padding: 15px;
+            background-color: #E00D7A;
+            border-radius: 1em;
+            box-shadow: 10px 10px 10px 0 rgb(0 0 0 / 30%), 0 0 50px 0 rgb(0 0 0 / 40%) inset;
+        }
+
+        .divBapNuocCon img {
+            border: solid white;
+            width: 100%;
+        }
+
+        .divSoLuong {
+            padding: 5px 10px;
+            background-color: white;
+            color: black;
+        }
+
+        .btnSoLuong {
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            background-color: #FFA500;
+        }
+
+        .h3BapNuoc {
+            font-family: system-ui;
+            font-weight: bold;;
+        }
+
+        .pBapNuoc {
+            font-family: system-ui;
+            font-weight: bold;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <div th:include="layout/header"></div>
-
     <div class="containerr ">
         <div class="container-bg">
             <h3 id="h3DatVe" style="margin-bottom: 1em;">ĐẶT VÉ</h3>
             <h4 style="text-align: center; font-size: 30px; font-family: system-ui; font-weight: bold;
                     color: white; margin-bottom: 1em;">THỜI GIAN GIỮ VÉ: <span id="timeOut" style="text-align: center;
-                                          font-size: 30px; font-family: system-ui; font-weight: bold; color: white;"></span></h4>
+                                          font-size: 30px; font-family: system-ui; font-weight: bold; color: white;" th:value="${session.outTimeTicket}" ></span></h4>
             <div class="khungDatGhe">
                 <h3 class="manHinh">MÀN HÌNH</h3>
                 <div th:utext="${html}"></div>
                 <div class="d-flex flex-wrap div-div-moTa">
                     <div class="div-moTa">
-                        <div id="moTaGheThuong"></div><span class="spanMoTa"> : ghế thường</span>
+                        <div id="moTaGheThuong"></div><span class="spanMoTa text-white"> : ghế thường</span>
                     </div>
                     <div class="div-moTa">
-                        <div id="moTaGheVip"></div><span class="spanMoTa"> : ghế VIP</span>
+                        <div id="moTaGheVip"></div><span class="spanMoTa text-white"> : ghế VIP</span>
                     </div>
                     <div class="div-moTa">
-                        <div id="moTaGheDoi"></div><span class="spanMoTa"> : ghế đôi</span>
+                        <div id="moTaGheDoi"></div><span class="spanMoTa text-white"> : ghế đôi</span>
                     </div>
                     <div class="div-moTa">
-                        <div id="moTaGheDangChon"></div><span class="spanMoTa"> : ghế bạn đang chọn</span>
+                        <div id="moTaGheDangChon"></div><span class="spanMoTa text-white"> : ghế bạn đang chọn</span>
                     </div>
                     <div class="div-moTa">
-                        <div id="moTaGheDaDat"></div><span class="spanMoTa"> : ghế đã được đặt</span>
+                        <div id="moTaGheDaDat"></div><span class="spanMoTa text-white"> : ghế đã được đặt</span>
                     </div>
                     <div class="div-moTa">
-                        <div id="moTaGheKhongTheDat"></div><span class="spanMoTa"> : ghế người khác đang chọn</span>
+                        <div id="moTaGheKhongTheDat"></div><span class="spanMoTa text-white"> : ghế người khác đang chọn</span>
                     </div>
                 </div>
             </div>
             <div style="text-align: center; margin: 50px 0 20px">
                 <button id="datBapNuoc" value="dbn" class="btn btn-danger">Đặt bắp nước</button>
             </div>
-<!--            <div class="row khungDatBapNuoc">-->
-<!--                <t:forEach items="${dsBapNuoc}" var="bn">-->
-<!--                    <div class="col-sm-12 col-md-6" style="padding: 5px; text-align: center;">-->
-<!--                        <div class="row divBapNuocCon">-->
-<!--                            <div class="col-sm-12 col-md-6" style="padding: 0;">-->
-<!--                                <img src="${bn.getImageWaterCorn()}"/>-->
-<!--                            </div>-->
-<!--                            <div class="col-sm-12 col-md-6" style="padding: 15px 0 0 ;">-->
-<!--                                <h3 class="h3BapNuoc" value="${bn.getNameWaterCorn()}">${bn.getNameWaterCorn()}</h3>-->
-<!--                                <p class="pBapNuoc">${bn.getPrice()} VNĐ</p>-->
-<!--                                <div class="d-flex justify-content-center">-->
-<!--                                    <button class="btnSoLuong" value="-">-</button>-->
-<!--                                    <div class="divSoLuong" id="${bn.getIdWaterCorn()}" value="0">0</div>-->
-<!--                                    <button class="btnSoLuong" value="+">+</button>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </t:forEach>-->
-<!--            </div>-->
+            <div class="row khungDatBapNuoc" style="padding: 20px; margin: 0 auto">
+                <div th:each="bn : ${dsBapNuoc}" class="col-sm-12 col-md-6" style="padding: 5px; text-align: center;">
+                    <div class="row divBapNuocCon">
+                        <div class="col-sm-12 col-md-6" style="padding: 0;">
+                            <img th:src="@{'/static/' + ${bn.imageWaterCorn}}" />
+                        </div>
+                        <div class="col-sm-12 col-md-6" style="padding: 15px 0 0 ;">
+                            <h3 class="h3BapNuoc" th:text="${bn.nameWaterCorn}" th:value="${bn.nameWaterCorn}"></h3>
+                            <p class="pBapNuoc" th:text="${bn.price} + ' VNĐ'"></p>
+                            <div class="d-flex justify-content-center">
+                                <button class="btnSoLuong" th:value="'-'">-</button>
+                                <div class="divSoLuong" th:id="${bn.idWaterCorn}" th:text="0"></div>
+                                <button class="btnSoLuong" th:value="'+'">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="divThongTin">
                 <h3 id="thongTinDatVe">THÔNG TIN VÉ ĐANG ĐẶT</h3>
                 <table class="table" style="color: white; margin: 20px 0;">
                     <tr>
                         <td style="border-top: none;">Tên phim:</td>
-                        <td style="border-top: none;"></td>
+                        <td style="border-top: none;" th:text="${suatChieu.getMovieId().getMovieTitle()}"></td>
                     </tr>
                     <tr>
                         <td>Thể loại:</td>
-                        <td></td>
+                        <td th:text="${suatChieu.getMovieId().getMovieCategory()}"></td>
                     </tr>
                     <tr>
                         <td>Suất chiếu:</td>
-                        <td>${gio} ${ngay}</td>
+                        <td th:text="${gio} +' '+ ${ngay}"></td>
                     </tr>
                     <tr>
                         <td style="vertical-align: middle;">Ghế đã chọn:</td>
@@ -122,52 +167,316 @@
             </div>
         </div>
     </div>
-<script>
-    let selectedSeats = [];
-    function onSeatClick(event) {
-        const button = event.target;
-        const seatId = button.value;
-        if (button.classList.contains('selected')) {
-            button.classList.remove('selected');
-            button.style.backgroundColor = '';
 
-            selectedSeats = selectedSeats.filter(id => id !== seatId);
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var idSuatChieu = $("#idSuatChieu").attr("class");
+            var dsGhe = [];
+            var dsTenGhe = [];
+            var dsBapNuoc = [];
+            var dsTenBapNuoc = [];
 
-        } else {
-            button.classList.add('selected');
-            button.style.backgroundColor = '#007bff';
+            // waiting time
+            // Display "15:00"
+            $('#timeOut').text("15:00");
 
-            selectedSeats.push(seatId);
-        }
-        updateInfo();
-    }
-    const seatButtons = document.querySelectorAll('.gheThuong, .gheVip, .gheDoi');
-    seatButtons.forEach(button => {
-        button.addEventListener('click', onSeatClick);
-    });
-    function updateTotalPrice() {
-        const seatString = selectedSeats.join(',');
+            // Flag to track whether the timer has been set
+            var timerSet = false;
 
-        $.post("/guest/getTotalPrice", {
-            dsGhe: seatString,
-            dsBapNuoc: ""
-        }).done(function(response) {
-            document.getElementById("tongCong").innerText = response.totalPrice + " VNĐ";
+            // Function to set up the countdown timer
+            function setupTimer() {
+
+                var outTimeTicket = $('#outTimeTicketValue').val();
+
+                if (!outTimeTicket) {
+                    var currentTime = new Date().getTime();
+                    outTimeTicket = currentTime + (15 * 60 * 1000);
+                    // You may need to set the outTimeTicket session attribute here if required
+                    // This typically needs to be handled server-side
+                }
+
+                // Function to update the countdown timer
+                function updateTimer() {
+                    var now = new Date().getTime();
+                    var distance = outTimeTicket - now;
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    $('#timeOut').text(minutes + ":" + seconds);
+
+                    if (distance < 0) {
+                        clearInterval(x);
+                        alert("oke het gio");
+                        // window.location.href = "PayServlet?action=thoiGianGiuVe";
+                    }
+                }
+
+                // Call updateTimer initially to set up the timer
+                updateTimer();
+
+                // Update the timer every second
+                var x = setInterval(updateTimer, 1000);
+            }
+
+            // waiting time
+
+
+
+            function  getSeatPrice(){
+                $.ajax({
+                    type: "GET",
+                    url: "/guest/bookTicket/layGiaGhe",
+                    data: {dsGhe: dsGhe.join(",")},
+                    success: function (data) {
+                        $("#hienThiGhe").html(data.trim());
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            function  getWaterCornPrice(){
+                $.ajax({
+                    type: "POST",
+                    url: "/guest/bookTicket/layGiaBapNuoc",
+                    data: {dsBapNuoc: JSON.stringify(dsBapNuoc)},
+                    success: function (data) {
+                        $("#hienThiBapNuoc").html(data.trim());
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            // Function to update the total price
+            function updateTotalPrice() {
+                $.ajax({
+                    type: "POST",
+                    url: "/guest/bookTicket/tongGia",
+                    data: { dsGhe: dsGhe.join(","), dsBapNuoc: JSON.stringify(dsBapNuoc)},
+                    success: function (data) {
+                        $("#tongCong").html(data.trim());
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+            function updateSelectedSeatsAndTotalPrice() {
+                // Update selected seats display
+                getSeatPrice();
+                updateTotalPrice();
+            }
+
+            function updateSelectedBapNuocDisplay() {
+                getWaterCornPrice();
+            }
+
+            // Function to update or add the selected water corn item to the list
+            function updateSelectedBapNuoc(idBapNuoc, quantity, name) {
+                // Find the index of the item in dsBapNuoc
+                var index = dsBapNuoc.findIndex(item => item.id === idBapNuoc);
+                if (quantity > 0) {
+                    // Update or add the item to dsBapNuoc
+                    if (index !== -1) {
+                        // Item already exists, update its quantity
+                        dsBapNuoc[index].quantity = quantity;
+                    } else {
+                        // Item doesn't exist, add it to the list
+                        dsBapNuoc.push({ id: idBapNuoc, quantity: quantity, name: name });
+                    }
+                } else {
+                    // Quantity is 0, remove the item from dsBapNuoc
+                    if (index !== -1) {
+                        dsBapNuoc.splice(index, 1);
+                        $("#hienThiBapNuoc").html("<p>Bạn chưa chọn bắp nước nào cả</p>");
+                    }
+
+                }
+                console.log(dsBapNuoc);
+                updateSelectedBapNuocDisplay(); // Update the display of selected water corn items
+            }
+
+            // Event handling for seat buttons
+            $("button").click(function (event) {
+                var classButton = $(this).attr("class");
+
+                // Start the countdown timer setup
+
+                // Logic based on button class
+                if (classButton === "gheThuong" || classButton === "gheVip" || classButton === "gheDoi") {
+                    var backgroundColor = $(this).css("background-color");
+                    var selectedColor = "rgb(65, 165, 238)";
+                    var deselectedColor;
+
+                    // Set up the timer if it's not already set
+                    if (!timerSet) {
+                        setupTimer();
+                        timerSet = true;
+                    }
+
+
+                    // Determine the deselected color based on the class
+                    switch (classButton) {
+                        case "gheThuong":
+                            deselectedColor = "#A99B8F";
+                            break;
+                        case "gheVip":
+                            deselectedColor = "#DB4437";
+                            break;
+                        case "gheDoi":
+                            deselectedColor = "#E00D7A";
+                            break;
+                    }
+                    if (backgroundColor === selectedColor) {
+
+                        // Deselect seat if already selected
+                        $(this).css("background-color", deselectedColor);
+                        const index = dsGhe.indexOf($(this).val());
+                        if (index > -1) {
+                            dsGhe.splice(index, 1);
+                            dsTenGhe.splice(index, 1);
+                            // Update selected seats and total price
+                            updateSelectedSeatsAndTotalPrice();
+
+                        }
+                    } else {
+                        // Select seat if not selected
+                        var soLuongGhe = dsGhe.length;
+                        if (soLuongGhe < 8) {
+                            $(this).css("background-color", "rgb(65, 165, 238)");
+                            dsGhe.push($(this).val());
+                            dsTenGhe.push($(this).html());
+                            // Update selected seats and total price
+                            updateSelectedSeatsAndTotalPrice();
+
+                        } else {
+                            alert("Bạn chỉ được chọn tối đa 8 ghế\n - You can only choose up to 8 seats -");
+                        }
+                    }
+                }
+            });
+
+            if ($(this).attr("class") == "gheThuong" ||
+                $(this).attr("class") == "gheVip" ||
+                $(this).attr("class") == "gheDoi") {
+                if (dsGhe.length == 0) {
+                    $(".khungDatBapNuoc").hide(200);
+                    $("#datBapNuoc").html("Đặt bắp nước");
+                    dsBapNuoc = new Array();
+                    dsTenBapNuoc = new Array();
+                    $(".divSoLuong").html("0");
+                    $(".divSoLuong").val("0");
+                    $("#hienThiBapNuoc").html("<p>[Bạn chưa chọn bắp nước nào cả]</p>");
+                }
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: "/guest/bookTicket/tongGia",
+                data: { dsGhe: dsGhe.join(","), dsBapNuoc: JSON.stringify(dsBapNuoc)},
+                success: function (data) {
+                    $("#tongCong").html(data.trim());
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+            // Hide snack bar ordering frame initially
+            $(".khungDatBapNuoc").hide();
+
+            // Event handling for snack bar ordering button
+            $("#datBapNuoc").click(function () {
+
+                if (dsGhe.length !== 0) {
+                    // Check if the button value indicates ordering or canceling water corn
+                    if ($(this).val() === "dbn") {
+                        // Show the snack bar ordering frame
+                        $(".khungDatBapNuoc").show(200);
+                        // Update the button text and value to indicate canceling water corn
+                        $(this).val("bdbn").html("Bỏ đặt bắp nước");
+                    } else {
+                        // Hide the snack bar ordering frame
+                        $(".khungDatBapNuoc").hide(200);
+                        // Update the button text and value to indicate ordering water corn
+                        $(this).val("dbn").html("Đặt bắp nước");
+                        // Clear the selected water corn items and reset their quantities
+                        dsBapNuoc = [];
+                        dsTenBapNuoc = [];
+                        $(".divSoLuong").html("0");
+                        $(".divSoLuong").val("0");
+
+                    }
+                } else {
+                    alert("Bạn phải chọn ghế trước khi lựa chọn bắp nước\n - You must choose the chair before you choose water corn -");
+                }
+            });
+
+            // Event handling for increasing/decreasing snack bar quantity buttons
+            $(".btnSoLuong").click(function () {
+                // Get the current quantity value from the adjacent div
+                var number = parseInt($(this).siblings(".divSoLuong").text());
+                // Get the name and ID of the corresponding water corn item
+                var tenBapNuoc = $(this).closest(".divBapNuocCon").find(".h3BapNuoc").text();
+                var idBapNuoc = $(this).siblings(".divSoLuong").attr("id");
+                // Get the action (increase or decrease) from the button value
+                var action = $(this).val();
+
+                // Logic for increasing or decreasing water corn quantity
+                if (action === "+") {
+                    // Check if the current quantity is less than 8
+                    if (number < 8) {
+                        // Increase the quantity by 1
+                        number += 1;
+                        // Update the quantity display
+                        $(this).siblings(".divSoLuong").text(number);
+                        // Update or add the selected water corn item to the list
+                        updateSelectedBapNuoc(idBapNuoc, number, tenBapNuoc);
+                    } else {
+                        // Alert the user if the maximum quantity is reached
+                        alert("Bạn chỉ có thể chọn số lượng bắp nước tối đa là 8\n - You can only choose a maximum of 8 water corn items -");
+                    }
+                } else if (action === "-") {
+                    // Decrease the quantity by 1 if it's greater than 0
+                    if (number > 0) {
+                        number -= 1;
+                        // Update the quantity display
+                        $(this).siblings(".divSoLuong").text(number);
+                        // Update or remove the selected water corn item from the list
+                        updateSelectedBapNuoc(idBapNuoc, number, tenBapNuoc);
+                    } else {
+                        // Alert the user if the quantity is already 0
+                        if(number !== -1){
+                            $("#hienThiBapNuoc").html("<p>[Bạn chưa chọn bắp nước nào cả]</p>");
+                        } else {
+                            alert("Bạn không thể giảm số lượng bắp nước này nữa\n - You cannot decrease this water corn quantity further -");
+                        }
+
+                    }
+                }
+
+                // Update selected water corn display
+                updateSelectedBapNuocDisplay();
+
+                // AJAX request for getting water corn prices and updating total price
+                updateTotalPrice();
+            });
+
+
+
+
+            // Event handling for payment button
+            $("#btnThanhToan").click(function () {
+                // Check conditions before payment and perform corresponding action
+                // ...
+            });
         });
-    }
-    function updateSelectedSeats() {
-        const hienThiGhe = document.getElementById("hienThiGhe");
-        hienThiGhe.innerText = selectedSeats.length > 0
-            ? selectedSeats.join(', ')
-            : '[Bạn chưa chọn ghế nào cả]';
-    }
-
-
-    function updateInfo() {
-        updateSelectedSeats();
-        updateTotalPrice();
-    }
-
-</script>
+    </script>
 </body>
 </html>
+
+
+

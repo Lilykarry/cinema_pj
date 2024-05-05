@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket</title>
+    <!-- BOOTSTRAP 4 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<script>
+    $(document).ready(function () {
+        var idSuatChieu = $("#idSuatChieu").attr("class");
+        var dsGhe = [];
+        var dsTenGhe = [];
+        var dsBapNuoc = [];
+        var dsTenBapNuoc = [];
+
+        // Event handling for seat buttons
+        $("button").click(function (event) {
+            var classButton = $(this).attr("class");
+            var valueButton = $(this).val();
+
+            // Logic based on button class and value
+            if (classButton === "gheThuong" || classButton === "gheVip" || classButton === "gheDoi") {
+                if ($(this).css("background-color") === "rgb(65, 165, 238)") {
+                    // Deselect seat if already selected
+                    $(this).css("background-color", "#A99B8F");
+                    const index = dsGhe.indexOf($(this).val());
+                    if (index > -1) {
+                        dsGhe.splice(index, 1);
+                        dsTenGhe.splice(index, 1);
+                        var data = {
+                            idSuatChieuGuiDi: idSuatChieu,
+                            tenghe: $(this).html(),
+                            idghe: $(this).val(),
+                            flaghuy: true,
+                            sessionGuiDi: sessionGuiDi,
+                            tabGuiDi: sessionStorage.tabID ? sessionStorage.tabID : sessionStorage.tabID = Math.random()
+                        };
+                        ws.send(JSON.stringify(data));
+                    }
+                } else {
+                    // Select seat if not selected
+                    var soLuongGhe = dsGhe.length;
+                    if (soLuongGhe < 8) {
+                        $(this).css("background-color", "rgb(65, 165, 238)");
+                        dsGhe.push($(this).val());
+                        dsTenGhe.push($(this).html());
+                        var data = {
+                            idSuatChieuGuiDi: idSuatChieu,
+                            tenghe: $(this).html(),
+                            idghe: $(this).val(),
+                            flagchon: true,
+                            sessionGuiDi: sessionGuiDi,
+                            tabGuiDi: sessionStorage.tabID ? sessionStorage.tabID : sessionStorage.tabID = Math.random()
+                        };
+                        ws.send(JSON.stringify(data));
+                    } else {
+                        alert("Bạn chỉ được chọn tối đa 8 ghế\n - You can only choose up to 8 seats -");
+                    }
+                }
+            }
+        });
+        if ($(this).attr("class") == "gheThuong" ||
+            $(this).attr("class") == "gheVip" ||
+            $(this).attr("class") == "gheDoi") {
+            if (dsGhe.length == 0) {
+                $(".khungDatBapNuoc").hide(200);
+                $("#datBapNuoc").html("Đặt bắp nước");
+                dsBapNuoc = new Array();
+                dsTenBapNuoc = new Array();
+                $(".divSoLuong").html("0");
+                $(".divSoLuong").val("0");
+                $("#hienThiBapNuoc").html("<p>[Bạn chưa chọn bắp nước nào cả]</p>");
+            }
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/guest/bookTicket/layGiaGhe",
+            data: {dsGhe: dsGhe.join(",")},
+            success: function (data) {
+                $("#hienThiGhe").html(data.trim());
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "BookTicketsServlet?action=tongGia",
+            data: {dsGhe: dsGhe.join(","), dsBapNuoc: JSON.stringify(dsBapNuoc.join(";"))},
+            success: function (data)
+            {
+                $("#tongCong").html(data.trim());
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        // Hide snack bar ordering frame initially
+        $(".khungDatBapNuoc").hide();
+
+    // Event handling for snack bar ordering button
+        $("#datBapNuoc").click(function () {
+            if (dsGhe.length !== 0) {
+                if ($("#datBapNuoc").val() === "dbn") {
+                    $(".khungDatBapNuoc").show(200);
+                    $("#datBapNuoc").val("bdbn").html("Bỏ đặt bắp nước");
+                } else {
+                    $(".khungDatBapNuoc").hide(200);
+                    $("#datBapNuoc").val("dbn").html("Order water corn");
+                    dsBapNuoc = [];
+                    dsTenBapNuoc = [];
+                    $(".divSoLuong").html("0");
+                    $(".divSoLuong").val("0");
+                    $("#hienThiBapNuoc").html("<p>[Bạn chưa chọn bắp nước nào cả]</p>");
+                    $.ajax({
+                        type: "POST",
+                        url: "/guest/bookTicket/tongGia",
+                        data: {dsGhe: dsGhe.join(","), dsBapNuoc: JSON.stringify(dsBapNuoc.join(";"))},
+                        success: function (data) {
+                            $("#tongCong").html(data.trim());
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            } else {
+                alert("Bạn phải chọn ghế trước khi lựa chọn bắp nước\n - You must choose the chair before you choose water corn -");
+            }
+        });
+
+        // Event handling for increasing/decreasing snack bar quantity buttons
+        $(".btnSoLuong").click(function () {
+            var number = parseInt($(this).parent().find("div").html());
+            var tenBapNuoc = $(this).parent().parent().find("h3").val();
+            var idBapNuoc = $(this).parent().find("div").attr("id");
+            var action = $(this).val();
+
+            if (action === "+") {
+                var soLuong = 0;
+                for (var i = 0; i < dsBapNuoc.length; i++) {
+                    soLuong += dsBapNuoc[i][1];
+                }
+                if (soLuong < 8) {
+                    number += 1;
+                    $(this).parent().find("div").html(number);
+                    $(this).parent().find("div").val(number);
+                    if (dsBapNuoc.length === 0) {
+                        dsBapNuoc.push([idBapNuoc, number]);
+                        dsTenBapNuoc.push([tenBapNuoc, number]);
+                    } else {
+                        var bienDem = 0;
+                        for (var i = 0; i < dsBapNuoc.length; i++) {
+                            if (dsBapNuoc[i][0] === idBapNuoc) {
+                                dsBapNuoc[i][1] = number;
+                                dsTenBapNuoc[i][1] = number;
+                                bienDem = 1;
+                            }
+                        }
+                        if (bienDem === 0) {
+                            dsBapNuoc.push([idBapNuoc, number]);
+                            dsTenBapNuoc.push([tenBapNuoc, number]);
+                        }
+                    }
+                } else {
+                    alert("Bạn chỉ có thể chọn số lượng bắp nước tối đa là 8\n - You can only set the end of water number is 8 -");
+                }
+            } else {
+                var valueBapNuoc = parseInt($(this).parent().find("div").html());
+                if (valueBapNuoc > 0) {
+                    number -= 1;
+                    $(this).parent().find("div").val(number);
+                    $(this).parent().find("div").html(number);
+                    for (var i = 0; i < dsBapNuoc.length; i++) {
+                        if (dsBapNuoc[i][0] === idBapNuoc) {
+                            dsBapNuoc[i][1] = number;
+                            dsTenBapNuoc[i][1] = number;
+                        }
+                        if (dsBapNuoc[i][1] === 0) {
+                            dsBapNuoc.splice(i, 1);
+                            dsTenBapNuoc.splice(i, 1);
+                        }
+                    }
+                } else {
+                    alert("Bạn không thể giảm số lượng bắp nước này nữa\n - You can no longer reduce this amount of water corn -");
+                }
+            }
+
+            // AJAX request for getting water corn prices
+            $.ajax({
+                type: "GET",
+                url: "/guest/bookTicket/layGiaBapNuoc",
+                data: {dsBapNuoc: dsBapNuoc.join(";")},
+                success: function (data) {
+                    $("#hienThiBapNuoc").html(data.trim());
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/guest/bookTicket/tongGia",
+                data: {dsGhe: dsGhe.join(","), dsBapNuoc: JSON.stringify(dsBapNuoc.join(";"))},
+                success: function (data) {
+                    $("#tongCong").html(data.trim());
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        // Event handling for payment button
+        $("#btnThanhToan").click(function () {
+            // Check conditions before payment and perform corresponding action
+            // ...
+        });
+    });
+</script>
+
+</body>
+</html>

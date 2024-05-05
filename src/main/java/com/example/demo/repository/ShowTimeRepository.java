@@ -39,5 +39,14 @@ public interface ShowTimeRepository extends JpaRepository<Showtimes, Integer> {
     List<Showtimes> findAvailableDatesForTheater(@Param("threatId") Integer threatId);
     Showtimes findShowtimesByDateAndTimeAndMovieId_MovieId(LocalDate date, LocalTime hourss,  String movieId);
     Showtimes findShowtimesByShowtimesId(int id);
+    @Query(value = "SELECT s.* " +
+            "FROM showtimes s " +
+            "JOIN room r ON s.roomId = r.roomId " +
+            "JOIN threat t ON r.threatId = t.id " +
+            "JOIN movie m ON s.movieId = m.movieId " +
+            "WHERE m.movieTitle = :movieTitle", nativeQuery = true)
+    List<Showtimes> findShowtimesByMovieTitle(String movieTitle);
 
+    @Query("SELECT MAX(s.showtimesId) FROM Showtimes s")
+    Integer findMaxId();
 }

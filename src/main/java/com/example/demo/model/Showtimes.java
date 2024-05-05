@@ -115,5 +115,19 @@ public class Showtimes{
     public String toString() {
         return "models.Showtimes[ showtimesId=" + showtimesId + " ]";
     }
-    
+    public int calculateNumberTotalSeat() {
+        int numberTotalSeat = 0;
+        for (Ticket ticket : getTicketCollection()) {
+            numberTotalSeat += ticket.getTicketDetailsSeatCollection().size();
+        }
+        return numberTotalSeat;
+    }
+
+    public int calculateTongSoGheTrongPhong() {
+        int tongSoGheTrongPhong = 0;
+        for (RowOfSeats ros : getRoomId().getRowOfSeatsCollection()) {
+            tongSoGheTrongPhong += ros.getSeatCollection().size();
+        }
+        return tongSoGheTrongPhong;
+    }
 }

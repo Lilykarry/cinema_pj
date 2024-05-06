@@ -26,38 +26,35 @@ public class AuthController {
     @Autowired
     private AdminRepository adminRepository;
     @GetMapping("/login")
-    public String showLoginPage(@RequestParam(value = "error", required = false) String error, Model model) {
-        // Nếu có lỗi, thêm thông báo lỗi vào model
+    public String showLoginPage( Model model, @RequestParam(value = "error", required = false) String error) {
         if (error != null) {
-            model.addAttribute("loginError", "Invalid email or password. Please try again.");
+            // Add error message to the model if 'error' parameter exists in the URL
+            model.addAttribute("error", "Invalid email or password.");
         }
         return "users/login"; // Trả về tên của trang đăng nhập (login.html)
     }
-    @PostMapping("/login")
+
+
+    @PostMapping("/authentication")
     public String processLogin(@RequestParam("email") String email,
                                @RequestParam("password") String password,
                                Model model, RedirectAttributes redirectAttributes) {
-        // Tìm kiếm người dùng dựa trên tên người dùng được cung cấp.
-        boolean isAuthenticated = userService.authenticate(email, password);
-//        Admins admins=adminRepository.findAdminsByEmail(email);
 
-        // Kiểm tra xem người dùng có tồn tại và mật khẩu có khớp không.
+        System.out.println("email: "+email);
+        boolean isAuthenticated = userService.authenticate(email, password);
+
+        // Check if authentication is successful.
         if (isAuthenticated) {
-            // Đăng nhập thành công.
-            // Bạn có thể sử dụng các phương thức khác để thiết lập phiên đăng nhập, v.v.
-            return "redirect:/guest/home"; // Chuyển hướng đến trang chính.
-        }
-//        else if (admins != null && passwordEncoder.matches(password, admins.getPassword())) {
-//            // Đăng nhập thành công.
-//            // Bạn có thể sử dụng các phương thức khác để thiết lập phiên đăng nhập, v.v.
-//            return "redirect:/Admin/Home"; // Chuyển hướng đến trang chính.
-//        }
-        else {
-            // Đăng nhập thất bại.
-            model.addAttribute("mess", "Tên người dùng hoặc mật khẩu không chính xác.");
-            return "users/login"; // Hiển thị lại trang đăng nhập với thông báo lỗi.
+            // Redirect to the home page after successful login.
+            return "redirect:/guest/home";
+        } else {
+            // Add error message to the model.
+            model.addAttribute("error", "Invalid email or password.");
+            return "users/login"; // Return the login page with the error message.
         }
     }
+
+
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new Users());

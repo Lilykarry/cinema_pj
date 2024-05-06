@@ -15,17 +15,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/static/css/**", "/static/js/**", "/Users/LENOVO/IdeaProjects/cinama_PJ_IMG/**").permitAll()
-                        .requestMatchers("/login","/register","/guest/**").permitAll()
+                                .requestMatchers("/static/**").permitAll()
+//                        .requestMatchers("/static/css/**", "/static/js/**", "/Users/LENOVO/IdeaProjects/cinama_PJ_IMG/**").permitAll()
+                        //allows unauthenticated access to both the login form (/login) and the login submission endpoint (/login?error).
+                        .requestMatchers("/login","/authentication","/register","/guest/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .permitAll()
+                        .loginProcessingUrl("/authentication")
                 );
+//                .logout(logout -> logout
+//                        .permitAll()
+//                );
 
         return http.build();
     }

@@ -16,15 +16,17 @@
 </head>
 <body>
 
+<!-- login.html -->
 <div class="container">
-  <div class="form-container sign-in">>
-    <form th:action="@{/login}" method="post" >
+  <div class="form-container sign-in">
+    <form th:action="@{/authentication}" method="post">
       <h1>Sign in</h1>
-      <div th:if="${loginError}" class="alert alert-danger">
-        <p th:text="${loginError}"></p>
+        <!-- Display error message if it exists -->
+      <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
       </div>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Password">
+      <input type="email" name="email" placeholder="Email" required id="email">
+      <input type="password" name="password" placeholder="Password" id="pass">
       <button type="submit">LOG IN</button>
     </form>
   </div>
@@ -38,6 +40,15 @@
     </div>
   </div>
 </div>
-
+<!--<script>-->
+<!--  $(document).ready(function () {-->
+<!--    $("button").click(function (e){-->
+<!--      e.preventDefault();-->
+<!--      console.log($("#email").val());-->
+<!--      console.log($("#pass").val());-->
+<!--      $("form").submit();-->
+<!--    })-->
+<!--  })-->
+<!--</script>-->
 </body>
 </html>

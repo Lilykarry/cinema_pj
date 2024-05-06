@@ -452,7 +452,6 @@ input[type="checkbox"]
 }
 
 .card-3 .card-heading {
-    background-image: url("../../img/register.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     display: table-cell;
@@ -597,7 +596,7 @@ element.style {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: url("../../img/register.jpg");
+
 
 
     z-index: 150;

@@ -76,6 +76,9 @@ public class Users{
     @JsonIgnore
     private Collection<RatingThreater> ratingThreaterCollection;
 
+    public Users(String email, String password, String fullName, Date dateOfBirth, String phoneNumber, String gender) {
+    }
+
     public Collection<RatingThreater> getRatingThreaterCollection() {
         return ratingThreaterCollection;
     }

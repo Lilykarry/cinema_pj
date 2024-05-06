@@ -43,4 +43,15 @@ public class UserServiceImpl implements UserService {
     public Users findByUsername(String username) {
         return userRepository.findUsersByEmail(username);
     }
+
+    @Override
+    public boolean authenticate(String email, String password) {
+        Users user = userRepository.findUsersByEmail(email);
+
+        if (user != null) {
+            // So sánh mật khẩu đã được mã hóa
+            return passwordEncoder.matches(password, user.getPassword());
+        }
+        return false;
+    }
 }

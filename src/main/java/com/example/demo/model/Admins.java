@@ -30,8 +30,8 @@ public class Admins {
     @Size(max = 11)
     @Column(name = "phone", length = 11)
     private String phone;
-    @Size(max = 50)
-    @Column(name = "password", length = 50)
+    @Size(max = 600)
+    @Column(name = "password", length = 600)
     private String password;
     @Size(max = 250)
     @Column(name = "address", length = 250)

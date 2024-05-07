@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Register</title>
@@ -19,15 +19,16 @@
 <!-- login.html -->
 <div class="container">
   <div class="form-container sign-in">
-    <form th:action="@{/authentication}" method="post">
+    <form  action="authentication" method="post">
       <h1>Sign in</h1>
         <!-- Display error message if it exists -->
       <div th:if="${error}" class="alert alert-danger">
         <p th:text="${error}"></p>
       </div>
-      <input type="email" name="email" placeholder="Email" required id="email">
+      <input type="email" name="username" placeholder="Email" required id="email">
       <input type="password" name="password" placeholder="Password" id="pass">
       <button type="submit">LOG IN</button>
+      <input type="submit" value="hihi"/>
     </form>
   </div>
   <div class="toggle-container">

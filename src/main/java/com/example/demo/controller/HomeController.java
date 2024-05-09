@@ -8,6 +8,11 @@ import com.example.demo.service.MovieReviewService;
 import com.example.demo.service.MovieService;
 import com.example.demo.service.ThreatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -63,5 +68,11 @@ public class HomeController {
     @GetMapping("/header")
     public String showHeader(){
         return "layout/header";
+    }
+    @GetMapping("/auth/status")
+    public ResponseEntity<Boolean> isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+        return ResponseEntity.ok(isAuthenticated);
     }
 }

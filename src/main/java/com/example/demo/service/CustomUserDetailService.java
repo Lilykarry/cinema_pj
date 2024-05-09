@@ -29,7 +29,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Users userEntity = userRepository.findByEmail(email);
-        Admins adminEntity = adminRepository.findAdminsByEmail(email);
+        Admins adminEntity = adminRepository.findByEmail(email);
 
         if (userEntity == null && adminEntity == null) {
             throw new UsernameNotFoundException("Không tìm thấy user hoặc admin với email: " + email);

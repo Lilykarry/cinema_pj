@@ -7,7 +7,7 @@
           <a href="/register"><img src="../../static/img/icon-register.png" alt=""><span>Đăng ký thành viên</span></a>
         </li>
         <li>
-          <a href="/login"><img src="../../static/img/icon-login.png" alt=""><span>Đăng nhập</span></a>
+          <a id="loginLink" href="/login"><img src="../../static/img/icon-login.png" alt=""><span>Đăng nhập</span></a>
         </li>
       </ul>
       <a class="hotline" style="margin-right:50px;" href="tel:028 7300 8881"><img src="../../static/img/icon-call.png"
@@ -79,3 +79,27 @@
 
 
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Lấy phần tử liên kết đăng nhập/đăng xuất
+    const loginLink = document.querySelector(".register ul li:nth-child(2) a");
+
+    // Sử dụng AJAX để kiểm tra trạng thái xác thực của người dùng
+    fetch("/auth/status")
+            .then(response => response.json())
+            .then(isAuthenticated => {
+              if (isAuthenticated) {
+                // Nếu người dùng đã đăng nhập, thay đổi liên kết thành "Đăng xuất"
+                loginLink.href = "/logout"; // Đường dẫn xử lý đăng xuất
+                loginLink.innerHTML = '<img src="../../static/img/icon-login.png" alt=""><span>Đăng xuất</span>';
+              } else {
+                // Nếu người dùng chưa đăng nhập, giữ liên kết "Đăng nhập"
+                loginLink.href = "/login"; // Đường dẫn xử lý đăng nhập
+                loginLink.innerHTML = '<img src="../../static/img/icon-login.png" alt=""><span>Đăng nhập</span>';
+              }
+            })
+            .catch(error => console.error('Error checking authentication status:', error));
+  });
+
+</script>

@@ -1,0 +1,104 @@
+.button-momo {
+    background: #b30077;
+    border-color: #b30077;
+    color: white;
+    width: 60%;
+}
+
+#chonMaGiamGia {
+    text-align: center;
+    margin: 15px 0 10px;
+    font-weight: bold;
+    font-family: system-ui;
+}
+
+#div-select-option {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.seOp {
+    padding: 10px 15px;
+    border-radius: 30px;
+    background-color: black;
+    color: white;
+    text-align-last: center;
+}
+
+.div-Tong {
+    margin: 15px 0 150px;
+}
+
+.div-thongTin {
+    border: solid #e00d7a;
+    background-color: white;
+    margin: 30px auto 0;
+    color: black;
+    font-size: 20px;
+    box-shadow: 0 8px 12px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+}
+
+.div-phuongThucThanhToan {
+    border: solid #e00d7a;
+    background-color: white;
+    text-align: center;
+    margin: 30px auto 0;
+    color: black;
+    box-shadow: 0 8px 12px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+}
+
+.div-thongTin h3, .div-phuongThucThanhToan h3 {
+    background-color: #e00d7a;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    font-family: system-ui;
+    text-align: center;
+    margin: 0;
+}
+
+.div-thongTin ul{
+    margin: 0;
+}
+
+.div-phuongThucThanhToan div {
+    margin: 15px;
+}
+
+#hienThiGhe li, #hienThiBapNuoc li {
+    margin: 0;
+}
+
+#tc {
+    text-align: center;
+    font-weight: bold;
+    color: red;
+}
+
+.table td {
+    vertical-align: inherit;
+}
+
+.table {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+}
+
+ul li {
+    line-height: 30px;
+}
+
+#h3ThanhToan {
+    font-family: system-ui;
+    font-weight: bold;
+    font-size: 40px;
+    color: #e00d7a;
+    background-color: white;
+    text-align: center;
+    margin: 100px 0 30px;
+    padding: 20px 0;
+    text-shadow: 4px 4px 0 rgb(0 0 0 / 10%);
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Pay tickets</title>
+</head>
+<body>
+<div th:include="layout/header"></div>
+<link rel="stylesheet" href="/static/css/ticket/payTickets.css">
+
+<div class="containerr">
+    <div class="container-bg">
+        <h3 id="h3ThanhToan" style="margin-bottom: 1em;">THANH TOÁN</h3>
+        <h4 style="text-align: center; font-size: 30px; font-family: system-ui; font-weight: bold;
+                    color: white; margin-bottom: 0;">THỜI GIAN GIỮ VÉ: <span id="timeOut" style="text-align: center;
+                                          font-size: 30px; font-family: system-ui; font-weight: bold; color: white;"></span></h4>
+        <div class="d-flex flex-wrap div-Tong">
+            <div class="div-thongTin">
+                <h3>THÔNG TIN THANH TOÁN</h3>
+                <table class="table">
+                    <tr>
+                        <td>Tên khách hàng:</td>
+                        <td>${ticketHienTai.getUserEmail().getName()}</td>
+                    </tr>
+                    <tr>
+                        <td>Email khách hàng:</td>
+                        <td>${ticketHienTai.getUserEmail().getEmail()}</td>
+                    </tr>
+                    <tr>
+                        <td>Tên phim:</td>
+                        <td>${ticketHienTai.getShowtimeId().getMovieId().getMovieTitle()}</td>
+                    </tr>
+                    <tr>
+                        <td>Thể loại:</td>
+                        <td>${ticketHienTai.getShowtimeId().getMovieId().getMovieCategory()}</td>
+                    </tr>
+                    <tr>
+                        <td>Suất chiếu:</td>
+                        <td>
+                            <span>${gio}</span>
+                            <span>${ngay}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Rạp:</td>
+                        <td>${ticketHienTai.getShowtimeId().getRoomId().getThreatId().getName()}</td>
+                    </tr>
+                    <tr>
+                        <td>Ghế:</td>
+                        <td>
+                            <ul id="hienThiGhe">
+                                <p:forEach items="${listS}" var="s">
+                                    <li>
+                                        ${s.getSeatId().getRowId().getRowNo()}${s.getSeatId().getSeatNo()} = ${s.getPrice()} VNĐ
+                                    </li>
+                                </p:forEach>
+                            </ul>
+                        </td>
+                    </tr>
+                    <p:if test="${!listWC.isEmpty()}">
+                        <tr>
+                            <td>Bắp nước:</td>
+                            <td>
+                                <ul id="hienThiBapNuoc">
+                                    <p:forEach items="${listWC}" var="wc">
+                                        <li>
+                                            ${wc.getIdWaterCorn().getNameWaterCorn()} X ${wc.getSoLuong()} = ${wc.getUnitPrice()} VNĐ
+                                        </li>
+                                    </p:forEach>
+                                </ul>
+                            </td>
+                        </tr>
+                    </p:if>
+                    <tr>
+                        <td colspan="2" id="tc">TỔNG CỘNG: ${ticketHienTai.getTotalPrice()} VNĐ</td>
+                    </tr>
+                </table>
+                <p id="chonMaGiamGia">CHỌN MÃ GIẢM GIÁ</p>
+                <div id="div-select-option">
+                    <select class="notranslate seOp">
+                        <option value="chonMa">--- CHỌN MÃ ---</option>
+                        <p:forEach items="${couponsUser}" var="c">
+                            <option value="${c.couponId}">${c.couponId}:${c.priceDiscound}</option>
+                        </p:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="div-phuongThucThanhToan">
+                <h3>CHỌN PHƯƠNG THỨC THANH TOÁN</h3>
+                <div id="paypal-button"></div>
+                <form id="myForm" class="myForm" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="https://test-payment.momo.vn/qr/index.php">
+                    <div style="display: none">
+                        <div class="form-group row">
+                            <div class="col-sm-6" hidden>
+                                <label for="fxRate">PartnerCode</label>
+                                <div class="fxRate">
+                                    <input type="text" class="form-control" name="partnerCode" value="MOMOBKUN20180529"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" hidden>
+                                <label for="fxRate">AccessKey</label>
+                                <div class="fxRate">
+                                    <input type="text" class="form-control" name="accessKey" value="klm05TvNBzhg7h7j"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" hidden>
+                                <label for="fxRate">SecretKey</label>
+                                <div class="fxRate" hidden>
+                                    <input type="text" class="form-control" name="secretKey" value="at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row" hidden>
+                            <div class="col-sm-3">
+                                <label for="fxRate">OrderId</label>
+                                <div class="fxRate">
+                                    <input type="text" class="form-control" name="orderId" value="1630640985"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row" hidden>
+                            <div class="col-sm-6">
+                                <label for="fxRate">NotifyUrl</label>
+                                <div class="fxRate">
+                                    <input id="urlNotifyMoMo" type="text" class="form-control" name="notifyUrl" value="http://localhost:8080/Cinestar-war/"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" hidden>
+                                <label for="fxRate">ReturnUrl</label>
+                                <div class="fxRate">
+                                    <input id="urlReturnMoMo" type="text" class="form-control" name="returnUrl" value="http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=${ticketHienTai.getTicketId()}&maGiamGia=chonMa"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="fxRate">ExtraData</label>
+                            <div class="fxRate">
+                                <input type="text" class="form-control" name="extraData" value="merchantName=Cinestar"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width: 100%;margin: 10px auto">
+                        <div class="col-sm-6" hidden>
+                            <label for="fxRate" class="fs-1">OrderInfo</label>
+                            <div v="fxRate">
+                                <input type="text" class="form-control" name="orderInfo" form="myForm" value="Vé xem phim ${ticketHienTai.getShowtimeId().getMovieId().getMovieTitle()}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" hidden>
+                            <label for="fxRate" class="fs-1">Amount</label>
+                            <div id="fxRate">
+                                <input id="ip-amount" type="text" class="form-control" name="amount" value="${ticketHienTai.getTotalPrice()}" form="myForm" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="margin-top: 1em;">
+                            <button type="submit" class="btn btn-lg button-momo" form="myForm">Thanh toán MoMo</button>
+                            <img src="https://developers.momo.vn/v3/assets/images/circle-logo-4fec3edddde4c441255fc90563a2ffda.png" width="50px" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div th:include="layout/contact"></div>
+    </div>
+</div>
+<div th:include="layout/footer"></div>
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    $(document).ready(function () {
+        if (session.getAttribute("outTimeTicket") == null) {
+            session.setAttribute("outTimeTicket", new Date().getTime() + (15 * 60 * 1000));
+            }
+        var countDownDate =  session.getAttribute("outTimeTicket");
+        var x = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("timeOut").innerHTML = minutes + ":" + seconds;
+            if (distance < 0) {
+                clearInterval(x);
+                window.location.href = "PayServlet?action=thoiGianGiuVe";
+            }
+        }, 1000);
+    });
+
+    var tongGiaCuoiCung = parseInt(${ticketHienTai.getTotalPrice()} / 22787);
+    var select_optionBefore = "";
+    $(".seOp").change(function () {
+        var maGiamGia = $(".seOp option:selected").html().split(":")[1];
+        if ($(".seOp option:selected").val() != "chonMa") {
+            if (${ticketHienTai.getTotalPrice()} - maGiamGia < 0) {
+                alert("Mã giảm giá chỉ áp dụng với đơn hàng có tổng giá tiền lớn hơn hoặc bằng mã giảm giá\n - The discount code is only applicable to orders with a total price greater than or equal to the discount code -");
+                $(".seOp option[value=" + select_optionBefore + "]").prop('selected', true);
+            } else {
+                $("#tc").html("TỔNG CỘNG: " + (${ticketHienTai.getTotalPrice()} - maGiamGia) + " VNĐ");
+                tongGiaCuoiCung = parseInt(((Number)(${ticketHienTai.getTotalPrice()} - maGiamGia)) / 22787);
+                select_optionBefore = $(".seOp option:selected").html().split(":")[0];
+                $("#ip-amount").val(${ticketHienTai.getTotalPrice()} - maGiamGia);
+                $("#urlReturnMoMo").val("http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()} + "&maGiamGia=" + $(".seOp option:selected").val());
+            }
+        } else {
+            $("#tc").html("TỔNG CỘNG: " + ${ticketHienTai.getTotalPrice()} + " VNĐ");
+            // Calculate the final price by converting the server-side total price to an integer
+            var tongGiaCuoiCung = parseInt(${ticketHienTai.getTotalPrice()}) / 22787;
+
+            select_optionBefore = "chonMa";
+            $("#ip-amount").val(${ticketHienTai.getTotalPrice()});
+            $("#urlReturnMoMo").val("http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()} + "&maGiamGia=");
+        }
+    });
+
+    paypal.Button.render({
+        // Configure environment
+        env: 'sandbox',
+        client: {
+            sandbox: 'AYjsqsGPCffv-niyJYub6xbIQA_8dhRTJbGG0HWVk8p7VX3GR8iOzMEk1HfgkKNw1wWScgXnt0OSC6Pv',
+            production: 'demo_production_client_id'
+        },
+        // Customize button (optional)
+        locale: 'en_US',
+        style: {
+            size: 'large',
+            color: 'gold',
+            shape: 'pill',
+            label: 'paypal'
+        },
+        // Enable Pay Now checkout flow (optional)
+        commit: true,
+        // Set up a payment
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: {
+                        total: tongGiaCuoiCung,
+                        currency: 'USD'
+                    }
+                }]
+            });
+        },
+        // Execute the payment
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function () {
+                // Show a confirmation message to the buyer
+                window.location = "PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()}
+                    + "&maGiamGia=" + $(".seOp option:selected").val();
+            });
+        }
+    }, '#paypal-button');
+
+</script>
+</body>
+</html>

@@ -1,6 +1,9 @@
 package com.example.demo.handler;
 
+import com.example.demo.model.Admins;
+import com.example.demo.model.Users;
 import com.example.demo.repository.AdminRepository;
+import com.example.demo.security.UserPrincipal;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,23 +22,26 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        // Lấy tên người dùng (email hoặc tên đăng nhập) từ Authentication
+        // Lấy thông tin xác thực của người dùng
         authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        String userEmail = userPrincipal.getEmail();
 
-        // Kiểm tra xem người dùng có phải là quản trị viên không
-        boolean isAdmin = isAdminUser(username);
+        // Kiểm tra xem người dùng là quản trị viên hay không
+        boolean isAdmin = isAdminUser(userEmail);
 
         // Chuyển hướng người dùng dựa trên loại người dùng (quản trị viên hoặc người dùng thông thường)
         if (isAdmin) {
-            response.sendRedirect("Admin/Home");
+            response.sendRedirect("/Admin/Home");
         } else {
-            response.sendRedirect("guest/home");
+            response.sendRedirect("/guest/home");
         }
     }
 
     // Phương thức kiểm tra xem người dùng có phải là quản trị viên không
-    private boolean isAdminUser(String username) {
-        return adminRepository.existsAdminByEmail(username);
+    private boolean isAdminUser(String email) {
+        // Sử dụng adminRepository để kiểm tra xem có quản trị viên với email đã cho hay không
+        Admins admin = adminRepository.findByEmail(email);
+        return admin != null;
     }
 }

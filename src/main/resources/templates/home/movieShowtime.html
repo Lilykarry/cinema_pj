@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <style>
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -85,11 +86,11 @@
         }
 
         /* Hiệu ứng hover cho showtime-item */
-        .showtime-item:hover {
-            background-color: orange; /* Màu nền cam khi hover */
-            color: white; /* Màu chữ trắng khi hover */
-            border-color: orange; /* Thay đổi màu viền khi hover */
-        }
+        /*.showtime-item:hover {*/
+        /*    background-color: orange; !* Màu nền cam khi hover *!*/
+        /*    color: white; !* Màu chữ trắng khi hover *!*/
+        /*    border-color: orange; !* Thay đổi màu viền khi hover *!*/
+        /*}*/
 
 
 
@@ -119,19 +120,17 @@
             margin-top: 20px;
         }
 
-        /* Định dạng cho liên kết ngày */
         .date-link {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column; /* Sắp xếp nội dung theo hàng dọc */
             text-align: center; /* Căn giữa nội dung theo chiều ngang */
-            margin-top: 20px;
+            margin-top: 40px;
             font-size: 20px; /* Kích thước phông chữ của liên kết date-link */
-            text-align: center; /* Căn giữa văn bản */
-            padding: 20px ; /* Khoảng trống xung quanh liên kết */
+            padding: 20px; /* Khoảng trống xung quanh liên kết */
             margin-right: 10px; /* Khoảng cách giữa các liên kết */
-            margin-bottom: 10px; /* Khoảng cách giữa liên kết và phần tử tiếp theo */
+            margin-bottom: 20px; /* Khoảng cách giữa liên kết và phần tử tiếp theo */
             color: #333; /* Màu chữ */
             text-decoration: none; /* Loại bỏ gạch chân */
             border: 1px solid #ccc; /* Viền mỏng */
@@ -139,23 +138,35 @@
             background-color: gray; /* Màu nền của liên kết */
             height: 50px; /* Độ cao của thẻ a */
             width: 120px;
+            position: relative; /* Thêm thuộc tính này */
         }
-
 
         .date-link .day-of-week,
         .date-link .date {
-            margin: 0; /* Xóa khoảng cách mặc định */
-
+margin-top: -8px;
         }
+
 
         .date-link .day-of-week {
             font-size: 16px; /* Kích thước phông chữ cho thứ */
             font-weight: normal; /* Trọng lượng phông chữ bình thường cho thứ */
+            position: absolute; /* Thêm thuộc tính này */
+            top: 80%; /* Đưa phần tử lên trên cùng của parent */
+            transform: translateY(-50%); /* Dịch chuyển phần tử lên trên dựa trên nửa chiều cao của nó */
+            left: 0; /* Đặt vị trí bên trái */
+            right: 0; /* Đặt vị trí bên phải */
+            width: 100%; /* Chiếm toàn bộ chiều rộng của parent */
         }
 
         .date-link .date {
             font-size: 14px; /* Kích thước phông chữ cho ngày */
             font-weight: bold; /* Trọng lượng phông chữ đậm cho ngày */
+            position: absolute; /* Thêm thuộc tính này */
+            top: 50%; /* Đưa phần tử lên trên cùng của parent */
+            transform: translateY(-50%); /* Dịch chuyển phần tử lên trên dựa trên nửa chiều cao của nó */
+            left: 0; /* Đặt vị trí bên trái */
+            right: 0; /* Đặt vị trí bên phải */
+            width: 100%; /* Chiếm toàn bộ chiều rộng của parent */
         }
 
 
@@ -176,8 +187,18 @@
             pointer-events: none;
         }
 
-
-
+        /* Lớp CSS 'disabled' để làm mờ liên kết */
+        a.disabled {
+            color: #aaa; /* Màu xám nhạt */
+            pointer-events: none; /* Vô hiệu hóa sự kiện nhấp chuột */
+            opacity: 0.6; /* Độ mờ để làm mờ liên kết */
+        }
+        a.disabled:hover {
+            color: #aaa; /* Đặt lại màu chữ */
+            background-color: initial; /* Đặt lại màu nền */
+            pointer-events: none; /* Vô hiệu hóa sự kiện hover */
+            cursor: not-allowed; /* Thay đổi kiểu con trỏ để biểu thị trạng thái không được phép */
+        }
 
     </style>
 </head>
@@ -309,26 +330,51 @@
     function filterShowtimesByDate(event) {
         // Ngăn chặn hành động mặc định của thẻ <a>
         event.preventDefault();
+
+        // Lấy liên kết đã được nhấp
         const dateLink = event.currentTarget;
+
+        // Lấy ngày được chọn từ thuộc tính data-date của liên kết
         const selectedDate = dateLink.getAttribute('data-date');
+
+        // Lấy thời gian hiện tại
+        const currentTime = new Date();
+
         // Hiển thị lại tất cả các bộ phim trước khi thực hiện lọc mới
         showAllMovies();
-
-        // Lấy ngày được chọn từ thuộc tính data-date của thẻ <a>
-
 
         // Lấy tất cả các phần tử showtime-item
         const showtimeItems = document.querySelectorAll('.showtime-item');
 
-        // Duyệt qua tất cả các showtime-item và lọc theo ngày
+        // Duyệt qua tất cả các showtime-item
         showtimeItems.forEach(showtimeItem => {
             // Lấy ngày của showtime-item từ thuộc tính data-date
             const showtimeDate = showtimeItem.getAttribute('data-date');
 
+            // Chuyển đổi ngày của showtime-item sang đối tượng Date
+            const showtimeDateObj = new Date(showtimeDate);
+
+            // Lấy thời gian của showtime-item từ nội dung của thẻ <a>
+            const showtimeLink = showtimeItem.querySelector('a');
+            const showtimeTimeString = showtimeLink.textContent;
+            const [hours, minutes] = showtimeTimeString.split(':');
+            const showtimeTime = new Date(showtimeDateObj);
+            showtimeTime.setHours(parseInt(hours));
+            showtimeTime.setMinutes(parseInt(minutes));
+
             // Kiểm tra ngày của showtime-item với ngày được chọn
             if (showtimeDate === selectedDate) {
                 // Nếu ngày khớp, hiển thị showtime-item
-                showtimeItem.style.display = 'block';
+                if (showtimeTime >= currentTime) {
+                    showtimeItem.style.display = 'block';
+                    showtimeLink.removeAttribute('disabled');
+                    showtimeLink.classList.remove('disabled'); // Loại bỏ lớp CSS 'disabled'
+                } else {
+                    // Nếu giờ đã qua, thêm thuộc tính disabled và lớp CSS cho showtimeLink
+                    showtimeItem.style.display = 'block';
+                    showtimeLink.setAttribute('disabled', 'true');
+                    showtimeLink.classList.add('disabled'); // Thêm lớp CSS 'disabled'
+                }
             } else {
                 // Nếu ngày không khớp, ẩn showtime-item
                 showtimeItem.style.display = 'none';
@@ -344,7 +390,7 @@
             link.classList.remove('active');
         });
 
-        // Thêm lớp 'active' cho phần tử ngày được chọn (event.target)
+        // Thêm lớp 'active' cho phần tử ngày được chọn
         event.target.classList.add('active');
     }
 
@@ -441,6 +487,52 @@
     // Gọi hàm sortDateLinks khi trang đã tải xong
     document.addEventListener('DOMContentLoaded', function() {
         sortDateLinks();
+    });
+    function filterDateLinks() {
+        // Lấy ngày hôm nay
+        const today = new Date();
+
+        // Tính toán ngày trong khoảng từ ngày hôm nay đến 5 ngày sau
+        const futureDate = new Date(today);
+        futureDate.setDate(today.getDate() + 5);
+
+        // Khai báo một biến boolean để kiểm tra xem đã hiển thị ngày hôm nay chưa
+        let displayedToday = false;
+
+        // Lấy tất cả các thẻ date-link
+        const dateLinks = document.querySelectorAll('.date-link');
+
+        // Duyệt qua từng date-link và kiểm tra ngày
+        dateLinks.forEach(link => {
+            // Lấy ngày từ data-date
+            const dateValue = new Date(link.getAttribute('data-date'));
+
+            // So sánh ngày với khoảng từ ngày hôm nay đến 5 ngày sau
+            if (dateValue >= today && dateValue <= futureDate) {
+                // Hiển thị date-link
+                link.style.display = 'block';
+                // Đánh dấu rằng đã hiển thị ngày hôm nay
+                if (dateValue.toDateString() === today.toDateString()) {
+                    displayedToday = true;
+                }
+            } else {
+                // Ẩn date-link
+                link.style.display = 'none';
+            }
+        });
+
+        // Nếu chưa hiển thị ngày hôm nay, thêm nó vào
+        if (!displayedToday) {
+            const todayLink = document.querySelector(`.date-link[data-date="${today.toISOString().slice(0, 10)}"]`);
+            if (todayLink) {
+                todayLink.style.display = 'block';
+            }
+        }
+    }
+
+    // Gọi hàm filterDateLinks khi trang đã tải xong
+    document.addEventListener('DOMContentLoaded', function() {
+        filterDateLinks();
     });
 
 

@@ -150,9 +150,25 @@ public class Ticket{
         return true;
     }
 
+//    @Override
+//    public String toString() {
+//        return "models.TicketRepository[ ticketId=" + ticketId + " ]";
+//    }
+
+
     @Override
     public String toString() {
-        return "models.TicketRepository[ ticketId=" + ticketId + " ]";
+        return "Ticket{" +
+                "ticketId=" + ticketId +
+                ", ticketBookingTime=" + ticketBookingTime +
+                ", pay=" + pay +
+                ", totalPrice=" + totalPrice +
+                ", priceHasDropped=" + priceHasDropped +
+                ", status=" + status +
+                ", showtimeId=" + showtimeId +
+                ", userEmail=" + userEmail +
+                ", ticketDetailsSeatCollection=" + ticketDetailsSeatCollection +
+                ", ticketDetailsWaterCornCollection=" + ticketDetailsWaterCornCollection +
+                '}';
     }
-    
 }

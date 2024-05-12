@@ -92,7 +92,7 @@
                         <td>
                             <ul id="hienThiGhe">
                                 <li th:each="s : ${listS}">
-                                    <span th:text="${s.seatId.rowId.rowNo}${s.seatId.seatNo}"></span> = <span th:text="${s.price}"></span> VNĐ
+                                    <span th:text="${s.seatId.rowId.rowNo + s.seatId.seatNo}"></span> = <span th:text="${s.price}"></span> VNĐ
                                 </li>
                             </ul>
                         </td>
@@ -103,7 +103,7 @@
                             <td>
                                 <ul id="hienThiBapNuoc">
                                     <li th:each="wc : ${listWC}">
-                                        <span th:text="${wc.idWaterCorn.nameWaterCorn()}"></span> X <span th:text="${wc.soLuong()}"></span> = <span th:text="${wc.unitPrice()}"></span> VNĐ
+                                        <span th:text="${wc.idWaterCorn.nameWaterCorn}"></span> X <span th:text="${wc.soLuong}"></span> = <span th:text="${wc.unitPrice}"></span> VNĐ
                                     </li>
                                 </ul>
                             </td>
@@ -111,7 +111,7 @@
                     </th:block>
                     <tr>
                         <td colspan="2" id="tc">TỔNG CỘNG:  VNĐ</td>
-                        <td colspan="2" id="tc">TỔNG CỘNG: <span th:text="${ticketHienTai.totalPrice()}"></span> VNĐ</td>
+                        <td colspan="2" id="tc">TỔNG CỘNG: <span th:text="${ticketHienTai.totalPrice}"></span> VNĐ</td>
                     </tr>
                 </table>
 <!--                <p id="chonMaGiamGia">CHỌN MÃ GIẢM GIÁ</p>-->
@@ -155,14 +155,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row" hidden>
+                        <div class="form-group row">
                             <div class="col-sm-6">
                                 <label for="fxRate">NotifyUrl</label>
                                 <div id="fxRate">
                                     <input id="urlNotifyMoMo" type="text" class="form-control" name="notifyUrl" value="http://localhost:8080/Cinestar-war/"/>
                                 </div>
                             </div>
-                            <div class="col-sm-6" hidden>
+                            <div class="col-sm-6">
                                 <label for="fxRate">ReturnUrl</label>
                                 <div id="fxRate">
                                     <input id="urlReturnMoMo" type="text" class="form-control" name="returnUrl" value="http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=${ticketHienTai.ticketId}&maGiamGia=chonMa"/>
@@ -186,7 +186,7 @@
                         <div class="col-sm-6" hidden>
                             <label for="fxRate" class="fs-1">Amount</label>
                             <div id="fxRate">
-                                <input id="ip-amount" type="text" class="form-control" name="amount" th:value="${ticketHienTai.totalPrice()}" form="myForm" readonly/>
+                                <input id="ip-amount" type="text" class="form-control" name="amount" th:value="${ticketHienTai.totalPrice}" form="myForm" readonly/>
                             </div>
                         </div>
                         <div class="col-sm-12" style="margin-top: 1em;">
@@ -205,21 +205,21 @@
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
     $(document).ready(function () {
-        if (session.getAttribute("outTimeTicket") == null) {
-            session.setAttribute("outTimeTicket", new Date().getTime() + (15 * 60 * 1000));
-            }
-        var countDownDate =  session.getAttribute("outTimeTicket");
-        var x = setInterval(function () {
-            var now = new Date().getTime();
-            var distance = countDownDate - now;
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById("timeOut").innerHTML = minutes + ":" + seconds;
-            if (distance < 0) {
-                clearInterval(x);
-                window.location.href = "PayServlet?action=thoiGianGiuVe";
-            }
-        }, 1000);
+        // if (session.getAttribute("outTimeTicket") == null) {
+        //     session.setAttribute("outTimeTicket", new Date().getTime() + (15 * 60 * 1000));
+        //     }
+        // var countDownDate =  session.getAttribute("outTimeTicket");
+        // var x = setInterval(function () {
+        //     var now = new Date().getTime();
+        //     var distance = countDownDate - now;
+        //     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        //     document.getElementById("timeOut").innerHTML = minutes + ":" + seconds;
+        //     if (distance < 0) {
+        //         clearInterval(x);
+        //         window.location.href = "PayServlet?action=thoiGianGiuVe";
+        //     }
+        // }, 1000);
     });
 
     var tongGiaCuoiCung = parseInt(${ticketHienTai.getTotalPrice()} / 22787);

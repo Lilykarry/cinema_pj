@@ -57,9 +57,9 @@ public class TicketDetailsSeat {
 
     public void setTicketId(Ticket ticketId) {
         this.ticketId = ticketId;
-        if (ticketId != null) {
-            ticketId.getTicketDetailsSeatCollection().add(this);
-        }
+//        if (ticketId != null) {
+//            ticketId.getTicketDetailsSeatCollection().add(this);
+//        }
     }
 
     @Override

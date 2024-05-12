@@ -64,9 +64,9 @@ public class TicketDetailsWaterCorn {
     public void setTicketId(Ticket ticketId) {
 
         this.ticketId = ticketId;
-        if (ticketId != null) {
-            ticketId.getTicketDetailsWaterCornCollection().add(this);
-        }
+//        if (ticketId != null) {
+//            ticketId.getTicketDetailsWaterCornCollection().add(this);
+//        }
     }
 
     public WaterCorn getIdWaterCorn() {

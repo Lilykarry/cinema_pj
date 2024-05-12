@@ -64,7 +64,6 @@ public class PayticketsController {
             errorMessage = "ID SUẤT CHIẾU KHÔNG CÓ DỮ LIỆU, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC";
 
         }
-
 //         check expired Showtimes
         if (showTimeService.findShowtimesByShowtimesId(Integer.parseInt(idST)) != null) {
             Showtimes st = showTimeService.findShowtimesByShowtimesId(Integer.parseInt(idST));
@@ -84,12 +83,12 @@ public class PayticketsController {
                 errorMessage = "--- SUẤT CHIẾU ĐÃ QUA, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
 
             }
-        } else {
+        }
+        else {
             // Showtime does not exist, add message to model
             errorMessage = "--- SUẤT CHIẾU KHÔNG TỒN TẠI, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
         }
         // check expired Showtimes - end
-
 
         // check full seat of showtimes - start
         Showtimes st = showTimeService.findShowtimesByShowtimesId(Integer.parseInt(idST));
@@ -147,7 +146,7 @@ public class PayticketsController {
         }
 
 //        errorMessage = "--- ID BẮP NƯỚC VÀ SỐ LƯỢNG BẮP NƯỚC PHẢI LÀ SỐ, VÀ SỐ LƯỢNG BẮP NƯỚC PHẢI CÓ KHI CÓ ID BẮP NƯỚC HOẶC NGƯỢC LẠI, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
-
+//
         // Get current authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal users = (UserPrincipal) authentication.getPrincipal();
@@ -174,19 +173,19 @@ public class PayticketsController {
                         errorMessage = "--- GHẾ KHÔNG TỒN TẠI, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
 
                     }
-
+//
                     if (!danhSachSoSanh.contains(integer)) {
                         danhSachSoSanh.add(integer);
                     } else {
                         errorMessage = "--- KHÔNG ĐƯỢC CHỌN CÁC GHẾ TRÙNG NHAU, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
                     }
                 }
-
+//
                 if (bienDemSuccess == false) {
                     errorMessage = "--- GHẾ KHÔNG TỒN TẠI TRONG SUẤT CHIẾU NÀY, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
 
                 }
-
+//
                 for (Ticket ticket : ticketService.findAllTicketsByShowtimesByStatus(Integer.parseInt(idST), 1)) {
                     for (TicketDetailsSeat ticketDetailsSeat : ticket.getTicketDetailsSeatCollection()) {
                         if (dsGheHienTai.contains(ticketDetailsSeat.getSeatId().getSeatId())) {
@@ -194,113 +193,105 @@ public class PayticketsController {
                         }
                     }
                 }
-
+//
                 Ticket newTicket = new Ticket();
-                newTicket.setShowtimeId(ShowtimesHienTai);
+                newTicket.setShowtimeId(showTimeService.findShowtimesByShowtimesId(8));
                 newTicket.setUserEmail(taiKhoan);
                 newTicket.setStatus(0);
                 ticketService.create(newTicket);
-                entityManager.flush();
-                entityManager.clear();
-                for(Ticket a : ticketService.showAll()){
-                    System.out.println("ticketid: "+a.getTicketId());
-                    System.out.println("showtimeId"+ a.getShowtimeId().getShowtimesId());
-//                    System.out.println("time"+ a.getTicketBookingTime());
-//                    System.out.println("email"+ a.getUserEmail().getEmail());
-
-                }
-//                System.out.println("roomId" +ticketService.findByID(newTicket.getTicketId()).getRoomId());
-                Ticket persistedTicket = ticketService.findByTicketID(newTicket.getTicketId());
-                if (persistedTicket != null) {
-                    TicketDetailsSeat newDetailTicket = new TicketDetailsSeat();
-
-                    Integer sumPrice = 0;
-                    if (dsIdBapNuoc.isEmpty() && dsSoLuongBapNuoc.isEmpty()) {
-                        for (Integer integer : dsGheHienTai) {
-                            newDetailTicket.setTicketId(newTicket);
-                            newDetailTicket.setSeatId(seatService.findById(integer));
-                            newDetailTicket.setPrice(seatService.findById(integer).getPrice());
-                            ticketDetailsSeatService.create(newDetailTicket);
-                            sumPrice += seatService.findById(integer).getPrice();
-                        }
-                    } else {
-                        List<Integer> danhSachSS = new ArrayList<>();
-                        for (Integer idBapNuoc : dsIdBapNuoc) {
-                            if (waterCornService.findById(idBapNuoc) == null) {
-                                errorMessage = "--- BẮP NƯỚC KHÔNG TỒN TẠI, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
-                                if (!danhSachSS.contains(idBapNuoc)) {
-                                    danhSachSS.add(idBapNuoc);
-                                } else {
-                                    errorMessage = "--- KHÔNG ĐƯỢC CHỌN CÁC BẮP NƯỚC TRÙNG NHAU, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
-                                }
-                            }
-
-                            Integer sumSoLuong = 0;
-                            for (Integer integer : dsSoLuongBapNuoc) {
-                                sumSoLuong += integer;
-                            }
-                            if (sumSoLuong > 8) {
-                                errorMessage = "--- SỐ LƯỢNG BẮP NƯỚC ĐƯỢC PHÉP CHỌN TỐI ĐA LÀ 8, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
-                            }
-
-                            for (Integer integer : dsGheHienTai) {
-                                newDetailTicket.setTicketId(newTicket);
-                                newDetailTicket.setSeatId(seatService.findById(integer));
-                                newDetailTicket.setPrice(seatService.findById(integer).getPrice());
-                                ticketDetailsSeatService.create(newDetailTicket);
-                                sumPrice += seatService.findById(integer).getPrice();
-                            }
+//
 
 
-                            TicketDetailsWaterCorn newWTTicket = new TicketDetailsWaterCorn();
-
-                            if (stringArrayBapNuoc != null && !stringArrayBapNuoc.isEmpty()) {
-                                try {
-                                    JSONArray dsBapNuoc = new JSONArray(stringArrayBapNuoc);
-                                    for (int i = 0; i < dsBapNuoc.length(); i++) {
-
-                                        JSONObject item = dsBapNuoc.getJSONObject(i);
-                                        int quantity = item.getInt("quantity");
-                                        int id = item.getInt("id");
-                                        newWTTicket.setTicketId(newTicket);
-                                        newWTTicket.setIdWaterCorn(waterCornService.findById(id));
-                                        newWTTicket.setSoLuong(quantity);
-                                        newWTTicket.setUnitPrice(waterCornService.findById(id).getPrice());
-                                        ticketDetailsWaterCornService.create(newWTTicket);
-                                        sumPrice += (waterCornService.findById(id).getPrice()
-                                                * quantity);
-
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                        }
-                        newTicket.setTotalPrice(sumPrice);
-                        ticketService.create(newTicket);
-
-                        Ticket tickets = ticketService.findByTicketID(newTicket.getTicketId());
-
-                        model.addAttribute("ticketHienTai", tickets);
 
 
-                        model.addAttribute("listS", ticketDetailsSeatService.searchSeatsByTicketId(tickets.getTicketId()));
-                        model.addAttribute("listWC", ticketDetailsWaterCornService.searchWaterCornssByTicketId(tickets.getTicketId()));
-                        model.addAttribute("gio", dateFormat.format(tickets.getShowtimeId().getTime()));
-                        model.addAttribute("ngay", formatter.format(tickets.getShowtimeId().getDate()));
-                        //
+                Integer sumPrice = 0;
+                if (dsIdBapNuoc.isEmpty() && dsSoLuongBapNuoc.isEmpty()) {
+                    for (Integer integer : dsGheHienTai) {
+                        TicketDetailsSeat newDetailTicket = new TicketDetailsSeat(); // Create a new instance in each iteration
+                        newDetailTicket.setTicketId(newTicket);
+                        Seat seat = seatService.findById(integer);
+                        newDetailTicket.setSeatId(seat);
+                        newDetailTicket.setPrice(seat.getPrice());
+                        ticketDetailsSeatService.create(newDetailTicket);
+                        sumPrice += seat.getPrice();
                     }
-                }else{
-                    errorMessage = "--- ERROR: TICKET NOT SAVED TO DATABASE ---";
-                }
-            } else{
+                  }else {
+                    List<Integer> danhSachSS = new ArrayList<>();
+                    for (Integer idBapNuoc : dsIdBapNuoc) {
+                        if (waterCornService.findById(idBapNuoc) == null) {
+                            errorMessage = "--- BẮP NƯỚC KHÔNG TỒN TẠI, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
+                            if (!danhSachSS.contains(idBapNuoc)) {
+                                danhSachSS.add(idBapNuoc);
+                            } else {
+                                errorMessage = "--- KHÔNG ĐƯỢC CHỌN CÁC BẮP NƯỚC TRÙNG NHAU, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
+                            }
+                        }
+//
+                    Integer sumSoLuong = 0;
+                    for (Integer integer : dsSoLuongBapNuoc) {
+                        sumSoLuong += integer;
+                    }
+                    if (sumSoLuong > 8) {
+                        errorMessage = "--- SỐ LƯỢNG BẮP NƯỚC ĐƯỢC PHÉP CHỌN TỐI ĐA LÀ 8, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
+                    }
+//
+                    for (Integer integer : dsGheHienTai) {
+                        TicketDetailsSeat newDetailTicket = new TicketDetailsSeat(); // Create a new instance in each iteration
+                        newDetailTicket.setTicketId(newTicket);
+                        Seat seat = seatService.findById(integer);
+                        newDetailTicket.setSeatId(seat);
+                        newDetailTicket.setPrice(seat.getPrice());
+                        ticketDetailsSeatService.create(newDetailTicket);
+                        sumPrice += seat.getPrice();
+                    }}
+//
+//
+//                            TicketDetailsWaterCorn newWTTicket = new TicketDetailsWaterCorn();
+//
+                    if (stringArrayBapNuoc != null && !stringArrayBapNuoc.isEmpty()) {
+                        try {
+                            JSONArray dsBapNuoc = new JSONArray(stringArrayBapNuoc);
+                            for (int i = 0; i < dsBapNuoc.length(); i++) {
+                                JSONObject item = dsBapNuoc.getJSONObject(i);
+                                int quantity = item.getInt("quantity");
+                                int id = item.getInt("id");
+                                TicketDetailsWaterCorn newWTTicket = new TicketDetailsWaterCorn(); // Create a new instance in each iteration
+                                newWTTicket.setTicketId(newTicket);
+                                WaterCorn waterCorn = waterCornService.findById(id);
+                                newWTTicket.setIdWaterCorn(waterCorn);
+                                newWTTicket.setSoLuong(quantity);
+                                newWTTicket.setUnitPrice(waterCorn.getPrice());
+                                ticketDetailsWaterCornService.create(newWTTicket);
+                                sumPrice += (waterCorn.getPrice() * quantity);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+//
+                  }
+                  newTicket.setTotalPrice(sumPrice);
+                  ticketService.create(newTicket);
+                  Ticket tickets = ticketService.findByTicketID(newTicket.getTicketId());
+
+                  model.addAttribute("ticketHienTai", tickets);
+
+
+                  model.addAttribute("listS", ticketDetailsSeatService.searchSeatsByTicketId(tickets.getTicketId()));
+                  model.addAttribute("listWC", ticketDetailsWaterCornService.searchWaterCornssByTicketId(tickets.getTicketId()));
+                  model.addAttribute("gio", dateFormat.format(tickets.getShowtimeId().getTime()));
+                  model.addAttribute("ngay", formatter.format(tickets.getShowtimeId().getDate()));
+                  model.addAttribute("errorMessage", errorMessage);
+
+            }
+            else{
 //                huySessionGiuVe(request);
                 errorMessage = "--- SỐ LƯỢNG GHẾ ĐƯỢC PHÉP CHỌN TỐI ĐA LÀ 8, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
             }
-
-
-        }else {
+//
+//
+        }
+        else {
             errorMessage = "--- BẠN PHẢI ĐĂNG NHẬP MỚI CÓ THỂ THANH TOÁN, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
         }
 //
@@ -308,12 +299,73 @@ public class PayticketsController {
 //        UserPrincipal users = (UserPrincipal) authentication.getPrincipal();
 //        Users taiKhoan = userService.findByEmail(users.getEmail());
 //                Ticket newTicket = new Ticket();
-//                newTicket.getShowtimeId().setShowtimesId(8);
+//                newTicket.setShowtimeId(showTimeService.findShowtimesByShowtimesId(8));
 //                newTicket.setUserEmail(taiKhoan);
 //                newTicket.setStatus(0);
 //                ticketService.create(newTicket);
 
-        model.addAttribute("errorMessage", errorMessage);
+//        for(Ticket a : ticketService.showAll()){
+//            System.out.println( "Ticket{" +
+//                    "ticketId=" + a.getTicketId() +
+//                    ", ticketBookingTime=" + a.getTicketBookingTime() +
+//                    ", pay=" + a.getPay() +
+//                    ", totalPrice=" + a.getTotalPrice() +
+//                    ", status=" + a.getStatus() +
+//                    ", showtimeId=" + a.getShowtimeId().getShowtimesId() +
+//                    ", userEmail=" + a.getUserEmail().getEmail() +
+//                    ", ticketDetailsSeatCollection=" + a.getTicketDetailsSeatCollection() +
+//                    ", ticketDetailsWaterCornCollection=" + a.getTicketDetailsWaterCornCollection() +
+//                    '}');
+//        }
+//        Integer sumPrice = 0;
+//        for (Integer integer : dsGheHienTai) {
+//            TicketDetailsSeat newDetailTicket = new TicketDetailsSeat(); // Create a new instance in each iteration
+//            newDetailTicket.setTicketId(newTicket);
+//            Seat seat = seatService.findById(integer);
+//            newDetailTicket.setSeatId(seat);
+//            newDetailTicket.setPrice(seat.getPrice());
+//            ticketDetailsSeatService.create(newDetailTicket);
+//            sumPrice += seat.getPrice();
+//        }
+//
+//        newTicket.setTotalPrice(sumPrice);
+//        ticketService.create(newTicket);
+//        if (stringArrayBapNuoc != null && !stringArrayBapNuoc.isEmpty()) {
+//            try {
+//                JSONArray dsBapNuoc = new JSONArray(stringArrayBapNuoc);
+//                for (int i = 0; i < dsBapNuoc.length(); i++) {
+//                    JSONObject item = dsBapNuoc.getJSONObject(i);
+//                    int quantity = item.getInt("quantity");
+//                    int id = item.getInt("id");
+//                    TicketDetailsWaterCorn newWTTicket = new TicketDetailsWaterCorn(); // Create a new instance in each iteration
+//                    newWTTicket.setTicketId(newTicket);
+//                    WaterCorn waterCorn = waterCornService.findById(id);
+//                    newWTTicket.setIdWaterCorn(waterCorn);
+//                    newWTTicket.setSoLuong(quantity);
+//                    newWTTicket.setUnitPrice(waterCorn.getPrice());
+//                    ticketDetailsWaterCornService.create(newWTTicket);
+//                    sumPrice += (waterCorn.getPrice() * quantity);
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//
+//
+//        newTicket.setTotalPrice(sumPrice);
+//        ticketService.create(newTicket);
+//
+//        Ticket tickets = ticketService.findByTicketID(newTicket.getTicketId());
+//
+//        model.addAttribute("ticketHienTai", tickets);
+//
+//
+//        model.addAttribute("listS", ticketDetailsSeatService.searchSeatsByTicketId(tickets.getTicketId()));
+//        model.addAttribute("listWC", ticketDetailsWaterCornService.searchWaterCornssByTicketId(tickets.getTicketId()));
+//        model.addAttribute("gio", dateFormat.format(tickets.getShowtimeId().getTime()));
+//        model.addAttribute("ngay", formatter.format(tickets.getShowtimeId().getDate()));
+//        model.addAttribute("errorMessage", errorMessage);
         return "ticket/payTicket";
     }
 }

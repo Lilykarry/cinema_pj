@@ -1,89 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Pay tickets</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/ticket/payTickets.css">
+    <style>
+        .messErrorP {
+            color: #DB4437;
+            border: solid .5em #DB4437;
+            border-radius: 1em;
+            padding: 15px;
+            font-family: system-ui;
+            font-size: 13px;
+            font-weight: bold;
+            width: 100%;
+            max-width: 600px;
+            margin: 25px auto;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .messErrorP i {
+            font-style: italic;
+        }
+        .messErrorA {
+            text-decoration: none;
+            border: solid 5px #F18720;
+            color: #F18720;
+        }
+        .btn-danger {
+            background-color: #F18720;
+            color: white;
+            font-size: 13px;
+        }
+    </style>
 </head>
 <body>
 <div th:include="layout/header"></div>
-<link rel="stylesheet" href="/static/css/ticket/payTickets.css">
+
 
 <div class="containerr">
     <div class="container-bg">
         <h3 id="h3ThanhToan" style="margin-bottom: 1em;">THANH TOÁN</h3>
         <h4 style="text-align: center; font-size: 30px; font-family: system-ui; font-weight: bold;
-                    color: white; margin-bottom: 0;">THỜI GIAN GIỮ VÉ: <span id="timeOut" style="text-align: center;
-                                          font-size: 30px; font-family: system-ui; font-weight: bold; color: white;"></span></h4>
+            color: white; margin-bottom: 0;">THỜI GIAN GIỮ VÉ: <span id="timeOut" style="text-align: center;
+                                      font-size: 30px; font-family: system-ui; font-weight: bold; color: white;"></span></h4>
+        <p class="messErrorP">
+
+            <div th:value="${errorMessage}"></div>
+            <br/><br/>
+            <a class="btn btn-danger messErrorA btn-xs" href="ShowtimesServlet">QUAY LẠI - BACK</a>
+        </p>
         <div class="d-flex flex-wrap div-Tong">
             <div class="div-thongTin">
                 <h3>THÔNG TIN THANH TOÁN</h3>
+
                 <table class="table">
                     <tr>
                         <td>Tên khách hàng:</td>
-                        <td>${ticketHienTai.getUserEmail().getName()}</td>
+                        <td th:text="${ticketHienTai.userEmail.name}"></td>
                     </tr>
                     <tr>
                         <td>Email khách hàng:</td>
-                        <td>${ticketHienTai.getUserEmail().getEmail()}</td>
+                        <td th:text="${ticketHienTai.userEmail.email}"></td>
                     </tr>
                     <tr>
                         <td>Tên phim:</td>
-                        <td>${ticketHienTai.getShowtimeId().getMovieId().getMovieTitle()}</td>
+                        <td th:text="${ticketHienTai.showtimeId.movieId.movieTitle}"></td>
                     </tr>
                     <tr>
                         <td>Thể loại:</td>
-                        <td>${ticketHienTai.getShowtimeId().getMovieId().getMovieCategory()}</td>
+                        <td th:text="${ticketHienTai.showtimeId.movieId.movieCategory}"></td>
                     </tr>
                     <tr>
                         <td>Suất chiếu:</td>
                         <td>
-                            <span>${gio}</span>
-                            <span>${ngay}</span>
+                            <span th:text="${gio}"></span>
+                            <span th:text="${ngay}"></span>
                         </td>
                     </tr>
                     <tr>
                         <td>Rạp:</td>
-                        <td>${ticketHienTai.getShowtimeId().getRoomId().getThreatId().getName()}</td>
+                        <td th:text="${ticketHienTai.showtimeId.roomId.threatId.name}"></td>
                     </tr>
                     <tr>
                         <td>Ghế:</td>
                         <td>
                             <ul id="hienThiGhe">
-                                <p:forEach items="${listS}" var="s">
-                                    <li>
-                                        ${s.getSeatId().getRowId().getRowNo()}${s.getSeatId().getSeatNo()} = ${s.getPrice()} VNĐ
-                                    </li>
-                                </p:forEach>
+                                <li th:each="s : ${listS}">
+                                    <span th:text="${s.seatId.rowId.rowNo}${s.seatId.seatNo}"></span> = <span th:text="${s.price}"></span> VNĐ
+                                </li>
                             </ul>
                         </td>
                     </tr>
-                    <p:if test="${!listWC.isEmpty()}">
+                    <th:block th:if="${not #lists.isEmpty(listWC)}">
                         <tr>
                             <td>Bắp nước:</td>
                             <td>
                                 <ul id="hienThiBapNuoc">
-                                    <p:forEach items="${listWC}" var="wc">
-                                        <li>
-                                            ${wc.getIdWaterCorn().getNameWaterCorn()} X ${wc.getSoLuong()} = ${wc.getUnitPrice()} VNĐ
-                                        </li>
-                                    </p:forEach>
+                                    <li th:each="wc : ${listWC}">
+                                        <span th:text="${wc.idWaterCorn.nameWaterCorn()}"></span> X <span th:text="${wc.soLuong()}"></span> = <span th:text="${wc.unitPrice()}"></span> VNĐ
+                                    </li>
                                 </ul>
                             </td>
                         </tr>
-                    </p:if>
+                    </th:block>
                     <tr>
-                        <td colspan="2" id="tc">TỔNG CỘNG: ${ticketHienTai.getTotalPrice()} VNĐ</td>
+                        <td colspan="2" id="tc">TỔNG CỘNG:  VNĐ</td>
+                        <td colspan="2" id="tc">TỔNG CỘNG: <span th:text="${ticketHienTai.totalPrice()}"></span> VNĐ</td>
                     </tr>
                 </table>
-                <p id="chonMaGiamGia">CHỌN MÃ GIẢM GIÁ</p>
-                <div id="div-select-option">
-                    <select class="notranslate seOp">
-                        <option value="chonMa">--- CHỌN MÃ ---</option>
-                        <p:forEach items="${couponsUser}" var="c">
-                            <option value="${c.couponId}">${c.couponId}:${c.priceDiscound}</option>
-                        </p:forEach>
-                    </select>
-                </div>
+<!--                <p id="chonMaGiamGia">CHỌN MÃ GIẢM GIÁ</p>-->
+<!--                <div id="div-select-option">-->
+<!--                    <select class="notranslate seOp">-->
+<!--                        <option value="chonMa">-&#45;&#45; CHỌN MÃ -&#45;&#45;</option>-->
+<!--                        <option th:each="c : ${couponsUser}" th:value="${c.couponId}" th:text="${c.couponId + ':' + c.priceDiscound}"></option>-->
+<!--                    </select>-->
+<!--                </div>-->
             </div>
             <div class="div-phuongThucThanhToan">
                 <h3>CHỌN PHƯƠNG THỨC THANH TOÁN</h3>
@@ -93,19 +130,19 @@
                         <div class="form-group row">
                             <div class="col-sm-6" hidden>
                                 <label for="fxRate">PartnerCode</label>
-                                <div class="fxRate">
+                                <div id="fxRate">
                                     <input type="text" class="form-control" name="partnerCode" value="MOMOBKUN20180529"/>
                                 </div>
                             </div>
                             <div class="col-sm-3" hidden>
                                 <label for="fxRate">AccessKey</label>
-                                <div class="fxRate">
+                                <div id="fxRate">
                                     <input type="text" class="form-control" name="accessKey" value="klm05TvNBzhg7h7j"/>
                                 </div>
                             </div>
                             <div class="col-sm-3" hidden>
                                 <label for="fxRate">SecretKey</label>
-                                <div class="fxRate" hidden>
+                                <div id="fxRate" hidden>
                                     <input type="text" class="form-control" name="secretKey" value="at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa"/>
                                 </div>
                             </div>
@@ -113,29 +150,28 @@
                         <div class="form-group row" hidden>
                             <div class="col-sm-3">
                                 <label for="fxRate">OrderId</label>
-                                <div class="fxRate">
+                                <div id="fxRate">
                                     <input type="text" class="form-control" name="orderId" value="1630640985"/>
                                 </div>
                             </div>
-
                         </div>
                         <div class="form-group row" hidden>
                             <div class="col-sm-6">
                                 <label for="fxRate">NotifyUrl</label>
-                                <div class="fxRate">
+                                <div id="fxRate">
                                     <input id="urlNotifyMoMo" type="text" class="form-control" name="notifyUrl" value="http://localhost:8080/Cinestar-war/"/>
                                 </div>
                             </div>
                             <div class="col-sm-6" hidden>
                                 <label for="fxRate">ReturnUrl</label>
-                                <div class="fxRate">
-                                    <input id="urlReturnMoMo" type="text" class="form-control" name="returnUrl" value="http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=${ticketHienTai.getTicketId()}&maGiamGia=chonMa"/>
+                                <div id="fxRate">
+                                    <input id="urlReturnMoMo" type="text" class="form-control" name="returnUrl" value="http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=${ticketHienTai.ticketId}&maGiamGia=chonMa"/>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group" hidden>
                             <label for="fxRate">ExtraData</label>
-                            <div class="fxRate">
+                            <div id="fxRate">
                                 <input type="text" class="form-control" name="extraData" value="merchantName=Cinestar"/>
                             </div>
                         </div>
@@ -143,29 +179,28 @@
                     <div class="row" style="width: 100%;margin: 10px auto">
                         <div class="col-sm-6" hidden>
                             <label for="fxRate" class="fs-1">OrderInfo</label>
-                            <div v="fxRate">
-                                <input type="text" class="form-control" name="orderInfo" form="myForm" value="Vé xem phim ${ticketHienTai.getShowtimeId().getMovieId().getMovieTitle()}" readonly/>
+                            <div id="fxRate">
+                                <input type="text" class="form-control" name="orderInfo" form="myForm" th:value="'Vé xem phim ' + ${ticketHienTai.showtimeId.movieId.movieTitle}" readonly/>
                             </div>
                         </div>
                         <div class="col-sm-6" hidden>
                             <label for="fxRate" class="fs-1">Amount</label>
                             <div id="fxRate">
-                                <input id="ip-amount" type="text" class="form-control" name="amount" value="${ticketHienTai.getTotalPrice()}" form="myForm" readonly/>
+                                <input id="ip-amount" type="text" class="form-control" name="amount" th:value="${ticketHienTai.totalPrice()}" form="myForm" readonly/>
                             </div>
                         </div>
                         <div class="col-sm-12" style="margin-top: 1em;">
                             <button type="submit" class="btn btn-lg button-momo" form="myForm">Thanh toán MoMo</button>
-                            <img src="https://developers.momo.vn/v3/assets/images/circle-logo-4fec3edddde4c441255fc90563a2ffda.png" width="50px" />
+                            <img src="https://developers.momo.vn/images/logo.png" width="50px" />
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-
         <div th:include="layout/contact"></div>
     </div>
 </div>
-<div th:include="layout/footer"></div>
+<div th:include="layout/footer"></div>x`xxxxx
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>

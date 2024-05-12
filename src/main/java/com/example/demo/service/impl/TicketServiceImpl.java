@@ -35,4 +35,24 @@ public class TicketServiceImpl implements TicketService {
     public Showtimes findByID(int id) {
         return showTimeRepository.findShowtimesByShowtimesId(id);
     }
+
+    @Override
+    public void create(Ticket newtk) {
+        ticketRepository.save(newtk);
+    }
+
+    @Override
+    public Ticket findByTicketID(int id) {
+        return ticketRepository.findByTicketId(id);
+    }
+
+    @Override
+    public List<Ticket> showAll() {
+        return ticketRepository.findAll();
+    }
+
+    @Override
+    public void remove(int id) {
+        ticketRepository.deleteById(id);
+    }
 }

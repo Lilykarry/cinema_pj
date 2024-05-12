@@ -24,6 +24,7 @@ public interface ShowTimeService {
 
     List<Showtimes> getAvailableDatesForTheater(Integer threatId);
 
+    Showtimes findShowtimesByShowtimesId(int id);
 
     List<Showtimes> showAll();
 

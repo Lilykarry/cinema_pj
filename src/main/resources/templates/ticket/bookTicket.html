@@ -118,6 +118,10 @@
                 <h3 id="thongTinDatVe">THÔNG TIN VÉ ĐANG ĐẶT</h3>
                 <table class="table" style="color: white; margin: 20px 0;">
                     <tr>
+                        <td style="border-top: none;">Tên id:</td>
+                        <td style="border-top: none;" th:text="${idST}" class="idST"></td>
+                    </tr>
+                    <tr>
                         <td style="border-top: none;">Tên phim:</td>
                         <td style="border-top: none;" th:text="${suatChieu.getMovieId().getMovieTitle()}"></td>
                     </tr>
@@ -146,7 +150,10 @@
                     <button class="col-md-6 col-sm-12 btn btn-success" id="btnThanhToan">Thanh toán</button>
                 </div>
             </div>
-
+            <div th:if="${user}" id="userDetails">
+                <span id="userName" th:text="${user.getName}"></span>
+                <span id="userEmail" th:text="${user.getEmail}"></span>
+            </div>
             <div th:include="layout/contact"></div>
         </div>
     </div>
@@ -167,10 +174,9 @@
             </div>
         </div>
     </div>
-
+````
     <script th:inline="javascript">
         $(document).ready(function () {
-            var idSuatChieu = $("#idSuatChieu").attr("class");
             var dsGhe = [];
             var dsTenGhe = [];
             var dsBapNuoc = [];
@@ -470,8 +476,29 @@
 
             // Event handling for payment button
             $("#btnThanhToan").click(function () {
-                // Check conditions before payment and perform corresponding action
-                // ...
+                let userName = $("#userName").text();
+                let userEmail = $("#userEmail").text();
+                let idST = $(".idST").text();
+                // Now you can use userName and userEmail as needed
+                console.log("User Name:", userName);
+                console.log("User Email:", userEmail);
+                if(userName == null) {
+                    alert("Bạn phải đăng nhập mới được thanh toán\n - You must be logged in to be paid -");
+                } else {
+                    if(dsGhe.length == 0) {
+                        alert("Bạn phải chọn ít nhất 1 ghế \n - You must choose at least 1 seat -");
+                    } else {
+                        let idSuatChieu = idST;
+                        let dsGhes = dsGhe.join(",");
+                        // Serialize dsBapNuoc object to JSON string and encode it
+                        let dsBapNuocs = encodeURIComponent(JSON.stringify(dsBapNuoc));
+                        console.log("idST"+ idSuatChieu);
+                        console.log(dsGhes);
+                        console.log(dsBapNuocs)
+                        // Redirect to the payment page
+                        window.location.href = "/guest/payment?idST=" + idSuatChieu + "&dsGhe=" + dsGhes + "&dsBapNuoc=" + dsBapNuocs;
+                    }
+                }
             });
         });
     </script>

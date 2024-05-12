@@ -11,4 +11,8 @@ public interface TicketService {
     Showtimes findShowtimesByDateTimeMvID(LocalDate day, LocalTime time, String movieID);
     List<Ticket> findAllTicketsByShowtimesByStatus(int id, int status);
     Showtimes findByID(int id);
+    void create(Ticket newtk);
+    Ticket findByTicketID(int id);
+    List<Ticket> showAll();
+    void remove(int id);
 }

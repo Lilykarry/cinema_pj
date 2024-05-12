@@ -27,10 +27,6 @@ public class TicketDetailsSeat {
     public TicketDetailsSeat() {
     }
 
-    public TicketDetailsSeat(Integer ticketDetailsId) {
-        this.ticketDetailsId = ticketDetailsId;
-    }
-
     public Integer getTicketDetailsId() {
         return ticketDetailsId;
     }
@@ -61,6 +57,9 @@ public class TicketDetailsSeat {
 
     public void setTicketId(Ticket ticketId) {
         this.ticketId = ticketId;
+        if (ticketId != null) {
+            ticketId.getTicketDetailsSeatCollection().add(this);
+        }
     }
 
     @Override
@@ -83,9 +82,5 @@ public class TicketDetailsSeat {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "models.TicketDetailsSeat[ ticketDetailsId=" + ticketDetailsId + " ]";
-    }
     
 }

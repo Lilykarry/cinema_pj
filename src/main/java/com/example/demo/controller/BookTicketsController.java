@@ -1,15 +1,20 @@
     package com.example.demo.controller;
 
     import com.example.demo.model.*;
+    import com.example.demo.security.UserPrincipal;
     import com.example.demo.service.SeatService;
     import com.example.demo.service.TicketService;
+    import com.example.demo.service.UserService;
     import com.example.demo.service.WaterCornService;
     import com.fasterxml.jackson.databind.ObjectMapper;
+    import org.apache.catalina.User;
     import org.json.JSONArray;
     import org.json.JSONException;
     import org.json.JSONObject;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.http.ResponseEntity;
+    import org.springframework.security.core.Authentication;
+    import org.springframework.security.core.context.SecurityContextHolder;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.*;
@@ -35,24 +40,27 @@
         @Autowired
         private WaterCornService waterCornService;
 
+        @Autowired
+        private UserService userService;
 
-            @GetMapping("/bookTicket/layGiaGhe")
-            @ResponseBody
-            public String getSeatPrices(@RequestParam("dsGhe") String stringArray) {
-                if (stringArray != null && !stringArray.isEmpty()) {
-                    String[] array = stringArray.split(",");
-                    StringBuilder seatPrices = new StringBuilder();
-                    for (String string : array) {
-                        Seat seat = seatService.findById(Integer.parseInt(string));
-                        seatPrices.append("<p>").append(seat.getRowId().getRowNo())
-                                .append(seat.getSeatNo()).append(" = ").append(seat.getPrice())
-                                .append(" VNĐ</p>");
-                    }
-                    return seatPrices.toString();
-                } else {
-                    return "<p>[Bạn chưa chọn ghế nào cả]</p>";
+
+        @GetMapping("/bookTicket/layGiaGhe")
+        @ResponseBody
+        public String getSeatPrices(@RequestParam("dsGhe") String stringArray) {
+            if (stringArray != null && !stringArray.isEmpty()) {
+                String[] array = stringArray.split(",");
+                StringBuilder seatPrices = new StringBuilder();
+                for (String string : array) {
+                    Seat seat = seatService.findById(Integer.parseInt(string));
+                    seatPrices.append("<p>").append(seat.getRowId().getRowNo())
+                            .append(seat.getSeatNo()).append(" = ").append(seat.getPrice())
+                            .append(" VNĐ</p>");
                 }
+                return seatPrices.toString();
+            } else {
+                return "<p>[Bạn chưa chọn ghế nào cả]</p>";
             }
+        }
 
         @PostMapping("/bookTicket/layGiaBapNuoc")
         @ResponseBody
@@ -135,6 +143,10 @@
 
         @GetMapping("/bookTicket")
         public String showBookTicketPage(Model model, @RequestParam("mvID") String mvID, @RequestParam("day") String day, @RequestParam("time") String time){
+            // Get current authenticated user
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserPrincipal users = (UserPrincipal) authentication.getPrincipal();
+            Users user = userService.findByEmail(users.getEmail());
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             DateFormat dateFormat = new SimpleDateFormat("HH:mm");
             List<Seat> danhSachGheDaDat = new ArrayList();
@@ -192,6 +204,8 @@
             model.addAttribute("ngay", formatter.format(ticketService.findByID(idST).getDate()));
             model.addAttribute("dsBapNuoc",waterCornService.listAll());
             model.addAttribute("html", html);
+            model.addAttribute("user", user);
+            model.addAttribute("idST",idST);
             return "ticket/bookTicket";
         }
 

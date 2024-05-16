@@ -250,12 +250,12 @@
                 </div>
                 <table class="table table-bordered" id="ttable">
                     <tr>
-                        <th>ID</th>
+                        <th >ID</th>
                         <th>Title</th>
                         <th>Category</th>
-                        <th>Performer</th>
+<!--                        <th>Performer</th>-->
                         <th>Film director</th>
-                        <th>Content</th>
+<!--                        <th>Content</th>-->
                         <th>Image</th>
                         <th>Trailer</th>
                         <th>Start movie</th>
@@ -267,9 +267,9 @@
                         <td class="Id" th:text="${movies.getMovieId()}"></td>
                         <td class="title" th:text="${movies.getMovieTitle()}"></td>
                         <td th:text="${movies.getMovieCategory()}"></td>
-                        <td><p class="contentMV" th:text="${movies.getPerformer()}"></p></td>
+<!--                        <td><p class="contentMV" th:text="${movies.getPerformer()}"></p></td>-->
                         <td class="director" th:text="${movies.getFilmDirector()}"></td>
-                        <td><p class="contentMV" th:text="${movies.getMovieContent()}"></p></td>
+<!--                        <td><p class="contentMV" th:text="${movies.getMovieContent()}"></p></td>-->
                         <td><img th:src="@{'/static/imagesMovie/' + ${movies.image}}" width="100px"></td>
                         <td class="trailer" th:text="${movies.getTrailer()}"></td>
                         <td class="dobuser" th:text="${movies.getStartMovie()}"></td>

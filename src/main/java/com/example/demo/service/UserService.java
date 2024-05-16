@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-
+import com.example.demo.domain.UpsertUser;
 import com.example.demo.exception.FieldMissMatchException;
 import com.example.demo.model.Users;
 
@@ -18,4 +18,6 @@ public interface UserService {
     boolean authenticate(String email, String password);
 
     Users findByEmail(String email);
+
+    boolean isEmailExists(String email);
 }

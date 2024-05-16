@@ -54,13 +54,13 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void save(UpsertMovie movie) throws IOException {
-
-        Movie entity = movieRepository.findById(movie.getMovieId()).orElse(new Movie());
+        String newMovieID = generateMovieID();
+        Movie entity = movieRepository.findById(newMovieID).orElse(new Movie());
 
         if (movie.getImage() != null && !movie.getImage().isEmpty()) {
             entity.setImage(generateImagePath(movie.getImage()));
         }
-        entity.setMovieId(movie.getMovieId());
+        entity.setMovieId(newMovieID);
         entity.setMovieTitle(movie.getMovieTitle());
         entity.setMovieCategory(movie.getMovieCategory());
         entity.setPerformer(movie.getPerformer());
@@ -77,6 +77,18 @@ public class MovieServiceImpl implements MovieService {
         entity.setStatus(movie.getStatus());
 
         movieRepository.save(entity);
+    }
+
+
+    public String generateMovieID() {
+        String maxMovieID = movieRepository.findMaxMovieID();
+        if (maxMovieID == null) {
+            return "M001";
+        } else {
+            int lastNumber = Integer.parseInt(maxMovieID.substring(1));
+            int newNumber = lastNumber + 1;
+            return "M" + String.format("%03d", newNumber);
+        }
     }
     private String generateImagePath(MultipartFile file) throws IOException {
         String fileExtension = getFileExtension(file.getOriginalFilename());
@@ -117,6 +129,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void deleteShowtimeById(Integer showtimeId) {
         showTimeRepository.deleteById(showtimeId);
+    }
+
+    @Override
+    public boolean isEmailExists(String movieTitle) {
+        return movieRepository.existsByMovieTitle(movieTitle);
     }
 
     @Override

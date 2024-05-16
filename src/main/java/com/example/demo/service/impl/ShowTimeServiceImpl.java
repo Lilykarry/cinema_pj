@@ -81,6 +81,7 @@ public class ShowTimeServiceImpl implements ShowTimeService {
 
     @Override
     public void save(UpsertShowtime showtime) throws IOException, MovieNotFoundExeption {
+
         Showtimes entity;
 
         // Kiểm tra ID của UpsertShowtime
@@ -129,6 +130,22 @@ public class ShowTimeServiceImpl implements ShowTimeService {
             return result.get();
         }
         throw new MovieNotFoundExeption("Could not find any movie with ID"+showtimeId);
+    }
+
+    @Override
+    public boolean isShowtimeOverlap(UpsertShowtime showtime) {
+        List<Showtimes> existingShowtimes = showTimeRepository.findByRoomIdAndDateAndTime(
+                showtime.getRoomId(),
+                java.sql.Date.valueOf(showtime.getDate()),
+                java.sql.Time.valueOf(showtime.getTime()));
+
+        // Kiểm tra xem có showtime nào khác trùng lặp không
+        for (Showtimes existingShowtime : existingShowtimes) {
+            if (!existingShowtime.getShowtimesId().equals(showtime.getShowtimeId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

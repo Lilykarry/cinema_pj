@@ -16,6 +16,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void save(Room room) {
+        room.setRoomId(generateRoomID());
         roomRepository.save(room);
     }
 
@@ -24,5 +25,13 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findAll();
     }
 
-
+    public String generateRoomID() {
+        String maxRoomID = roomRepository.findMaxRoomID();
+        if (maxRoomID == null) {
+            return "R01";
+        }
+        int currentNumber = Integer.parseInt(maxRoomID.substring(1));
+        currentNumber++;
+        return "R" + String.format("%02d", currentNumber);
+    }
 }

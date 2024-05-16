@@ -15,5 +15,8 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     Movie findByMovieId(String id);
 
 
+    @Query("SELECT MAX(m.movieId) FROM Movie m")
+    String findMaxMovieID();
 
+    boolean existsByMovieTitle(String movieName);
 }

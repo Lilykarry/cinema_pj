@@ -30,9 +30,9 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/login", params = "error=true")
-    public String loginError(Model model) {
+    public String loginError(Model model,RedirectAttributes ra) {
         System.out.println("ok");
-        model.addAttribute("error", "Invalid username or password !");
+        ra.addAttribute("error", "Invalid username or password !");
         return "users/login";
     }
 
@@ -64,7 +64,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") Users user) {
+    public String registerUser(@ModelAttribute("user") Users user,RedirectAttributes redirectAttributes) {
+        if (userService.isEmailExists(user.getEmail())) {
+            // Nếu email đã tồn tại, thêm thông báo lỗi và chuyển hướng trở lại trang đăng ký
+            redirectAttributes.addFlashAttribute("error", "Email đã tồn tại.");
+            return "redirect:/register";
+        }
         userService.register(user);
         return "redirect:/login"; // Redirect to login page after successful registration
     }

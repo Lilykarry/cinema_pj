@@ -22,7 +22,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        // Lấy thông tin xác thực của người dùng
         authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         String userEmail = userPrincipal.getEmail();
@@ -38,9 +37,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         }
     }
 
-    // Phương thức kiểm tra xem người dùng có phải là quản trị viên không
     private boolean isAdminUser(String email) {
-        // Sử dụng adminRepository để kiểm tra xem có quản trị viên với email đã cho hay không
         Admins admin = adminRepository.findByEmail(email);
         return admin != null;
     }

@@ -53,7 +53,7 @@
 
             <div th:value="${errorMessage}"></div>
             <br/><br/>
-            <a class="btn btn-danger messErrorA btn-xs" href="ShowtimesServlet">QUAY LẠI - BACK</a>
+            <a class="btn btn-danger messErrorA btn-xs" href="Showtime">QUAY LẠI - BACK</a>
         </p>
         <div class="d-flex flex-wrap div-Tong">
             <div class="div-thongTin">
@@ -125,76 +125,89 @@
             <div class="div-phuongThucThanhToan">
                 <h3>CHỌN PHƯƠNG THỨC THANH TOÁN</h3>
                 <div id="paypal-button"></div>
-                <form id="myForm" class="myForm" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="https://test-payment.momo.vn/qr/index.php">
-                    <div style="display: none">
-                        <div class="form-group row">
-                            <div class="col-sm-6" hidden>
-                                <label for="fxRate">PartnerCode</label>
-                                <div id="fxRate">
-                                    <input type="text" class="form-control" name="partnerCode" value="MOMOBKUN20180529"/>
-                                </div>
-                            </div>
-                            <div class="col-sm-3" hidden>
-                                <label for="fxRate">AccessKey</label>
-                                <div id="fxRate">
-                                    <input type="text" class="form-control" name="accessKey" value="klm05TvNBzhg7h7j"/>
-                                </div>
-                            </div>
-                            <div class="col-sm-3" hidden>
-                                <label for="fxRate">SecretKey</label>
-                                <div id="fxRate" hidden>
-                                    <input type="text" class="form-control" name="secretKey" value="at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa"/>
-                                </div>
-                            </div>
+                <div class="card-body">
+                    <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/12/vnpay-logo-inkythuatso-01-13-16-29-51.jpg" style="width: 200px">
+                    <form th:action="@{/guest/submitOrder}" method="post">
+                        <div class="form-group">
+<!--                            <label for="amount">Số tiền:</label>-->
+                            <input type="hidden" class="form-control" id="amount" name="amount" th:value="${ticketHienTai.totalPrice}">
                         </div>
-                        <div class="form-group row" hidden>
-                            <div class="col-sm-3">
-                                <label for="fxRate">OrderId</label>
-                                <div id="fxRate">
-                                    <input type="text" class="form-control" name="orderId" value="1630640985"/>
-                                </div>
-                            </div>
+                        <div class="form-group">
+<!--                            <label for="orderInfo">Thông tin đơn hàng:</label>-->
+                            <input type="hidden" class="form-control" id="orderInfo" name="orderInfo"  th:value="'Vé xem phim ' + ${ticketHienTai.showtimeId.movieId.movieTitle}">
                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <label for="fxRate">NotifyUrl</label>
-                                <div id="fxRate">
-                                    <input id="urlNotifyMoMo" type="text" class="form-control" name="notifyUrl" value="http://localhost:8080/Cinestar-war/"/>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="fxRate">ReturnUrl</label>
-                                <div id="fxRate">
-                                    <input id="urlReturnMoMo" type="text" class="form-control" name="returnUrl" value="http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=${ticketHienTai.ticketId}&maGiamGia=chonMa"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" hidden>
-                            <label for="fxRate">ExtraData</label>
-                            <div id="fxRate">
-                                <input type="text" class="form-control" name="extraData" value="merchantName=Cinestar"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="width: 100%;margin: 10px auto">
-                        <div class="col-sm-6" hidden>
-                            <label for="fxRate" class="fs-1">OrderInfo</label>
-                            <div id="fxRate">
-                                <input type="text" class="form-control" name="orderInfo" form="myForm" th:value="'Vé xem phim ' + ${ticketHienTai.showtimeId.movieId.movieTitle}" readonly/>
-                            </div>
-                        </div>
-                        <div class="col-sm-6" hidden>
-                            <label for="fxRate" class="fs-1">Amount</label>
-                            <div id="fxRate">
-                                <input id="ip-amount" type="text" class="form-control" name="amount" th:value="${ticketHienTai.totalPrice}" form="myForm" readonly/>
-                            </div>
-                        </div>
-                        <div class="col-sm-12" style="margin-top: 1em;">
-                            <button type="submit" class="btn btn-lg button-momo" form="myForm">Thanh toán MoMo</button>
-                            <img src="https://developers.momo.vn/images/logo.png" width="50px" />
-                        </div>
-                    </div>
-                </form>
+                        <button type="submit" class="btn btn-primary">Thanh toán</button>
+                    </form>
+                </div><!--                <form id="myForm" class="myForm" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="https://test-payment.momo.vn/qr/index.php">-->
+<!--                    <div style="display: none">-->
+<!--                        <div class="form-group row">-->
+<!--                            <div class="col-sm-6" hidden>-->
+<!--                                <label for="fxRate">PartnerCode</label>-->
+<!--                                <div id="fxRate">-->
+<!--                                    <input type="text" class="form-control" name="partnerCode" value="MOMOBKUN20180529"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-sm-3" hidden>-->
+<!--                                <label for="fxRate">AccessKey</label>-->
+<!--                                <div id="fxRate">-->
+<!--                                    <input type="text" class="form-control" name="accessKey" value="klm05TvNBzhg7h7j"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-sm-3" hidden>-->
+<!--                                <label for="fxRate">SecretKey</label>-->
+<!--                                <div id="fxRate" hidden>-->
+<!--                                    <input type="text" class="form-control" name="secretKey" value="at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="form-group row" hidden>-->
+<!--                            <div class="col-sm-3">-->
+<!--                                <label for="fxRate">OrderId</label>-->
+<!--                                <div id="fxRate">-->
+<!--                                    <input type="text" class="form-control" name="orderId" value="1630640985"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="form-group row">-->
+<!--                            <div class="col-sm-6">-->
+<!--                                <label for="fxRate">NotifyUrl</label>-->
+<!--                                <div id="fxRate">-->
+<!--                                    <input id="urlNotifyMoMo" type="text" class="form-control" name="notifyUrl" value="http://localhost:8080/Cinestar-war/"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-sm-6">-->
+<!--                                <label for="fxRate">ReturnUrl</label>-->
+<!--                                <div id="fxRate">-->
+<!--                                    <input id="urlReturnMoMo" type="text" class="form-control" name="returnUrl" value="http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=${ticketHienTai.ticketId}&maGiamGia=chonMa"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="form-group" hidden>-->
+<!--                            <label for="fxRate">ExtraData</label>-->
+<!--                            <div id="fxRate">-->
+<!--                                <input type="text" class="form-control" name="extraData" value="merchantName=Cinestar"/>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row" style="width: 100%;margin: 10px auto">-->
+<!--                        <div class="col-sm-6" hidden>-->
+<!--                            <label for="fxRate" class="fs-1">OrderInfo</label>-->
+<!--                            <div id="fxRate">-->
+<!--                                <input type="text" class="form-control" name="orderInfo" form="myForm" th:value="'Vé xem phim ' + ${ticketHienTai.showtimeId.movieId.movieTitle}" readonly/>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-sm-6" hidden>-->
+<!--                            <label for="fxRate" class="fs-1">Amount</label>-->
+<!--                            <div id="fxRate">-->
+<!--                                <input id="ip-amount" type="text" class="form-control" name="amount" th:value="${ticketHienTai.totalPrice}" form="myForm" readonly/>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-sm-12" style="margin-top: 1em;">-->
+<!--                            <button type="submit" class="btn btn-lg button-momo" form="myForm">Thanh toán MoMo</button>-->
+<!--                            <img src="https://developers.momo.vn/images/logo.png" width="50px" />-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
             </div>
         </div>
         <div th:include="layout/contact"></div>
@@ -203,6 +216,9 @@
 <div th:include="layout/footer"></div>x`xxxxx
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
         // if (session.getAttribute("outTimeTicket") == null) {

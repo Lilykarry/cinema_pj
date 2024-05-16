@@ -51,12 +51,14 @@ public class MovieAdminController {
 }
     @PostMapping("/Movie/Save")
     public String saveMovie(@ModelAttribute UpsertMovie movie, RedirectAttributes ra)  throws IOException {
-
-
+        if (movieService.isEmailExists(movie.getMovieTitle())) {
+            // Nếu email đã tồn tại, thêm thông báo lỗi và chuyển hướng trở lại trang đăng ký
+            ra.addFlashAttribute("error", "Phim đã tồn tại.");
+            return "redirect:/Admin/Movie/New";
+        }
             movieService.save(movie);
             ra.addFlashAttribute("mess","The movie has been saved successfully");
             return "redirect:/Admin/Movie";
-
     }
     @GetMapping("/Movie/Edit/{movieId}")
     public String showEditForm(@PathVariable("movieId") String movieId,Model model,RedirectAttributes ra){

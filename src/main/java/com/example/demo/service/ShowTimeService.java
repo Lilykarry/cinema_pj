@@ -33,4 +33,6 @@ public interface ShowTimeService {
     void save(UpsertShowtime showtime) throws IOException, MovieNotFoundExeption;
 
     Showtimes get(Integer showtimeId)throws MovieNotFoundExeption;
+
+    boolean isShowtimeOverlap(UpsertShowtime showtime);
 }

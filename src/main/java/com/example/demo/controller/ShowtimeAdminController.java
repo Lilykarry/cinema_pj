@@ -57,12 +57,19 @@ public class ShowtimeAdminController {
     }
     @PostMapping("/Showtime/Save")
     public String saveShowtime(@ModelAttribute UpsertShowtime showtime, RedirectAttributes ra) throws IOException, MovieNotFoundExeption {
+        if (showTimeService.isShowtimeOverlap(showtime)) {
+            ra.addFlashAttribute("error", "The showtime overlaps with existing showtimes");
+            return "redirect:/Admin/Showtime/New"; // Redirect back to the new showtime form
+        }
         showTimeService.save(showtime);
 
         ra.addFlashAttribute("mess","The threat has been saved successfully");
         return "redirect:/Admin/Showtime";
 
     }
+
+
+
     @GetMapping("/Showtime/Edit/{showtimeId}")
     public String showEditForm(@PathVariable("showtimeId") Integer showtimeId,Model model,RedirectAttributes ra){
         try {

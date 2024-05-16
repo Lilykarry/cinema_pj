@@ -19,6 +19,9 @@
     <div class="form-container sign-up">
         <form th:action="@{/register}" method="post" th:object="${user}" id="registerForm">
             <h1>Create Account</h1>
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
             <input type="email" th:field="*{email}" placeholder="Email" required>
             <input type="text" th:field="*{name}" placeholder="Name">
             <input type="tel" th:field="*{phone}" placeholder="Phone">

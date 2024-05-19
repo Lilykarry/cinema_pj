@@ -127,14 +127,14 @@
                 <div id="paypal-button"></div>
                 <div class="card-body">
                     <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/12/vnpay-logo-inkythuatso-01-13-16-29-51.jpg" style="width: 200px">
-                    <form th:action="@{/guest/submitOrder}" method="post">
+                    <form th:action="@{/submitOrder}" method="post">
                         <div class="form-group">
 <!--                            <label for="amount">Số tiền:</label>-->
                             <input type="hidden" class="form-control" id="amount" name="amount" th:value="${ticketHienTai.totalPrice}">
                         </div>
                         <div class="form-group">
 <!--                            <label for="orderInfo">Thông tin đơn hàng:</label>-->
-                            <input type="hidden" class="form-control" id="orderInfo" name="orderInfo"  th:value="'Vé xem phim ' + ${ticketHienTai.showtimeId.movieId.movieTitle}">
+                            <input type="hidden" class="form-control" id="orderInfo" name="orderInfo"  th:value="'Ve xem phim ' + ${ticketHienTai.showtimeId.movieId.movieTitle}">
                         </div>
                         <button type="submit" class="btn btn-primary">Thanh toán</button>
                     </form>
@@ -213,7 +213,7 @@
         <div th:include="layout/contact"></div>
     </div>
 </div>
-<div th:include="layout/footer"></div>x`xxxxx
+<div th:include="layout/footer"></div>
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

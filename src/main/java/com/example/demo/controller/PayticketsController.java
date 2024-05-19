@@ -28,7 +28,7 @@ import java.util.List;
 
 @Controller
 @Transactional
-@RequestMapping("/guest")
+
 public class PayticketsController {
     @Autowired
     private VNPAYService vnPayService;
@@ -53,6 +53,10 @@ public class PayticketsController {
 
     @Autowired
     private TicketDetailsWaterCornService ticketDetailsWaterCornService;
+
+    @Autowired
+    private SendMailTicket sendMailTicket;
+
 
     @GetMapping("/payment")
     public String show(@RequestParam("dsGhe") String dsGhe,
@@ -103,7 +107,7 @@ public class PayticketsController {
                 sizeOfSeatOfShowtimes += 1;
             }
         }
-
+        System.out.println("size of seat:"+sizeOfSeatOfShowtimes);
         for (Ticket ticket : st.getTicketCollection()) {
             if (ticket.getStatus() != 0) {
                 for (TicketDetailsSeat ticketDetailsSeat : ticket.getTicketDetailsSeatCollection()) {
@@ -111,6 +115,7 @@ public class PayticketsController {
                 }
             }
         }
+
         // check full seat of showtimes - end
 
         List<Integer> dsGheHienTai = new ArrayList<>();
@@ -127,7 +132,7 @@ public class PayticketsController {
                 }
             }
         }
-
+        System.out.println("dsGheHIenTai:"+dsGheHienTai);
 
         List<Integer> dsIdBapNuoc = new ArrayList<Integer>();
         List<Integer> dsSoLuongBapNuoc = new ArrayList<Integer>();
@@ -183,12 +188,12 @@ public class PayticketsController {
                         errorMessage = "--- KHÔNG ĐƯỢC CHỌN CÁC GHẾ TRÙNG NHAU, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
                     }
                 }
-//
+
                 if (bienDemSuccess == false) {
                     errorMessage = "--- GHẾ KHÔNG TỒN TẠI TRONG SUẤT CHIẾU NÀY, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
 
                 }
-//
+
                 for (Ticket ticket : ticketService.findAllTicketsByShowtimesByStatus(Integer.parseInt(idST), 1)) {
                     for (TicketDetailsSeat ticketDetailsSeat : ticket.getTicketDetailsSeatCollection()) {
                         if (dsGheHienTai.contains(ticketDetailsSeat.getSeatId().getSeatId())) {
@@ -196,16 +201,12 @@ public class PayticketsController {
                         }
                     }
                 }
-//
+
                 Ticket newTicket = new Ticket();
                 newTicket.setShowtimeId(showTimeService.findShowtimesByShowtimesId(8));
                 newTicket.setUserEmail(taiKhoan);
                 newTicket.setStatus(0);
                 ticketService.create(newTicket);
-//
-
-
-
 
                 Integer sumPrice = 0;
                 if (dsIdBapNuoc.isEmpty() && dsSoLuongBapNuoc.isEmpty()) {
@@ -218,7 +219,8 @@ public class PayticketsController {
                         ticketDetailsSeatService.create(newDetailTicket);
                         sumPrice += seat.getPrice();
                     }
-                  }else {
+
+              }else {
                     List<Integer> danhSachSS = new ArrayList<>();
                     for (Integer idBapNuoc : dsIdBapNuoc) {
                         if (waterCornService.findById(idBapNuoc) == null) {
@@ -229,7 +231,7 @@ public class PayticketsController {
                                 errorMessage = "--- KHÔNG ĐƯỢC CHỌN CÁC BẮP NƯỚC TRÙNG NHAU, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
                             }
                         }
-//
+                    }
                     Integer sumSoLuong = 0;
                     for (Integer integer : dsSoLuongBapNuoc) {
                         sumSoLuong += integer;
@@ -237,7 +239,6 @@ public class PayticketsController {
                     if (sumSoLuong > 8) {
                         errorMessage = "--- SỐ LƯỢNG BẮP NƯỚC ĐƯỢC PHÉP CHỌN TỐI ĐA LÀ 8, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
                     }
-//
                     for (Integer integer : dsGheHienTai) {
                         TicketDetailsSeat newDetailTicket = new TicketDetailsSeat(); // Create a new instance in each iteration
                         newDetailTicket.setTicketId(newTicket);
@@ -246,11 +247,7 @@ public class PayticketsController {
                         newDetailTicket.setPrice(seat.getPrice());
                         ticketDetailsSeatService.create(newDetailTicket);
                         sumPrice += seat.getPrice();
-                    }}
-//
-//
-//                            TicketDetailsWaterCorn newWTTicket = new TicketDetailsWaterCorn();
-//
+                    }
                     if (stringArrayBapNuoc != null && !stringArrayBapNuoc.isEmpty()) {
                         try {
                             JSONArray dsBapNuoc = new JSONArray(stringArrayBapNuoc);
@@ -272,13 +269,13 @@ public class PayticketsController {
                         }
                     }
 //
-                  }
+              }
                   newTicket.setTotalPrice(sumPrice);
                   ticketService.create(newTicket);
                   Ticket tickets = ticketService.findByTicketID(newTicket.getTicketId());
 
                   model.addAttribute("ticketHienTai", tickets);
-
+                    System.out.println("ticket id:"+tickets.getTicketId());
 
                   model.addAttribute("listS", ticketDetailsSeatService.searchSeatsByTicketId(tickets.getTicketId()));
                   model.addAttribute("listWC", ticketDetailsWaterCornService.searchWaterCornssByTicketId(tickets.getTicketId()));
@@ -297,78 +294,6 @@ public class PayticketsController {
         else {
             errorMessage = "--- BẠN PHẢI ĐĂNG NHẬP MỚI CÓ THỂ THANH TOÁN, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
         }
-//
-//                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserPrincipal users = (UserPrincipal) authentication.getPrincipal();
-//        Users taiKhoan = userService.findByEmail(users.getEmail());
-//                Ticket newTicket = new Ticket();
-//                newTicket.setShowtimeId(showTimeService.findShowtimesByShowtimesId(8));
-//                newTicket.setUserEmail(taiKhoan);
-//                newTicket.setStatus(0);
-//                ticketService.create(newTicket);
-
-//        for(Ticket a : ticketService.showAll()){
-//            System.out.println( "Ticket{" +
-//                    "ticketId=" + a.getTicketId() +
-//                    ", ticketBookingTime=" + a.getTicketBookingTime() +
-//                    ", pay=" + a.getPay() +
-//                    ", totalPrice=" + a.getTotalPrice() +
-//                    ", status=" + a.getStatus() +
-//                    ", showtimeId=" + a.getShowtimeId().getShowtimesId() +
-//                    ", userEmail=" + a.getUserEmail().getEmail() +
-//                    ", ticketDetailsSeatCollection=" + a.getTicketDetailsSeatCollection() +
-//                    ", ticketDetailsWaterCornCollection=" + a.getTicketDetailsWaterCornCollection() +
-//                    '}');
-//        }
-//        Integer sumPrice = 0;
-//        for (Integer integer : dsGheHienTai) {
-//            TicketDetailsSeat newDetailTicket = new TicketDetailsSeat(); // Create a new instance in each iteration
-//            newDetailTicket.setTicketId(newTicket);
-//            Seat seat = seatService.findById(integer);
-//            newDetailTicket.setSeatId(seat);
-//            newDetailTicket.setPrice(seat.getPrice());
-//            ticketDetailsSeatService.create(newDetailTicket);
-//            sumPrice += seat.getPrice();
-//        }
-//
-//        newTicket.setTotalPrice(sumPrice);
-//        ticketService.create(newTicket);
-//        if (stringArrayBapNuoc != null && !stringArrayBapNuoc.isEmpty()) {
-//            try {
-//                JSONArray dsBapNuoc = new JSONArray(stringArrayBapNuoc);
-//                for (int i = 0; i < dsBapNuoc.length(); i++) {
-//                    JSONObject item = dsBapNuoc.getJSONObject(i);
-//                    int quantity = item.getInt("quantity");
-//                    int id = item.getInt("id");
-//                    TicketDetailsWaterCorn newWTTicket = new TicketDetailsWaterCorn(); // Create a new instance in each iteration
-//                    newWTTicket.setTicketId(newTicket);
-//                    WaterCorn waterCorn = waterCornService.findById(id);
-//                    newWTTicket.setIdWaterCorn(waterCorn);
-//                    newWTTicket.setSoLuong(quantity);
-//                    newWTTicket.setUnitPrice(waterCorn.getPrice());
-//                    ticketDetailsWaterCornService.create(newWTTicket);
-//                    sumPrice += (waterCorn.getPrice() * quantity);
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//
-//
-//        newTicket.setTotalPrice(sumPrice);
-//        ticketService.create(newTicket);
-//
-//        Ticket tickets = ticketService.findByTicketID(newTicket.getTicketId());
-//
-//        model.addAttribute("ticketHienTai", tickets);
-//
-//
-//        model.addAttribute("listS", ticketDetailsSeatService.searchSeatsByTicketId(tickets.getTicketId()));
-//        model.addAttribute("listWC", ticketDetailsWaterCornService.searchWaterCornssByTicketId(tickets.getTicketId()));
-//        model.addAttribute("gio", dateFormat.format(tickets.getShowtimeId().getTime()));
-//        model.addAttribute("ngay", formatter.format(tickets.getShowtimeId().getDate()));
-//        model.addAttribute("errorMessage", errorMessage);
         return "ticket/payTicket";
     }
     @PostMapping("/submitOrder")
@@ -394,7 +319,7 @@ public class PayticketsController {
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("paymentTime", paymentTime);
         model.addAttribute("transactionId", transactionId);
-
+        System.out.println("payment status:"+paymentStatus);
         return paymentStatus == 1 ? "ticket/orderSuccess" : "ticket/orderFail";
     }
 }

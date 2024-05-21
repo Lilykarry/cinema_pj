@@ -7,6 +7,7 @@ import com.example.demo.model.Threat;
 import com.example.demo.repository.ThreatRepository;
 import com.example.demo.service.ThreatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +26,7 @@ public class TheatServiceImpl implements ThreatService {
 
     @Override
     public List<Threat> showAllTheater() {
-        return theatRepository.findAll();
+        return theatRepository.findAll(Sort.by(Sort.Direction.DESC, "Id"));
     }
 
     @Override

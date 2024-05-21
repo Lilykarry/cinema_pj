@@ -12,6 +12,7 @@ import com.example.demo.repository.ShowTimeRepository;
 import com.example.demo.repository.ThreatRepository;
 import com.example.demo.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,7 +45,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> showAllFilm() {
-        return movieRepository.findAll();
+        return movieRepository.findAll(Sort.by(Sort.Direction.DESC, "movieId"));
     }
 
     @Override

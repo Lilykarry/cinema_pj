@@ -14,5 +14,7 @@ public interface TicketService {
     void create(Ticket newtk);
     Ticket findByTicketID(int id);
     List<Ticket> showAll();
+    List<Ticket> showAllByEmal(String email);
     void remove(int id);
+    void deleteTicketByStatus(int status);
 }

@@ -7,6 +7,7 @@ import com.example.demo.repository.TicketRepository;
 import com.example.demo.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -52,7 +53,18 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> showAllByEmal(String email) {
+        return ticketRepository.findByUserEmail_Email(email);
+    }
+
+    @Override
     public void remove(int id) {
         ticketRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTicketByStatus(int status) {
+        ticketRepository.deleteAllByStatus(status);
     }
 }

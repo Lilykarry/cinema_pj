@@ -13,7 +13,7 @@ import java.util.*;
 @Service
 public class VNPAYService {
 
-    public String createOrder(HttpServletRequest request, int amount, String orderInfor, String urlReturn){
+    public String createOrder(HttpServletRequest request, int amount, String orderInfor, int ticketId, String urlReturn){
         //Các bạn có thể tham khảo tài liệu hướng dẫn và điều chỉnh các tham số
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
@@ -30,7 +30,8 @@ public class VNPAYService {
         vnp_Params.put("vnp_CurrCode", "VND");
 
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", orderInfor);
+        String orderInfoWithTicketId = orderInfor + " - TicketID: " + ticketId;
+        vnp_Params.put("vnp_OrderInfo", orderInfoWithTicketId);
         vnp_Params.put("vnp_OrderType", orderType);
 
         String locate = "vn";

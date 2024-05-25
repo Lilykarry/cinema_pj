@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        .ticket {
+            display: inline-block;
+            width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 2px solid pink;
+            background: hotpink;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            line-height: 1.5;
+        }
+        .ticket h1, .ticket h2, .ticket h3 {
+            text-align: left;
+            margin: 5px 0;
+        }
+        .ticket p {
+            margin: 3px 0;
+            font-size: 11px;
+        }
+        .ticket .details, .ticket .footer, .ticket .price {
+            font-size: 14px;
+        }
+        .header{
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .ticket .cinema {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .ticket .movie-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .ticket .price {
+            text-align: right;
+        }
+        .ticket.showtime{
+            display: inline-block;
+            width: 100%;
+        }
+        .ticket img{
+            width: 130px;
+        }
+    </style>
+</head>
+<body>
+    <div th:include="layout/header"></div>
+    <div class="container d-flex align-items-center">
+        <div class="ticket mx-auto" th:each="seat : ${listSeat}">
+            <div class="header">
+                <img th:src="@{/static/img/white-2018.png}" alt="">
+                <h6 class="d-inline-block font-italic" th:text="${ticket.showtimeId.roomId.threatId.name.replace('Cinestar ', '')}"></h6>
+                <p class="text-start"><strong>Liên 2:</strong> Khách Hàng</p>
+                <p class="text-start d-inline-block"><strong>MS:</strong><p th:text="${ticket.ticketId}" class="d-inline-block"></p></p>
+                <p class="d-inline-block">-----------------------------------------------------------------------------</p>
+            </div>
+            <div class="movie-title">
+                <h4 th:text="${ticket.showtimeId.movieId.movieTitle}"></h4>
+            </div>
+            <div class="showtime">
+                <div class="d-inline-block w-100">
+                    <p class="float-left">GIỜ(TIME)</p>
+                    <p class="float-right">NGÀY(DATE)</p>
+                </div>
+                <div>
+                    <h4 class="float-left" th:text="${#dates.format(ticket.showtimeId.time, 'HH:mm')}"></h4>
+                    <h4 class="float-right" th:text="${#dates.format(ticket.showtimeId.date, 'dd/MM/yyyy')}"></h4>
+                </div>
+            </div>
+            <div class="showtime">
+                <div class="d-inline-block w-100">
+                    <p class="float-left">Note </p>
+                    <p class="float-right">RẠP/GHÊ (SCREEN/SEAT)</p>
+                </div>
+                <div class="d-inline-block w-100">
+                    <h4 class="float-right"  th:text="${  ticket.showtimeId.roomId.roomId + '/' + seat.seatId.rowId.rowNo + '' + seat.seatId.seatNo}"></h4>
+                </div>
+            </div>
+            <div class="showtime">
+                <div>
+                    <p class="float-left">TỔNG TIỀN(TOTAL) </p>
+                </div>
+                <div>
+                    <h4 class="float-right" th:text="${seat.price}"></h4>
+                    <p class="d-inline-block">-----------------------------------------------------------------------------</p>
+                </div>
+            </div>
+            <div class="details">
+                <p>CÔNG TY CỔ PHẦN GIẢI TRÍ PHÁT HÀNH PHIM – RẠP CHIẾU PHIM NGÔI SAO</p>
+                <p>135 HAI BÀ TRƯNG, PHƯỜNG BẾN NGHÉ, QUẬN 1, TP.HCM</p>
+            </div>
+            <div>
+                <div>
+                    <p class="d-inline-block"> KH: </p><p class="d-inline-block" th:text="${customer}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

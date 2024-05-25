@@ -8,6 +8,7 @@ import com.example.demo.repository.TicketRepository;
 import com.example.demo.service.TicketDetailsSeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,5 +29,11 @@ public class TicketDetailsSeatServiceImpl implements TicketDetailsSeatService {
     @Override
     public List<TicketDetailsSeat> searchSeatsByTicketId(int id) {
         return tIcketDetailsSeatRepository.findByTicketId_TicketId(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteSeatsByTicketId(int id) {
+        tIcketDetailsSeatRepository.deleteAllByTicketId_TicketId(id);
     }
 }

@@ -133,6 +133,10 @@
                             <input type="hidden" class="form-control" id="amount" name="amount" th:value="${ticketHienTai.totalPrice}">
                         </div>
                         <div class="form-group">
+                            <!--                            <label for="amount">Số tiền:</label>-->
+                            <input type="hidden" class="form-control" id="ticketId" name="ticketId" th:value="${ticketHienTai.ticketId}">
+                        </div>
+                        <div class="form-group">
 <!--                            <label for="orderInfo">Thông tin đơn hàng:</label>-->
                             <input type="hidden" class="form-control" id="orderInfo" name="orderInfo"  th:value="'Ve xem phim ' + ${ticketHienTai.showtimeId.movieId.movieTitle}">
                         </div>

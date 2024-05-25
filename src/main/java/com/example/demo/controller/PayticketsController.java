@@ -54,8 +54,7 @@ public class PayticketsController {
     @Autowired
     private TicketDetailsWaterCornService ticketDetailsWaterCornService;
 
-    @Autowired
-    private SendMailTicket sendMailTicket;
+
 
 
     @GetMapping("/payment")
@@ -299,9 +298,10 @@ public class PayticketsController {
     @PostMapping("/submitOrder")
     public String submidOrder(@RequestParam("amount") int orderTotal,
                               @RequestParam("orderInfo") String orderInfo,
+                              @RequestParam("ticketId") int ticketId,
                               HttpServletRequest request){
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, baseUrl);
+        String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, ticketId, baseUrl);
         return "redirect:" + vnpayUrl;
     }
 
@@ -314,6 +314,19 @@ public class PayticketsController {
         String paymentTime = request.getParameter("vnp_PayDate");
         String transactionId = request.getParameter("vnp_TransactionNo");
         String totalPrice = request.getParameter("vnp_Amount");
+
+        String ticketId = "";
+        if (orderInfo != null && orderInfo.contains("TicketID: ")) {
+            ticketId = orderInfo.substring(orderInfo.indexOf("TicketID: ") + 10);
+        }
+        Ticket ticket = ticketService.findByTicketID(Integer.parseInt(ticketId));
+        if(ticket.getStatus() == 0){
+            ticket.setPay(1);
+            ticket.setStatus(1);
+            ticket.setTicketBookingTime(new Date());
+
+        }
+        ticketService.create(ticket);
 
         model.addAttribute("orderId", orderInfo);
         model.addAttribute("totalPrice", totalPrice);

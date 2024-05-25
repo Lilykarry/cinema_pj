@@ -5,6 +5,7 @@ import com.example.demo.repository.TicketDetailsWaterCornRepository;
 import com.example.demo.service.TicketDetailsWaterCornService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,12 @@ public class TicketDetailsWaterCornServiceImpl implements TicketDetailsWaterCorn
     @Override
     public List<TicketDetailsWaterCorn> searchWaterCornssByTicketId(int id) {
         return ticketDetailsWaterCornRepository.findByTicketId_TicketId(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteWaterCornsByTicketId(int id) {
+        ticketDetailsWaterCornRepository.deleteAllByTicketId_TicketId(id);
     }
 
 

@@ -4,6 +4,7 @@ import com.example.demo.model.TicketDetailsWaterCorn;
 import com.example.demo.model.WaterCorn;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface TicketDetailsWaterCornRepository extends JpaRepository<TicketDe
 
     TicketDetailsWaterCorn findByIdWaterCorn_IdWaterCorn(int id);
     List<TicketDetailsWaterCorn> findByTicketId_TicketId(int id);
+    @Transactional
+    void deleteAllByTicketId_TicketId(int id);
 }

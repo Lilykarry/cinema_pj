@@ -8,4 +8,5 @@ import java.util.List;
 public interface TicketDetailsSeatService {
     void create(TicketDetailsSeat newtk);
     List<TicketDetailsSeat> searchSeatsByTicketId(int id);
+    void deleteSeatsByTicketId(int id);
 }

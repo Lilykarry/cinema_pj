@@ -6,6 +6,7 @@ import com.example.demo.model.Endow;
 import com.example.demo.repository.EndowRepository;
 import com.example.demo.service.EndowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +26,7 @@ public class EndowServiceImpl implements EndowService {
 
     @Override
     public List<Endow> showAllPromotions() {
-        return endowRepository.findAll();
+        return endowRepository.findAll(Sort.by(Sort.Direction.DESC, "endowId"));
     }
 
     @Override

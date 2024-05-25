@@ -9,6 +9,7 @@ import com.example.demo.repository.ShowTimeRepository;
 import com.example.demo.repository.ThreatRepository;
 import com.example.demo.service.ShowTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -71,7 +72,7 @@ public class ShowTimeServiceImpl implements ShowTimeService {
 
     @Override
     public List<Showtimes> showAll() {
-        return showTimeRepository.findAll();
+        return showTimeRepository.findAll(Sort.by(Sort.Direction.DESC, "showtimesId"));
     }
 
     @Override

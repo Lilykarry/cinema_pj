@@ -60,6 +60,7 @@
 
         .table tr td, .table tr  th {
             vertical-align: middle;
+            cursor: pointer;
         }
 
         .contentMV {
@@ -88,7 +89,9 @@
         tr .contentPage.search-result {
             display: table-row;
         }
-
+        .d-flex .btn{
+            margin-right: 20px;
+        }
     </style>
 </head>
 
@@ -250,17 +253,17 @@
                 </div>
                 <table class="table table-bordered" id="ttable">
                     <tr>
-                        <th >ID</th>
-                        <th>Title</th>
+                        <th scope="col" >ID</th>
+                        <th scope="col">Title</th>
                         <th>Category</th>
 <!--                        <th>Performer</th>-->
-                        <th>Film director</th>
+                        <th scope="col">Film director</th>
 <!--                        <th>Content</th>-->
-                        <th>Image</th>
-                        <th>Trailer</th>
-                        <th>Start movie</th>
-                        <th>Status</th>
-                        <th></th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Trailer</th>
+                        <th scope="col">Start movie</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
                     </tr>
                     <div >
                     <tr th:each="movies:${movies}" class="contentPage">
@@ -372,8 +375,6 @@
     //         });
     //     }
     // }
-
-
 
 
     $(".displayvalue").change(function (index) {

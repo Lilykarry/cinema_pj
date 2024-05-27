@@ -15,4 +15,5 @@ public interface TicketRepository extends JpaRepository<Ticket,Integer> {
     List<Ticket> findByUserEmail_Email(String email);
     @Transactional
     void deleteAllByStatus(int status);
+
 }

@@ -19,28 +19,22 @@
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!--    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">-->
+    <link href="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css" rel="stylesheet">
+    <!--    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />-->
+    <link href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap@4/dist/css/tempusdominus-bootstrap.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link th:href="@{/static/css/footer/bootrap.css}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="/static/css/admin/style.css" rel="stylesheet">
+    <link th:href="@{/static/css/admin/style.css}" rel="stylesheet">
     <style>
-        /* CSS căn id pagination ra giữa màn hình */
-        #pagination {
-            margin-top: 27px;
-            display: flex;
-            display: -webkit-flex; /* Safari 8 */
-            flex-wrap: wrap;
-            -webkit-flex-wrap: wrap; /* Safari 8 */
-            justify-content: center;
-            -webkit-justify-content: center;
+        .text-white {
+            color: #050505 !important;
         }
-
         h3 {
             font-family: system-ui;
             font-weight: bold;
@@ -49,6 +43,7 @@
         }
 
         .table {
+            color: white;
             text-align: center;
             margin: 20px 0;
             box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -57,19 +52,20 @@
         .table tr td, .table tr  th {
             vertical-align: middle;
         }
-
-        .contentMV {
-            max-height: 140px;
-            overflow: auto;
-            margin-bottom: 0;
+        #pagination {
+            margin-top: 27px;
+            display: flex;
+            display: -webkit-flex; /* Safari 8 */
+            flex-wrap: wrap;
+            -webkit-flex-wrap: wrap; /* Safari 8 */
+            justify-content: center;
+            -webkit-justify-content: center;
+            margin-bottom: 50px;
         }
-
-        .container {
-            background-color: #F4F6F9;
+        #pagination {
+            display: flex;
+            float: right;
         }
-
-
-
     </style>
 </head>
 
@@ -87,7 +83,7 @@
     <!-- Sidebar Start -->
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
-            <a href="Home.html" class="navbar-brand mx-4 mb-3">
+            <a href="index.html" class="navbar-brand mx-4 mb-3">
                 <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
@@ -103,12 +99,12 @@
             <div class="navbar-nav w-100">
                 <a href="Home" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
-                <a href="Movie" class="nav-item nav-link "><i class="bi bi-film"></i> Movie</a>
-                <a href="Showtime" class="nav-item nav-link active"><i class="bi bi-calendar"></i> showtime</a>
+                <a href="Movie" class="nav-item nav-link"><i class="bi bi-film"></i> Movie</a>
+                <a href="Showtime" class="nav-item nav-link"><i class="bi bi-calendar"></i> showtime</a>
                 <a href="Users" class="nav-item nav-link"><i class="fa fa-table me-2"></i>User</a>
                 <a href="Threat" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Threat</a>
-                <a href="Endow" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Endow</a>
-                <a href="show" class="nav-item nav-link"><i class='fas fa-sticky-note'></i>Ticket</a>
+                <a href="Endow" class="nav-item nav-link "><i class="fa fa-chart-bar me-2"></i>Endow</a>
+                <a href="show" class="nav-item nav-link active"><i class='fas fa-sticky-note'></i>Ticket</a>
             </div>
         </nav>
     </div>
@@ -207,58 +203,75 @@
         </nav>
         <!-- Navbar End -->
 
-        <div class="content-wrapper">
-            <div class="container-fluid" style="padding: 30px;">
-                <h3 style="font-size: 35px; margin: 20px 0 30px;">[[${pageTitle}]]</h3>
-                <div th:if="${error}" class="alert alert-danger" role="alert">
-                    <p th:text="${error}"></p>
+
+        <div class="container">
+            <div class="container-fluid" style="padding: 15px;">
+                <h3 style="font-size: 35px; margin: 20px 0 30px;">DANH SÁCH VÉ ĐÃ ĐẶT</h3>
+            </div>
+            <div class="table-responsive">
+                <div class="d-flex justify-content-between">
+                    <select class="custom-select displayvalue" style="width: auto; text-align-last: center;">
+                        <option value="3">Hiển thị 3 phim</option>
+                        <option value="5">Hiển thị 5 phim</option>
+                        <option value="10">Hiển thị 10 phim</option>
+                        <option value="20">Hiển thị 20 phim</option>
+                    </select>
+                    <form id="searchForm" class="input-group" th:action="@{/Admin/show}" method="GET" accept-charset="UTF-8">
+                        <input type="text" name="keyword" id="divSearch" class="form-control" placeholder="Nhập tên tìm kiếm...">
+
+                        <button class="btn btn-primary" type="submit" id="btnSearch">Tìm kiếm</button>
+
+                    </form>
                 </div>
-                <form th:action="@{/Admin/Showtime/Save}" method="POST" th:object="${showtime}"  class="forminsert">
-                    <div>
-                        <div class="form-group" >
-                            <input type="hidden" th:value="*{showtimesId}" class="form-control" name="showtimeId"/>
-                        </div>
-                        <span class="error" style="color: red"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Mã phim:</label>
-                        <select name="movieId" class="form-control" style="text-align-last: center;">
-                            <option value="">-- CHỌN PHIM --</option>
-                            <option th:each="movie : ${movies}" th:value="${movie.getMovieId()}" th:text="${movie.getMovieTitle()}" th:selected="${showtime.getMovieId() == movie.getMovieId()}"></option>
-                        </select>
-                        <small class="form-text form-message" style="color: red;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label>Mã phòng:</label>
-                        <select name="roomId" class="form-control" style="text-align-last: center;">
-                            <option value="">-- CHỌN MÃ PHÒNG --</option>
-                            <option th:each="room : ${rooms}" th:value="${room.getRoomId()}" th:text="${room.getRoomId()}" th:selected="${showtime.getRoomId() == room.getRoomId()}"></option>
-                        </select>
-                        <small class="form-text form-message" style="color: red;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label>Thời gian:</label>
-                        <input type="time" th:field="*{time}" class="form-control" placeholder="Nhập thời gian..." name="time">
-                        <small class="form-text text-muted">(nhập thời gian theo đúng định dạng HH:MM)</small>
-                        <small class="form-text form-message" style="color: red;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label>Ngày tháng năm:</label>
-                        <input type="date" th:field="*{date}" class="form-control" placeholder="Nhập ngày tháng năm..." name="date">
-                        <small class="form-text text-muted">(nhập ngày tháng năm theo đúng định dạng YYYY-MM-DD)</small>
-                        <small class="form-text form-message" style="color: red;"></small>
-                    </div>
-                    <div style="text-align: center;">
-                        <button type="submit" class="btn btn-success">THÊM</button>
-                    </div>
-                </form>
-                <div style="text-align: center; margin-top: 30px;">
-                    <a class="btn btn-dark" href="/Admin/Showtime">Quay lại</a>
+                <table class="table text-white" id="ttable">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" class="d-none">TicketId</th>
+                        <th scope="col">Phim</th>
+                        <th scope="col">Suất chiếu</th>
+                        <th scope="col">Rạp</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bắp Nước</th>
+                        <th scope="col">Giá</th>
+                        <th scope="col">Ngày đặt</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ticket, index : ${listTickets}" class="contentPage">
+                        <th scope="row" th:text="${index.count}"></th>
+                        <td th:text="${ticket.ticketId}" class="d-none"></td>
+                        <td th:text="${ticket.showtimeId.movieId.movieTitle}"></td>
+                        <td th:text="${#dates.format(ticket.showtimeId.date, 'dd/MM/yyyy') + ' | ' + #dates.format(ticket.showtimeId.time, 'HH:mm')}"></td>
+                        <td th:text="${ticket.showtimeId.roomId.threatId.name}"></td>
+                        <td th:text="${ticket.userEmail.email}"></td>
+                        <td>
+                            <ul id="hienThiBapNuoc">
+                                <li th:each="wc : ${listWC}">
+                                    <span th:text="${wc.idWaterCorn.nameWaterCorn}"></span> X <span th:text="${wc.soLuong}"></span></span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td th:text="${ticket.totalPrice} + ' VNĐ'"></td>
+                        <td th:text="${ticket.ticketBookingTime}"></td>
+                        <td th:text="${ticket.status == 1 ? 'Đã đặt' : ticket.status == 2 ? 'Đã hủy' : ''}"></td>
+                        <td>
+                            <a th:href="@{/Admin/detail(ticketId=${ticket.ticketId})}" class="btn" style="margin-bottom: 15px; background: #e83e8c; color: white">
+                              PRINT
+                            </a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <br/>
+                <div class="container" style="padding: 30px 30px 30px 30px">
+                    <ul id="pagination"></ul>
                 </div>
             </div>
         </div>
-
-
         <!-- Footer Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light rounded-top p-4">
@@ -287,19 +300,102 @@
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="lib/chart/chart.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="lib/tempusdominus/js/moment.min.js"></script>
-<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!--<script src="lib/chart/chart.min.js"></script>-->
+<!--<script src="lib/easing/easing.min.js"></script>-->
+<!--<script src="lib/waypoints/waypoints.min.js"></script>-->
+<!--<script src="lib/owlcarousel/owl.carousel.min.js"></script>-->
+<!--<script src="lib/tempusdominus/js/moment.min.js"></script>-->
+<!--<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>-->
+<!--<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/easing.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.38/moment-timezone.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+
 
 <!-- Template Javascript -->
 <script src="/static/js/Admin.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
 <!-- JS tạo nút bấm di chuyển trang start -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+<script>
+    $(".displayvalue").change(function (index) {
+        pageSize = $(this).val();
+        pagination();
+
+    });
+
+    var pageSize = 5;
+    var totalRows = [[${listTickets.size()}]];
+
+    function pagination()
+    {
+///** Cần truyền giá trị vào đây **//
+        showPage = function (page) {
+            $(".contentPage").hide();
+            $(".contentPage").each(function (n) {
+                if (n >= pageSize * (page - 1) && n < pageSize * page)
+                    $(this).show();
+                $(".first a").html("Ban đầu");
+            });
+        }
+        showPage(1);
+        ///** Cần truyền giá trị vào đây **///
+
+        var btnPage = Math.ceil(totalRows / pageSize); // Số nút bấm hiển thị di chuyển trang
+        var iTotalPages = Math.ceil(totalRows / pageSize);
+
+        if (iTotalPages > 1) {
+
+            var currentPage = $("#pagination").twbsPagination('getCurrentPage');
+            $("#pagination").twbsPagination('destroy');
+            $('#pagination').twbsPagination({
+                totalPages: iTotalPages,
+                visiblePages: btnPage,
+                onPageClick: function (event, page) {
+                    /* console.info(page); */
+                    showPage(page);
+                }
+            });
+
+        } else {
+            $("#pagination").twbsPagination('destroy');
+            //if all item on the 1st page
+        }
+
+
+    }
+    jQuery(document).ready(function ($) {
+
+        showPage = function (page) {
+            $(".contentPage").hide();
+            $(".contentPage").each(function (n) {
+                if (n >= pageSize * (page - 1) && n < pageSize * page)
+                    $(this).show();
+                $(".first a").html("Ban đầu");
+            });
+        }
+        showPage(1);
+        ///** Cần truyền giá trị vào đây **///
+
+        var btnPage = Math.ceil(totalRows / pageSize); // Số nút bấm hiển thị di chuyển trang
+        var iTotalPages = Math.ceil(totalRows / pageSize);
+        if (iTotalPages > 1) {
+            var obj = $('#pagination').twbsPagination({
+                totalPages: iTotalPages,
+                visiblePages: btnPage,
+                onPageClick: function (event, page) {
+                    /* console.info(page); */
+                    showPage(page);
+                }
+            });
+        }
+        /*console.info(obj.data());*/
+    });
+</script>
 </body>
 
 </html>

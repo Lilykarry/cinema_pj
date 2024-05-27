@@ -273,7 +273,7 @@ margin-top: -8px;
                     <div th:each="movieItem : ${movie}">
                         <div class="showtimes-list">
                             <div th:each="showtime : ${movie.showtimesCollection}" class="showtime-item" th:data-date="${showtime.date}">
-                                <a th:href="@{/guest/showtime/{showtimeId}(ThreatId=${threatId})}" th:text="${#dates.format(showtime.time, 'HH:mm')}"></a>
+                                <a th:href="@{/guest/bookTicket(mvID=${movieItem.movieId},day=${showtime.getDate()},time=${showtime.time})}" th:text="${#dates.format(showtime.time, 'HH:mm')}"></a>
                             </div>
 
                         </div>

@@ -6,6 +6,7 @@ import com.example.demo.repository.ShowTimeRepository;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +51,10 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> showAll() {
         return ticketRepository.findAll();
+    }
+    @Override
+    public List<Ticket> showAllAdmin() {
+        return ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "ticketId"));
     }
 
     @Override

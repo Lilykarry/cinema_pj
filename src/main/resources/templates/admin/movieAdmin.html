@@ -19,7 +19,7 @@
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
@@ -130,6 +130,7 @@
                 <a href="Users" class="nav-item nav-link"><i class="fa fa-table me-2"></i>User</a>
                 <a href="Threat" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Threat</a>
                 <a href="Endow" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Endow</a>
+                <a href="show" class="nav-item nav-link"><i class='fas fa-sticky-note'></i>Ticket</a>
             </div>
         </nav>
     </div>
@@ -237,10 +238,10 @@
                 <h3 style="font-size: 35px; margin: 20px 0 30px;">QUẢN LÝ PHIM</h3>
                 <div class="d-flex justify-content-between">
                     <select class="custom-select displayvalue" style="width: auto; text-align-last: center;">
-                        <option value="3">Hiển thị 3 phim</option>
-                        <option value="5">Hiển thị 5 phim</option>
-                        <option value="10">Hiển thị 10 phim</option>
-                        <option value="20">Hiển thị 20 phim</option>
+                        <option value="3">Hiển thị 3 </option>
+                        <option value="5">Hiển thị 5 </option>
+                        <option value="10">Hiển thị 10 </option>
+                        <option value="20">Hiển thị 20 </option>
                     </select>
                     <form id="searchForm" class="input-group" th:action="@{/Admin/Movie}" method="GET" accept-charset="UTF-8">
                         <input type="text" name="keyword" id="divSearch" class="form-control" placeholder="Nhập tên phim muốn tìm kiếm...">
@@ -290,9 +291,6 @@
                     </div>
                 </table>
 
-                <!-- Hiên thị nút bấm -->
-
-                <br/>
                 <div class="container" style="padding: 30px 30px 30px 30px">
                     <ul id="pagination"></ul>
                 </div>

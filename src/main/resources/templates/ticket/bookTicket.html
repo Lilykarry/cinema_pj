@@ -65,9 +65,9 @@
     <div class="containerr ">
         <div class="container-bg">
             <h3 id="h3DatVe" style="margin-bottom: 1em;">ĐẶT VÉ</h3>
-            <h4 style="text-align: center; font-size: 30px; font-family: system-ui; font-weight: bold;
-                    color: white; margin-bottom: 1em;">THỜI GIAN GIỮ VÉ: <span id="timeOut" style="text-align: center;
-                                          font-size: 30px; font-family: system-ui; font-weight: bold; color: white;" th:value="${session.outTimeTicket}" ></span></h4>
+<!--            <h4 style="text-align: center; font-size: 30px; font-family: system-ui; font-weight: bold;-->
+<!--                    color: white; margin-bottom: 1em;">THỜI GIAN GIỮ VÉ: <span id="timeOut" style="text-align: center;-->
+<!--                                          font-size: 30px; font-family: system-ui; font-weight: bold; color: white;" th:value="${session.outTimeTicket}" ></span></h4>-->
             <div class="khungDatGhe">
                 <h3 class="manHinh">MÀN HÌNH</h3>
                 <div th:utext="${html}"></div>
@@ -184,44 +184,44 @@
 
             // waiting time
             // Display "15:00"
-            $('#timeOut').text("15:00");
-
-            // Flag to track whether the timer has been set
-            var timerSet = false;
+            // $('#timeOut').text("15:00");
+            //
+            // // Flag to track whether the timer has been set
+            // var timerSet = false;
 
             // Function to set up the countdown timer
-            function setupTimer() {
-
-                var outTimeTicket = $('#outTimeTicketValue').val();
-
-                if (!outTimeTicket) {
-                    var currentTime = new Date().getTime();
-                    outTimeTicket = currentTime + (15 * 60 * 1000);
-                    // You may need to set the outTimeTicket session attribute here if required
-                    // This typically needs to be handled server-side
-                }
-
-                // Function to update the countdown timer
-                function updateTimer() {
-                    var now = new Date().getTime();
-                    var distance = outTimeTicket - now;
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                    $('#timeOut').text(minutes + ":" + seconds);
-
-                    if (distance < 0) {
-                        clearInterval(x);
-                        alert("oke het gio");
-                        // window.location.href = "PayServlet?action=thoiGianGiuVe";
-                    }
-                }
-
-                // Call updateTimer initially to set up the timer
-                updateTimer();
-
-                // Update the timer every second
-                var x = setInterval(updateTimer, 1000);
-            }
+            // function setupTimer() {
+            //
+            //     var outTimeTicket = $('#outTimeTicketValue').val();
+            //
+            //     if (!outTimeTicket) {
+            //         var currentTime = new Date().getTime();
+            //         outTimeTicket = currentTime + (15 * 60 * 1000);
+            //         // You may need to set the outTimeTicket session attribute here if required
+            //         // This typically needs to be handled server-side
+            //     }
+            //
+            //     // Function to update the countdown timer
+            //     function updateTimer() {
+            //         var now = new Date().getTime();
+            //         var distance = outTimeTicket - now;
+            //         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            //         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            //         $('#timeOut').text(minutes + ":" + seconds);
+            //
+            //         if (distance < 0) {
+            //             clearInterval(x);
+            //             alert("oke het gio");
+            //             // window.location.href = "PayServlet?action=thoiGianGiuVe";
+            //         }
+            //     }
+            //
+            //     // Call updateTimer initially to set up the timer
+            //     updateTimer();
+            //
+            //     // Update the timer every second
+            //     var x = setInterval(updateTimer, 1000);
+            // }
 
             // waiting time
 
@@ -317,10 +317,10 @@
                     var deselectedColor;
 
                     // Set up the timer if it's not already set
-                    if (!timerSet) {
-                        setupTimer();
-                        timerSet = true;
-                    }
+                    // if (!timerSet) {
+                    //     setupTimer();
+                    //     timerSet = true;
+                    // }
 
 
                     // Determine the deselected color based on the class

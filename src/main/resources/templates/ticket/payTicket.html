@@ -46,14 +46,11 @@
 <div class="containerr">
     <div class="container-bg">
         <h3 id="h3ThanhToan" style="margin-bottom: 1em;">THANH TOÁN</h3>
-        <h4 style="text-align: center; font-size: 30px; font-family: system-ui; font-weight: bold;
-            color: white; margin-bottom: 0;">THỜI GIAN GIỮ VÉ: <span id="timeOut" style="text-align: center;
-                                      font-size: 30px; font-family: system-ui; font-weight: bold; color: white;"></span></h4>
         <p class="messErrorP">
 
             <div th:value="${errorMessage}"></div>
             <br/><br/>
-            <a class="btn btn-danger messErrorA btn-xs" href="Showtime">QUAY LẠI - BACK</a>
+<!--            <a class="btn btn-danger messErrorA btn-xs" href="Showtime">QUAY LẠI - BACK</a>-->
         </p>
         <div class="d-flex flex-wrap div-Tong">
             <div class="div-thongTin">
@@ -223,89 +220,89 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // if (session.getAttribute("outTimeTicket") == null) {
-        //     session.setAttribute("outTimeTicket", new Date().getTime() + (15 * 60 * 1000));
-        //     }
-        // var countDownDate =  session.getAttribute("outTimeTicket");
-        // var x = setInterval(function () {
-        //     var now = new Date().getTime();
-        //     var distance = countDownDate - now;
-        //     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        //     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        //     document.getElementById("timeOut").innerHTML = minutes + ":" + seconds;
-        //     if (distance < 0) {
-        //         clearInterval(x);
-        //         window.location.href = "PayServlet?action=thoiGianGiuVe";
-        //     }
-        // }, 1000);
-    });
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        // if (session.getAttribute("outTimeTicket") == null) {-->
+<!--        //     session.setAttribute("outTimeTicket", new Date().getTime() + (15 * 60 * 1000));-->
+<!--        //     }-->
+<!--        // var countDownDate =  session.getAttribute("outTimeTicket");-->
+<!--        // var x = setInterval(function () {-->
+<!--        //     var now = new Date().getTime();-->
+<!--        //     var distance = countDownDate - now;-->
+<!--        //     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));-->
+<!--        //     var seconds = Math.floor((distance % (1000 * 60)) / 1000);-->
+<!--        //     document.getElementById("timeOut").innerHTML = minutes + ":" + seconds;-->
+<!--        //     if (distance < 0) {-->
+<!--        //         clearInterval(x);-->
+<!--        //         window.location.href = "PayServlet?action=thoiGianGiuVe";-->
+<!--        //     }-->
+<!--        // }, 1000);-->
+<!--    });-->
 
-    var tongGiaCuoiCung = parseInt(${ticketHienTai.getTotalPrice()} / 22787);
-    var select_optionBefore = "";
-    $(".seOp").change(function () {
-        var maGiamGia = $(".seOp option:selected").html().split(":")[1];
-        if ($(".seOp option:selected").val() != "chonMa") {
-            if (${ticketHienTai.getTotalPrice()} - maGiamGia < 0) {
-                alert("Mã giảm giá chỉ áp dụng với đơn hàng có tổng giá tiền lớn hơn hoặc bằng mã giảm giá\n - The discount code is only applicable to orders with a total price greater than or equal to the discount code -");
-                $(".seOp option[value=" + select_optionBefore + "]").prop('selected', true);
-            } else {
-                $("#tc").html("TỔNG CỘNG: " + (${ticketHienTai.getTotalPrice()} - maGiamGia) + " VNĐ");
-                tongGiaCuoiCung = parseInt(((Number)(${ticketHienTai.getTotalPrice()} - maGiamGia)) / 22787);
-                select_optionBefore = $(".seOp option:selected").html().split(":")[0];
-                $("#ip-amount").val(${ticketHienTai.getTotalPrice()} - maGiamGia);
-                $("#urlReturnMoMo").val("http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()} + "&maGiamGia=" + $(".seOp option:selected").val());
-            }
-        } else {
-            $("#tc").html("TỔNG CỘNG: " + ${ticketHienTai.getTotalPrice()} + " VNĐ");
-            // Calculate the final price by converting the server-side total price to an integer
-            var tongGiaCuoiCung = parseInt(${ticketHienTai.getTotalPrice()}) / 22787;
+<!--    var tongGiaCuoiCung = parseInt(${ticketHienTai.getTotalPrice()} / 22787);-->
+<!--    var select_optionBefore = "";-->
+<!--    $(".seOp").change(function () {-->
+<!--        var maGiamGia = $(".seOp option:selected").html().split(":")[1];-->
+<!--        if ($(".seOp option:selected").val() != "chonMa") {-->
+<!--            if (${ticketHienTai.getTotalPrice()} - maGiamGia < 0) {-->
+<!--                alert("Mã giảm giá chỉ áp dụng với đơn hàng có tổng giá tiền lớn hơn hoặc bằng mã giảm giá\n - The discount code is only applicable to orders with a total price greater than or equal to the discount code -");-->
+<!--                $(".seOp option[value=" + select_optionBefore + "]").prop('selected', true);-->
+<!--            } else {-->
+<!--                $("#tc").html("TỔNG CỘNG: " + (${ticketHienTai.getTotalPrice()} - maGiamGia) + " VNĐ");-->
+<!--                tongGiaCuoiCung = parseInt(((Number)(${ticketHienTai.getTotalPrice()} - maGiamGia)) / 22787);-->
+<!--                select_optionBefore = $(".seOp option:selected").html().split(":")[0];-->
+<!--                $("#ip-amount").val(${ticketHienTai.getTotalPrice()} - maGiamGia);-->
+<!--                $("#urlReturnMoMo").val("http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()} + "&maGiamGia=" + $(".seOp option:selected").val());-->
+<!--            }-->
+<!--        } else {-->
+<!--            $("#tc").html("TỔNG CỘNG: " + ${ticketHienTai.getTotalPrice()} + " VNĐ");-->
+<!--            // Calculate the final price by converting the server-side total price to an integer-->
+<!--            var tongGiaCuoiCung = parseInt(${ticketHienTai.getTotalPrice()}) / 22787;-->
 
-            select_optionBefore = "chonMa";
-            $("#ip-amount").val(${ticketHienTai.getTotalPrice()});
-            $("#urlReturnMoMo").val("http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()} + "&maGiamGia=");
-        }
-    });
+<!--            select_optionBefore = "chonMa";-->
+<!--            $("#ip-amount").val(${ticketHienTai.getTotalPrice()});-->
+<!--            $("#urlReturnMoMo").val("http://localhost:8080/Cinestar-war/PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()} + "&maGiamGia=");-->
+<!--        }-->
+<!--    });-->
 
-    paypal.Button.render({
-        // Configure environment
-        env: 'sandbox',
-        client: {
-            sandbox: 'AYjsqsGPCffv-niyJYub6xbIQA_8dhRTJbGG0HWVk8p7VX3GR8iOzMEk1HfgkKNw1wWScgXnt0OSC6Pv',
-            production: 'demo_production_client_id'
-        },
-        // Customize button (optional)
-        locale: 'en_US',
-        style: {
-            size: 'large',
-            color: 'gold',
-            shape: 'pill',
-            label: 'paypal'
-        },
-        // Enable Pay Now checkout flow (optional)
-        commit: true,
-        // Set up a payment
-        payment: function (data, actions) {
-            return actions.payment.create({
-                transactions: [{
-                    amount: {
-                        total: tongGiaCuoiCung,
-                        currency: 'USD'
-                    }
-                }]
-            });
-        },
-        // Execute the payment
-        onAuthorize: function (data, actions) {
-            return actions.payment.execute().then(function () {
-                // Show a confirmation message to the buyer
-                window.location = "PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()}
-                    + "&maGiamGia=" + $(".seOp option:selected").val();
-            });
-        }
-    }, '#paypal-button');
+<!--    paypal.Button.render({-->
+<!--        // Configure environment-->
+<!--        env: 'sandbox',-->
+<!--        client: {-->
+<!--            sandbox: 'AYjsqsGPCffv-niyJYub6xbIQA_8dhRTJbGG0HWVk8p7VX3GR8iOzMEk1HfgkKNw1wWScgXnt0OSC6Pv',-->
+<!--            production: 'demo_production_client_id'-->
+<!--        },-->
+<!--        // Customize button (optional)-->
+<!--        locale: 'en_US',-->
+<!--        style: {-->
+<!--            size: 'large',-->
+<!--            color: 'gold',-->
+<!--            shape: 'pill',-->
+<!--            label: 'paypal'-->
+<!--        },-->
+<!--        // Enable Pay Now checkout flow (optional)-->
+<!--        commit: true,-->
+<!--        // Set up a payment-->
+<!--        payment: function (data, actions) {-->
+<!--            return actions.payment.create({-->
+<!--                transactions: [{-->
+<!--                    amount: {-->
+<!--                        total: tongGiaCuoiCung,-->
+<!--                        currency: 'USD'-->
+<!--                    }-->
+<!--                }]-->
+<!--            });-->
+<!--        },-->
+<!--        // Execute the payment-->
+<!--        onAuthorize: function (data, actions) {-->
+<!--            return actions.payment.execute().then(function () {-->
+<!--                // Show a confirmation message to the buyer-->
+<!--                window.location = "PayServlet?action=checkThanhToan&it=" + ${ticketHienTai.getTicketId()}-->
+<!--                    + "&maGiamGia=" + $(".seOp option:selected").val();-->
+<!--            });-->
+<!--        }-->
+<!--    }, '#paypal-button');-->
 
-</script>
+<!--</script>-->
 </body>
 </html>

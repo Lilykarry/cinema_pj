@@ -66,13 +66,13 @@ public class MovieController {
         model.addAttribute("theaters",movieService.getAllTheatersByMovieId(id));
         model.addAttribute("movie",movieService.findMovieById(id));
         // Get the movie and its start date
+
         Movie movie = movieService.findMovieById(id);
         Date startDate = movie.getStartMovie();
 
         // Convert the start date to a string in the desired format
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String formattedStartDate = dateFormat.format(startDate);
-
         // Add the formatted start date to the model
         model.addAttribute("formattedStartDate", formattedStartDate);
         return "movie/movieDetail";
@@ -103,10 +103,17 @@ public class MovieController {
                 Date time = showtime.getTime(); // Lấy thời gian từ mỗi đối tượng Showtimes
                 // Chuyển đổi thời gian thành chuỗi
                 String formattedTime = dateFormat.format(time);
-                // Sử dụng thời gian ở đây (ví dụ: in ra console)
-                System.out.println("Date: " + date + ", Time: " + formattedTime);
             }
         }
+
+        Movie movie = movieService.findMovieById(id);
+        Date startDate = movie.getStartMovie();
+
+        // Convert the start date to a string in the desired format
+        SimpleDateFormat dateFormats = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedStartDate = dateFormats.format(startDate);
+        // Add the formatted start date to the model
+        model.addAttribute("formattedStartDate", formattedStartDate);
         return "movie/movieDetail";
     }
 

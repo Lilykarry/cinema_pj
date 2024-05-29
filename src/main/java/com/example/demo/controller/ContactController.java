@@ -16,19 +16,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/guest")
 public class ContactController {
-
-   @Autowired
-   private TicketService ticketService;
     @GetMapping("/contact")
-    public String showTime(Model model,@RequestParam("mvID") String mvID,@RequestParam("day") String day,@RequestParam("time") String time){
-//        test thử
-        System.out.println("mvId:"+ mvID);
-        System.out.println("day:"+ day);
-        System.out.println("time:"+ time);
-//        test thử
-        LocalDate date = LocalDate.parse(day);
-        LocalTime times = LocalTime.parse(time);
-        System.out.println("showtime"+ticketService.findShowtimesByDateTimeMvID(date,times,mvID));
+    public String showTime(){
         return "home/contact";
     }
 }

@@ -50,7 +50,7 @@
                                     </a>
                                     <button type="button" class="btn--whiteOrange video-btn" data-toggle="modal"
                                             th:data-src="${movie.trailer}" data-target="#myModal">XEM TRAILER</button>
-                                    <a class="btn--whitePink" th:href="@{'ShowtimesServlet?action=showShowtimes&idPhim=' + ${movie.movieId}}">Mua vé</a>
+                                    <a class="btn--whitePink" th:href="@{/guest/movie/detail(id=${movie.movieId})}">Mua vé</a>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                                     </a>
                                     <button type="button" class="btn--whiteOrange video-btn" data-toggle="modal"
                                             data-src="${movie.trailer}" data-target="#myModal">XEM TRAILER</button>
-                                    <a class="btn--whitePink" th:href="@{'ShowtimesServlet?action=showShowtimes&idPhim=' + ${movie.movieId}}">Mua vé</a>
+                                    <a class="btn--whitePink" th:href="@{/guest/movie/detail(id=${movie.movieId})}">Mua vé</a>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,10 @@
                                     <img th:src="@{'/static/images/' + ${tt.image}}" alt="">
                                 </div>
                                 <div class="news__text">
-                                    <h3 th:text="${tt.title}"></h3>
+                                    <h3>
+                                        <a th:href="@{/guest/news/detail(id=${tt.id})}" th:text="${tt.title}"></a>
+                                    </h3>
+
                                     <p th:utext="${tt.movieReviewContent}"></p>
                                 </div>
                             </a>

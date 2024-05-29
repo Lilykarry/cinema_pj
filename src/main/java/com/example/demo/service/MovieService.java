@@ -16,6 +16,7 @@ public interface MovieService {
 
 
     void save(UpsertMovie movie) throws IOException;
+    void update(Movie movie);
 
     Movie get(String movieId) throws MovieNotFoundExeption;
 

@@ -46,7 +46,7 @@
                                             <div class="div-btns">
                                                 <button type="button" class="btnTrailer video-btn" data-toggle="modal"
                                                         th:data-src="${movie.trailer}" data-target="#myModal">TRAILER</button>
-                                                <a class="btnMuaVe" th:href="@{ShowtimesServlet(action=showShowtimes,idPhim=${movie.movieId})}">MUA VÉ</a>
+                                                <a class="btnMuaVe" th:href="@{/guest/movie/detail(id=${movie.movieId})}">MUA VÉ</a>
                                             </div>
                                         </div>
                                     </div>

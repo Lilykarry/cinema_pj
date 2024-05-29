@@ -80,6 +80,11 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.save(entity);
     }
 
+    @Override
+    public void update(Movie movie) {
+        movieRepository.save(movie);
+    }
+
 
     public String generateMovieID() {
         String maxMovieID = movieRepository.findMaxMovieID();

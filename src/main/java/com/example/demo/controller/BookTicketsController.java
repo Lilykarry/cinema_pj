@@ -47,17 +47,28 @@
         @GetMapping("/bookTicket/layGiaGhe")
         @ResponseBody
         public String getSeatPrices(@RequestParam("dsGhe") String stringArray) {
+            // Check if the input string is not null and not empty
             if (stringArray != null && !stringArray.isEmpty()) {
+                // Split the input string into an array of seat IDs
                 String[] array = stringArray.split(",");
+                // StringBuilder to store seat prices HTML
                 StringBuilder seatPrices = new StringBuilder();
+                // Loop through the array of seat IDs
                 for (String string : array) {
+                    // Retrieve seat information by ID from service
                     Seat seat = seatService.findById(Integer.parseInt(string));
-                    seatPrices.append("<p>").append(seat.getRowId().getRowNo())
-                            .append(seat.getSeatNo()).append(" = ").append(seat.getPrice())
+                    // Append seat price information to the StringBuilder
+                    seatPrices.append("<p>")
+                            .append(seat.getRowId().getRowNo())
+                            .append(seat.getSeatNo())
+                            .append(" = ")
+                            .append(seat.getPrice())
                             .append(" VNĐ</p>");
                 }
+                // Return seat prices HTML as a string
                 return seatPrices.toString();
             } else {
+                // Return a message if no seats are selected
                 return "<p>[Bạn chưa chọn ghế nào cả]</p>";
             }
         }
@@ -65,15 +76,23 @@
         @PostMapping("/bookTicket/layGiaBapNuoc")
         @ResponseBody
         public String getWaterCornPrices(@RequestParam("dsBapNuoc") String stringArray) {
+            // Check if the input string is not null and not empty
             if (stringArray != null && !stringArray.isEmpty()) {
                 try {
+                    // Parse the input JSON array string
                     JSONArray jsonArray = new JSONArray(stringArray);
+                    // StringBuilder to store water corn prices HTML
                     StringBuilder waterCornPrices = new StringBuilder();
+                    // Loop through the JSON array
                     for (int i = 0; i < jsonArray.length(); i++) {
+                        // Get each JSON object from the array
                         JSONObject item = jsonArray.getJSONObject(i);
+                        // Extract information from the JSON object
                         int id = item.getInt("id");
                         int quantity = item.getInt("quantity");
+                        // Retrieve water corn information by ID from service
                         WaterCorn wc = waterCornService.findById(id);
+                        // Append water corn price information to the StringBuilder
                         waterCornPrices.append("<p>")
                                 .append(wc.getNameWaterCorn())
                                 .append(" X ")
@@ -82,12 +101,15 @@
                                 .append(wc.getPrice() * quantity)
                                 .append(" VNĐ</p>");
                     }
+                    // Return water corn prices HTML as a string
                     return waterCornPrices.toString();
                 } catch (JSONException e) {
+                    // Return an error message if there's an exception during processing
                     return "<p>[Có lỗi xảy ra trong việc xử lý dữ liệu]</p>";
                 }
 
-            } else{
+            } else {
+                // Return a message if no water corn is selected
                 return "<p>[Bạn chưa chọn bắp nước nào cả]</p>";
             }
         }
@@ -152,19 +174,24 @@
             List<Seat> danhSachGheDaDat = new ArrayList();
             LocalDate date = LocalDate.parse(day);
             LocalTime times = LocalTime.parse(time);
+            // Lấy ID của suất chiếu dựa trên ngày, thời gian và ID của phim
             int idST = ticketService.findShowtimesByDateTimeMvID(date,times,mvID).getShowtimesId();
             System.out.println("id showtime:"+idST);
+            // Lấy danh sách đơn hàng dựa trên ID của suất chiếu và trạng thái đã đặt
             List<Ticket> dsDonHang = ticketService.findAllTicketsByShowtimesByStatus(idST, 1);
             for (Ticket ticket : dsDonHang) {
+                // Lấy danh sách ghế đã đặt từ mỗi đơn hàng và thêm vào danh sách tổng
                 for (TicketDetailsSeat tds : ticket.getTicketDetailsSeatCollection()) {
                     danhSachGheDaDat.add(tds.getSeatId());
                 }
             }
             String html = "";
+            // Tạo HTML hiển thị danh sách ghế
             for (RowOfSeats rowOfSeats : ticketService.findByID(idST).getRoomId().getRowOfSeatsCollection()) {
                 html += "<div class='d-flex justify-content-center' id='divDSGhe'>";
                 for (Seat seat : rowOfSeats.getSeatCollection()) {
                     if (danhSachGheDaDat.contains(seat)) {
+                        // Nếu ghế đã đặt, disable và thêm màu cam
                         if (seat.getType() == 1) {
                             html += "<button class='gheThuong' value='" + seat.getSeatId() + "' disabled "
                                     + "style='background-color: #FFA500; color: white;'>"
@@ -182,6 +209,7 @@
                                     + "</button>";
                         }
                     } else {
+                        // Nếu ghế chưa đặt, cho phép chọn
                         if (seat.getType() == 1) {
                             html += "<button class='gheThuong' value='" + seat.getSeatId() + "'>\n"
                                     + seat.getRowId().getRowNo() + seat.getSeatNo()
@@ -199,6 +227,7 @@
                 }
                 html += "</div>";
             }
+            // Đưa dữ liệu vào model để hiển thị trên trang
             model.addAttribute("suatChieu", ticketService.findByID(idST));
             model.addAttribute("gio", dateFormat.format(ticketService.findByID(idST).getTime()));
             model.addAttribute("ngay", formatter.format(ticketService.findByID(idST).getDate()));

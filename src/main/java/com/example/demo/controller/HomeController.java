@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,21 +40,24 @@ public class HomeController {
 
     @GetMapping("/home")
     public String showHomePage(Model model){
+        Date currentDate = new Date();
         List<Movie> listMovie = homeService.showAllFilm();
         List<Movie> phimDangChieu = new ArrayList<Movie>();
         List<Movie> phimSapChieu = new ArrayList<Movie>();
-        for (Movie movie : listMovie) {
-            if (movie.getStatus() == 1) {
-                phimDangChieu.add(movie);
+        for (Movie moviee : listMovie) {
+            if (moviee.getStatus() == 2 && moviee.getStartMovie() != null && moviee.getEndMovie() != null) {
+                if (currentDate.after(moviee.getStartMovie()) && currentDate.before(moviee.getEndMovie())) {
+                    moviee.setStatus(1);
+                    // Gọi phương thức để lưu thay đổi vào cơ sở dữ liệu
+                    homeService.update(moviee);
+                }
             }
-            else {
-                phimSapChieu.add(movie);
+            // Sau khi kiểm tra và cập nhật trạng thái, phân loại phim
+            if (moviee.getStatus() == 1 && currentDate.before(moviee.getEndMovie())) {
+                phimDangChieu.add(moviee);
+            } else {
+                phimSapChieu.add(moviee);
             }
-        }
-        for(MovieReview mv : movieReviewService.showAllNews()){
-            System.out.println("Title"+ mv.getTitle());
-            System.out.println("TitleR"+ mv.getTitleR());
-            System.out.println("???????????????");
         }
         model.addAttribute("dsUuDai",endowService.showAllPromotions());
         model.addAttribute("dsTinTuc",movieReviewService.showAllNews());

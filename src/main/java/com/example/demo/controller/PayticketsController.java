@@ -116,7 +116,7 @@ public class PayticketsController {
         }
 
         // check full seat of showtimes - end
-
+        // Kiểm tra số lượng ghế đã chọn không vượt quá 8
         List<Integer> dsGheHienTai = new ArrayList<>();
         if (dsGhe == "") {
             errorMessage = "--- DANH SÁCH GHẾ TRỐNG, VUI LÒNG QUAY TRỞ LẠI VÀ THỰC HIỆN ĐÚNG THAO TÁC ---";
